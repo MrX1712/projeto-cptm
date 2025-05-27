@@ -30,6 +30,36 @@ body {
     flex-direction: column;
 }
 
+.bottom-nav {
+    height: 60px;
+    background-color: #fff;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.bottom-nav i {
+    font-size: 22px;
+    color: #111;
+    transition: 0.3s ease;
+}
+
+.bottom-nav .icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.bottom-nav .icon.active {
+    opacity: 1;
+}
+
+
 .content {
     padding: 20px;
     overflow-y: auto;
