@@ -41,3 +41,52 @@ body {
 .content::-webkit-scrollbar {
     display: none;
 }
+
+.header {
+    background-color: #e32f2f; /* vermelho */
+    color: white;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+/* Menu Hamburguer */
+.menu-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 24px;
+    width: 30px;
+}
+
+.menu-button span {
+    display: block;
+    height: 4px;
+    background: white;
+    border-radius: 2px;
+}
+
+/* Logo estilizada */
+.logo {
+    height: 60px; /* Ajuste conforme o tamanho da imagem que quiser */
+    user-select: none;
+    margin-left: 7%;
+}
+
+.user-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+    position: relative;
+    margin-right: 5%;
+    margin-top: -10%;
+
+}
