@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR" >
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gestão de Estações - Excluir</title>
+    <title>Gestão de Estações - Criar</title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -13,15 +13,15 @@
         .navbar-custom {
             background-color: #EE3338;
         }
-        /* Botão excluir vermelho */
-        .btn-delete {
+        /* Botão salvar vermelho */
+        .btn-save {
             background-color: #EE3338;
             border-color: #EE3338;
             color: white;
             transition: background-color 0.3s ease;
         }
-        .btn-delete:hover,
-        .btn-delete:focus {
+        .btn-save:hover,
+        .btn-save:focus {
             background-color: #bb292d;
             border-color: #bb292d;
             color: white;
@@ -49,14 +49,20 @@
 </nav>
 
 <main class="container my-4" style="max-width: 600px;">
-    <h2>Excluir Estação</h2>
-    <div class="alert alert-warning mt-4" role="alert">
-        Tem certeza que deseja excluir a estação <strong>Estação Central</strong>?
-    </div>
-
-    <form action="/estacoes/delete" method="post">
-        <input type="hidden" name="id" value="123e4567-e89b-12d3-a456-426614174000" />
-        <button type="submit" class="btn btn-delete">Sim, excluir</button>
+    <h2>Criar Nova Estação</h2>
+    <form action="/estacoes" method="post" class="mt-4">
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome da Estação</label>
+            <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    class="form-control"
+                    placeholder="Digite o nome da estação"
+                    required
+            />
+        </div>
+        <button type="submit" class="btn btn-save">Salvar</button>
         <a href="estacao-list.html" class="btn btn-cancel ms-2">Cancelar</a>
     </form>
 </main>
