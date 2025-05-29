@@ -1,18 +1,22 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
     <link rel="stylesheet" href="../../static/home.css" />
     <title>CPTM+</title>
 </head>
 <body>
 <section>
+
+    <!-- Celular -->
     <div class="phone-container">
         <div class="phone-screen">
+
+            <!-- Header -->
             <header class="header">
                 <div class="logo">
                     <img class="logo" src="../../static/images/cptm.png" alt="Logo CPTM+" />
@@ -21,7 +25,28 @@
                     <img class="logo" src="../../static/images/user.png" alt="user" />
                 </button>
             </header>
+
+            <!-- Conteúdo rolável com banner dentro -->
             <div class="content">
+
+                <!-- Banner de notificações -->
+                <div class="notification-banner">
+                    <div class="notification-track">
+                        <div class="notification-item">
+                            <div class="circle-number">7</div>
+                            <div class="notification-text">Linha 7 - Safira está operando com atraso de 3 min</div>
+                        </div>
+                        <div class="notification-item">
+                            <div class="circle-number">5</div>
+                            <div class="notification-text">Linha 5 - Evento especial no trajeto hoje</div>
+                        </div>
+                        <div class="notification-item">
+                            <div class="circle-number">1</div>
+                            <div class="notification-text">Linha 1 - Manutenção programada amanhã</div>
+                        </div>
+                    </div>
+                </div>
+
                 <h1>Conteúdo do celular</h1>
                 <p>Esse conteúdo pode ser rolado dentro da tela do celular.</p>
                 <p>Adicione aqui o que quiser.</p>
@@ -41,15 +66,21 @@
                 <p>Mais conteúdo para rolar...</p>
                 <p>Mais conteúdo para rolar...</p>
                 <p>Mais conteúdo para rolar...</p>
-                <div class="bottom-nav">
-                    <img src="../../static/images/homeIcon.png" alt="Home" class="icon" />
-                    <img src="../../static/images/location-pin.png" alt="Localização" class="icon active" />
-                    <img src="../../static/images/trem.png" alt="Trem" class="icon" />
-                    <img src="../../static/images/siren.png" alt="Notificações" class="icon" />
-                </div>
+
             </div>
+
+            <!-- Footer fixo -->
+            <div class="bottom-nav">
+                <img src="../../static/images/homeIcon.png" alt="Home" class="icon" />
+                <img src="../../static/images/location-pin.png" alt="Localização" class="icon active" />
+                <img src="../../static/images/trem.png" alt="Trem" class="icon" />
+                <img src="../../static/images/siren.png" alt="Notificações" class="icon" />
+            </div>
+
         </div>
     </div>
 </section>
+
+<script src="../../static/home.js"></script>
 </body>
 </html>

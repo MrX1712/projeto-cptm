@@ -44,13 +44,11 @@ body {
 }
 
 .header .logo {
-    flex-grow: 1;
     display: flex;
     justify-content: center;
     padding-left: 5px;
     margin-left: 44px;
 }
-
 
 .header .logo img {
     height: 70px;
@@ -68,14 +66,14 @@ body {
     height: 28px;
     border-radius: 50%;
     margin-right: 20px;
+    margin-top: 5px;
 }
 
-
 .content {
-    padding: 15px;
+    padding: 20px 15px 15px 15px;
     flex: 1;
     overflow-y: auto;
-    padding-bottom: 60px;
+    position: relative;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
@@ -91,21 +89,84 @@ body {
     width: 100%;
     height: 60px;
     background-color: #f5f5f5;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
     padding: 0 8px;
     gap: 40px;
     transform: translateX(-10px);
-
+    z-index: 10;
 }
-
 
 .bottom-nav .icon {
     height: 24px;
     opacity: 1;
     cursor: pointer;
     margin: 0;
+}
+
+.notification-banner {
+    height: 120px;
+    overflow: visible;
+    margin-bottom: 25px;
+    position: relative;
+    border-radius: 24px;
+    padding: 2px 4px;
+    background-color: transparent;
+}
+
+.notification-track {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.notification-track::-webkit-scrollbar {
+    display: none;
+}
+
+.notification-item {
+    scroll-snap-align: start;
+    background: rgba(128, 0, 128, 0.6);
+    border: 6px solid #800080;
+    color: white;
+    border-radius: 30px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    min-height: 110px;
+    cursor: grab;
+    user-select: none;
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 500;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+.circle-number {
+    background-color: #800080;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+    flex-shrink: 0;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.notification-text {
+    font-size: 14px;
+    line-height: 1.3;
 }
