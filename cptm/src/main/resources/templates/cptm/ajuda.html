@@ -28,26 +28,46 @@
 
 
             <div class="content">
-                <h1>Conteúdo do celular</h1>
-                <p>Esse conteúdo pode ser rolado dentro da tela do celular.</p>
-                <p>Adicione aqui o que quiser.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at libero ac orci feugiat scelerisque.</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
+                <div class="ajuda-container">
+                    <div class="ajuda-header">Acionamento de ajuda</div>
+                    <form class="form-container">
+                        <label for="linha">Linha:</label>
+                        <div class="select-wrapper">
+                            <select id="linha" onchange="changeColor(this)">
+                                <option value="">Selecione</option>
+                                <option value="rubi">Rubi</option>
+                                <option value="turquesa">Turquesa</option>
+                                <option value="coral">Coral</option>
+                                <option value="safira">Safira</option>
+                                <option value="jade">Jade</option>
+                            </select>
+                        </div>
+                        <label for="Estação">Estação:</label>
+                        <div class="select-wrapper">
+                            <select id="estação" onchange="changeColor(this)">
+                                <option value="">Selecione</option>
+                                <option value="rubi">Corinthians-Itaquera</option>
+                                <option value="rubi">Palmeiras Barra Funda</option>
+                                <option value="rubi">República</option>
+                                <option value="rubi">Brás</option>
+                            </select>
+                        </div>
+                    </form>
+                    <div class="info">*Caso esteja em movimento, coloque a próxima estação</div>
+                    <div class="custom-select-container">
+                        <select id="problema">
+                            <option>Auxílio com Mobilidade</option>
+                            <option>Denúncia Criminal</option>
+                            <option>Problema na Estrutura</option>
+                            <option>Ajuda com Localização</option>
+                        </select>
+                    </div>
 
+                    <label class ="comment">Comentários:</label>
+                    <textarea id="comentario" placeholder="Insira seu comentário sobre o ocorrido"></textarea>
+
+                    <button class="acionar-btn">Acionar</button>
+                </div>
                 <!-- Footer/Botões -->
                 <div class="bottom-nav">
                     <img src="../../static/images/homeIcon.png" alt="Home" class="icon" />
@@ -59,5 +79,6 @@
         </div>
     </div>
 </section>
+<script src="../../static/ajuda.js"></script>
 </body>
 </html>

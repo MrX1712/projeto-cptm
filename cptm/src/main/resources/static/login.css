@@ -139,6 +139,10 @@ body {
     overflow: hidden;
 }
 
+.botao-cadastro:hover{
+    transition: transform 1.2s ease;
+}
+
 
 .texto {
     display: flex;
@@ -244,6 +248,7 @@ body {
     font-size: 16px;
     border-radius: 12px;
     cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 .login-form button:hover {
@@ -328,5 +333,30 @@ body {
 }
 
 .botao-cadastro2:hover {
-    background-color: #d62d30;
+    transform: scale(1.2);
+}
+
+.user-button img {
+    transition: transform 0.2s ease;
+}
+
+.user-button img:hover {
+    transform: scale(1.2);
+    cursor:pointer;
+}
+
+.bottom-nav .icon {
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.bottom-nav .icon:hover {
+    transform: scale(1.2);
+    filter: brightness(0) saturate(100%) invert(29%) sepia(97%) saturate(3325%) hue-rotate(346deg) brightness(97%) contrast(93%);
+}
+
+.header .logo {
+    display: flex;
+    justify-content: center;
+    padding-left: 5px;
+    margin-left: 44px;
 }
