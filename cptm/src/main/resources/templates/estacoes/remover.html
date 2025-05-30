@@ -42,11 +42,12 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="estacao-list.html">Painel Estações</a>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
+    <div class="container">
+        <a class="navbar-brand" href="../adm/painel-administrativo.html">Painel CPTM+</a>
     </div>
 </nav>
+
 
 <main class="container my-4" style="max-width: 600px;">
     <h2>Excluir Estação</h2>
@@ -57,7 +58,7 @@
     <form action="/estacoes/delete" method="post">
         <input type="hidden" name="id" value="123e4567-e89b-12d3-a456-426614174000" />
         <button type="submit" class="btn btn-delete">Sim, excluir</button>
-        <a href="estacao-list.html" class="btn btn-cancel ms-2">Cancelar</a>
+        <a href="listar.html" class="btn btn-cancel ms-2">Cancelar</a>
     </form>
 </main>
 

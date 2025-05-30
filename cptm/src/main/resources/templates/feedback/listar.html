@@ -3,45 +3,52 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gestão de Estações - Listar</title>
+    <title>Feedbacks - Marcar como Visto</title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
             rel="stylesheet"
     />
+    <style>
+        .btn-seen {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Painel Estações</a>
-        <div>
-            <a href="estacao-create.html" class="btn btn-light">+ Nova Estação</a>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
+    <div class="container">
+        <a class="navbar-brand" href="../adm/painel-administrativo.html">Painel CPTM+</a>
     </div>
 </nav>
 
-<main class="container my-4">
-    <h2>Lista de Estações</h2>
-    <table class="table table-striped table-hover mt-3">
-        <thead class="table-primary">
-        <tr>
-            <th>ID (UUID)</th>
-            <th>Nome</th>
-            <th style="width: 180px;">Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Exemplo estático, substituir por backend -->
-        <tr>
-            <td>123e4567-e89b-12d3-a456-426614174000</td>
-            <td>Estação Central</td>
-            <td>
-                <a href="estacao-update.html?id=123e4567-e89b-12d3-a456-426614174000" class="btn btn-sm btn-warning me-2">Editar</a>
-                <a href="estacao-delete.html?id=123e4567-e89b-12d3-a456-426614174000" class="btn btn-sm btn-danger">Excluir</a>
-            </td>
-        </tr>
-        <!-- Loop backend aqui -->
-        </tbody>
-    </table>
+<main class="container my-4" style="max-width: 700px;">
+    <h2>Feedbacks Recebidos</h2>
+
+    <ul class="list-group mt-3" id="feedback-list">
+        <!-- Exemplo estático -->
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Demora na linha 11</span>
+            <div>
+                <button class="btn btn-outline-danger btn-sm btn-mark-seen me-2">Marcar como visto</button>
+                <button class="btn btn-danger btn-sm btn-delete">Excluir</button>
+            </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Solicitação de melhoria no atendimento</span>
+            <div>
+                <button class="btn btn-outline-danger btn-sm btn-mark-seen me-2">Marcar como visto</button>
+                <button class="btn btn-danger btn-sm btn-delete">Excluir</button>
+            </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Sugestão para mais vagões na linha 7</span>
+            <div>
+                <button class="btn btn-outline-danger btn-sm btn-mark-seen me-2">Marcar como visto</button>
+                <button class="btn btn-danger btn-sm btn-delete">Excluir</button>
+            </div>
+        </li>
+    </ul>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

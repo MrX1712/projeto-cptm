@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Criar Linha</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        .navbar-custom {
+            background-color: #EE3338;
+        }
+        .btn-save {
+            background-color: #EE3338;
+            border-color: #EE3338;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-save:hover, .btn-save:focus {
+            background-color: #bb292d;
+            border-color: #bb292d;
+            color: white;
+        }
+        .btn-cancel {
+            color: #EE3338;
+            border: 2px solid #EE3338;
+            background-color: transparent;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .btn-cancel:hover, .btn-cancel:focus {
+            background-color: #EE3338;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" href="listar.html">Painel CPTM+</a>
+    </div>
+</nav>
+
+<main class="container my-4" style="max-width: 600px;">
+    <h2>Criar Nova Linha</h2>
+    <form action="/linhas" method="post" class="mt-4">
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome da Linha</label>
+            <input type="text" id="nome" name="nome" class="form-control" placeholder="Digite o nome da linha" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="estacoes" class="form-label">Estações</label>
+            <select id="estacoes" name="estacoes" class="form-select" multiple size="5" required>
+                <!-- Exemplo estático, substituir pelo backend -->
+                <option value="123e4567-e89b-12d3-a456-426614174000">Estação Central</option>
+                <option value="223e4567-e89b-12d3-a456-426614174001">Pinheiros</option>
+                <option value="323e4567-e89b-12d3-a456-426614174002">Barra Funda</option>
+                <option value="423e4567-e89b-12d3-a456-426614174003">Sé</option>
+                <option value="523e4567-e89b-12d3-a456-426614174004">Brás</option>
+            </select>
+            <div class="form-text">Segure Ctrl (Cmd no Mac) para selecionar múltiplas estações.</div>
+        </div>
+
+        <button type="submit" class="btn btn-save">Salvar</button>
+        <a href="listar.html" class="btn btn-cancel ms-2">Cancelar</a>
+    </form>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

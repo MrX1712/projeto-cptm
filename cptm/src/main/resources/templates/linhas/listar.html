@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Linhas - Listar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        .navbar-custom {
+            background-color: #EE3338;
+        }
+        .btn-new {
+            background-color: #EE3338;
+            border-color: #EE3338;
+            color: white;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-new:hover, .btn-new:focus {
+            background-color: #bb292d;
+            border-color: #bb292d;
+            color: white;
+            text-decoration: none;
+        }
+        .btn-edit {
+            background-color: #f0ad4e;
+            border-color: #eea236;
+            color: black;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-edit:hover, .btn-edit:focus {
+            background-color: #d59420;
+            border-color: #c4840a;
+            color: black;
+        }
+        .btn-delete {
+            background-color: #EE3338;
+            border-color: #EE3338;
+            color: white;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-delete:hover, .btn-delete:focus {
+            background-color: #bb292d;
+            border-color: #bb292d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
+    <div class="container">
+        <a class="navbar-brand" href="../adm/painel-administrativo.html">Painel CPTM+</a>
+        <div>
+            <a href="inserir.html" class="btn btn-new">+ Nova Linha</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container my-4">
+    <h2>Lista de Linhas</h2>
+    <div class="table-responsive mt-3">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-danger text-dark">
+            <tr>
+                <th>ID (UUID)</th>
+                <th>Nome</th>
+                <th>Estações</th>
+                <th style="width:180px;">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Exemplo estático -->
+            <tr>
+                <td>f47ac10b-58cc-4372-a567-0e02b2c3d479</td>
+                <td>Linha 7 - Rubi</td>
+                <td>Lapa, Luz, Barra Funda</td>
+                <td>
+                    <a href="editar.html?id=f47ac10b-58cc-4372-a567-0e02b2c3d479" class="btn btn-sm btn-edit me-2">Editar</a>
+                    <a href="remover.html?id=f47ac10b-58cc-4372-a567-0e02b2c3d479" class="btn btn-sm btn-delete">Excluir</a>
+                </td>
+            </tr>
+            <!-- Loop backend -->
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
