@@ -9,17 +9,16 @@ function scrollToIndex(index) {
     if (index < 0) index = slides.length - 1;
     if (index >= slides.length) index = 0;
     currentIndex = index;
-    const slideHeight = slides[0].offsetHeight + 15; // altura + gap
+    const slideHeight = slides[0].offsetHeight + 15;
     track.scrollTo({ top: slideHeight * index, behavior: 'smooth' });
 }
 
 function autoScroll() {
-    if (isUserScrolling) return; // pausa auto-scroll se usuário interagir
+    if (isUserScrolling) return;
     scrollToIndex(currentIndex + 1);
-    autoScrollTimeout = setTimeout(autoScroll, 5000); // 5s entre slides
+    autoScrollTimeout = setTimeout(autoScroll, 5000);
 }
 
-// Detecta rolagem manual do usuário
 track.addEventListener('scroll', () => {
     isUserScrolling = true;
     clearTimeout(autoScrollTimeout);
@@ -35,5 +34,4 @@ track.addEventListener('scroll', () => {
     currentIndex = Math.round(scrollTop / slideHeight);
 });
 
-// Inicia auto-scroll ao carregar a página
 autoScroll();
