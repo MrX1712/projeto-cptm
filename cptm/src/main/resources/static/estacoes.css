@@ -208,7 +208,7 @@ input[type="text"]::placeholder {
 
     border-radius: 12px;
     color: white;
-    font-size: 14px;
+    font-size: 15px;
     width: 82%;
     margin-bottom: 10px;
     font-family: 'Roboto Condensed', sans-serif;
@@ -226,7 +226,7 @@ input[type="text"]::placeholder {
 .estacao-box {
     border-radius: 12px;
     color: white;
-    font-size: 14px;
+    font-size: 15px;
     width: 82%;
     margin-bottom: 10px;
     font-family: 'Roboto Condensed', sans-serif;

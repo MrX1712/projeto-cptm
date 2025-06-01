@@ -1,63 +1,117 @@
-<!doctype html>
-<html lang="pt-br">
-<head>
+<html lang="pt-br"><head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="../../static/rastreamento.css" />
+    <link rel="stylesheet" href="../../static/rastreamento.css">
     <title>CPTM+</title>
 </head>
-<body>
+<body id="body">
 <section>
-
-    <!-- Celular -->
     <div class="phone-container">
         <div class="phone-screen">
-
-            <!-- Header -->
             <header class="header">
                 <div class="logo">
-                    <img class="logo" src="../../static/images/cptm.png" alt="Logo CPTM+" />
+                    <img class="logo" src="../../static/images/cptm.png" alt="Logo CPTM+">
                 </div>
                 <button class="user-button" aria-label="Usuário">
-                    <img class="logo" src="../../static/images/user.png" alt="user" />
+                    <img class="logo" src="../../static/images/user.png" alt="user">
                 </button>
             </header>
 
-
             <div class="content">
-                <h1>Conteúdo do celular</h1>
-                <p>Esse conteúdo pode ser rolado dentro da tela do celular.</p>
-                <p>Adicione aqui o que quiser.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at libero ac orci feugiat scelerisque.</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-                <p>Mais conteúdo para rolar...</p>
-
-                <!-- Footer/Botões -->
-                <div class="bottom-nav">
-                    <img src="../../static/images/homeIcon.png" alt="Home" class="icon" />
-                    <img src="../../static/images/location-pin.png" alt="Localização" class="icon active" />
-                    <img src="../../static/images/trem.png" alt="Trem" class="icon" />
-                    <img src="../../static/images/siren.png" alt="Notificações" class="icon" />
+                <div class="feedback-container">
+                    <div class="feedback-header">Rastreamento de Trens</div>
+                    <div class="linha-btn rubi" onclick="trocarCor('rubi')"><span class="ponto"></span>7 - Rubi</div>
+                    <div class="linha-btn turquesa" onclick="trocarCor('turquesa')"><span class="ponto"></span>10 - Turquesa</div>
+                    <div class="linha-btn coral" onclick="trocarCor('coral')"><span class="ponto"></span>11 - Coral</div>
+                    <div class="linha-btn safira" onclick="trocarCor('safira')"><span class="ponto"></span>12 - Safira</div>
+                    <div class="linha-btn jade" onclick="trocarCor('jade')"><span class="ponto"></span>13 - Jade</div>
                 </div>
+
+                <p>Linha selecionada: <span class="texto-cor" id="linhaSelecionada" style="color: rgba(128, 0, 128, 0.59);">Safira</span></p>
+
+                <select id="estacoesSelect" onchange="atualizarEstacao()" style="background-color: rgba(128, 0, 128, 0.59);"><option value="">Selecione uma opção</option><option value="Itaim Paulista">Itaim Paulista</option><option value="Jardim Helena">Jardim Helena</option><option value="Calmon Viana">Calmon Viana</option></select>
+                <p>Estação selecionada: <span class="texto-cor" id="estacaoSelecionada" style="color: rgba(128, 0, 128, 0.59);">Nenhuma</span></p>
+
+                <select id="sentidoSelect" onchange="atualizarSentido()" style="background-color: rgba(128, 0, 128, 0.59);"><option value="">Selecione uma opção</option><option value="Brás">Brás</option><option value="Calmon Viana">Calmon Viana</option></select>
+                <p>Sentido selecionado: <span class="texto-cor" id="sentidoSelecionado" style="color: rgba(128, 0, 128, 0.59);">Nenhum</span></p>
+
+                <div class="train-box">
+                    <img src="../../static/images/trem.png" alt="Trem" height="40">
+                    <p>Próximo trem: Chegando em <span class="texto-cor" style="color: rgba(128, 0, 128, 0.59);">3 min</span></p>
+                </div>
+            </div>
+
+            <!-- Footer/Botões -->
+            <div class="bottom-nav">
+                <img src="../../static/images/homeIcon.png" alt="Home" class="icon">
+                <img src="../../static/images/location-pin.png" alt="Localização" class="icon active">
+                <img src="../../static/images/trem.png" alt="Trem" class="icon">
+                <img src="../../static/images/siren.png" alt="Notificações" class="icon">
             </div>
         </div>
     </div>
+
 </section>
-</body>
-</html>
+<script>
+    const cores = {
+        rubi: '#D7515E',
+        turquesa: '#40E0D0',
+        coral: '#FFA07A',
+        safira: '#80008096',
+        jade: '#00A96B90'
+    };
+
+    function trocarCor(linha) {
+        const cor = cores[linha];
+        document.getElementById("linhaSelecionada").innerText = linha.charAt(0).toUpperCase() + linha.slice(1);
+        document.querySelectorAll(".texto-cor").forEach(e => e.style.color = cor);
+        document.querySelectorAll("select").forEach(e => e.style.backgroundColor = cor);
+
+        const estacoes = {
+            rubi: ["Jaraguá", "Luz", "Campo Limpo"],
+            turquesa: ["Mauá", "Santo André", "Rio Grande da Serra"],
+            coral: ["Guaianases", "José Bonifácio", "Dom Bosco"],
+            safira: ["Itaim Paulista", "Jardim Helena", "Calmon Viana"],
+            jade: ["Eng. Goulart", "Guarulhos", "Aeroporto"],
+        }[linha];
+
+        const sentidos = {
+            rubi: ["Jundiaí", "Luz"],
+            turquesa: ["Brás", "Rio Grande da Serra"],
+            coral: ["Luz", "Estudantes"],
+            safira: ["Brás", "Calmon Viana"],
+            jade: ["Eng. Goulart", "Aeroporto"],
+        }[linha];
+
+        atualizarSelect("estacoesSelect", estacoes);
+        atualizarSelect("sentidoSelect", sentidos);
+    }
+
+    function atualizarSelect(id, opcoes) {
+        const select = document.getElementById(id);
+        select.innerHTML = `<option value="">Selecione uma opção</option>`;
+        opcoes.forEach(opt => {
+            const option = document.createElement('option');
+            option.value = opt;
+            option.textContent = opt;
+            select.appendChild(option);
+        });
+    }
+
+    function atualizarEstacao() {
+        const valor = document.getElementById("estacoesSelect").value;
+        document.getElementById("estacaoSelecionada").innerText = valor || 'Nenhuma';
+    }
+
+    function atualizarSentido() {
+        const valor = document.getElementById("sentidoSelect").value;
+        document.getElementById("sentidoSelecionado").innerText = valor || 'Nenhum';
+    }
+
+    // Inicializa com a linha padrão "safira"
+    trocarCor('safira');
+</script>
+
+</body></html>

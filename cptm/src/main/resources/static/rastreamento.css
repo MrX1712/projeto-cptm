@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap');
+
 body {
     margin: 0;
     height: 100vh;
@@ -5,8 +7,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
 }
+
 
 .phone-container {
     width: 300px;
@@ -65,6 +68,7 @@ body {
 
 .user-button img {
     height: 28px;
+    border-radius: 50%;
     margin-right: 20px;
     margin-top: 5px;
 }
@@ -124,4 +128,88 @@ body {
 .bottom-nav .icon:hover {
     transform: scale(1.2);
     filter: brightness(0) saturate(100%) invert(29%) sepia(97%) saturate(3325%) hue-rotate(346deg) brightness(97%) contrast(93%);
+}
+
+.feedback-container {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding-bottom: 25px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.feedback-header {
+    background-color: #f44336;
+    padding: 8px 0;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.linha-btn {
+    border-radius: 12px;
+    color: white;
+    margin: 8px 16px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    width: 60%;
+    gap: 43px;
+    justify-content: flex-start;
+    cursor: pointer;
+    margin-left: 37px;
+}
+
+.linha-btn.rubi {
+    margin-top: 25px;
+}
+
+.linha-btn.turquesa {
+    gap: 30px;
+}
+
+.linha-btn .ponto {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.rubi { background: #D7515E; }
+.rubi .ponto { background: #9B111E; }
+
+.turquesa { background: #40E0D0; }
+.turquesa .ponto { background: #20B2AA; }
+
+.coral { background: #FFA07A; }
+.coral .ponto { background: #FF7F50; }
+
+.safira { background: #80008096; }
+.safira .ponto { background: #800080; }
+
+.jade { background: #00A96B90; }
+.jade .ponto { background: #00A96B; }
+
+.texto-cor { font-weight: bold; }
+
+.train-box {
+    background: white;
+    padding: 10px;
+    border-radius: 16px;
+    text-align: center;
+    margin-top: 12px;
+}
+
+select {
+    width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin: 6px auto;
+    display: block;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    color: white;
+    font-size: 14px;
 }
