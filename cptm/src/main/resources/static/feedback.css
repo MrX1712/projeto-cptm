@@ -279,3 +279,16 @@ textarea:focus {
 .send-button:hover {
     background-color: #d32f2f;
 }
+
+
+.icon-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.icon-button:focus {
+    outline: none;
+}
