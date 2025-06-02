@@ -1,46 +1,46 @@
 package br.edu.ibmec.cptm.model;
 
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name="TB_USUARIO", schema="CPTM")
-public class Usuario implements Serializable {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TIPO_USUARIO")
+@Table(name = "TB_USUARIO", schema = "CPTM")
+public abstract class Usuario implements Serializable {
 
     @Id
-    @Basic(optional = false)
-    @Column(name="ID_USUARIO")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_USUARIO")
     private UUID id;
 
-    @Column(name = "DataDeNascimento",nullable = false)
-    private LocalDate dataDeNascimento;
+    @Column(nullable = false)
+    private LocalDate dataNascimento;
 
-    @Column(name = "NOME",nullable = false)
+    @Column(nullable = false)
     private String nome;
 
-    @Column(name="cpf",nullable = false)
+    @Column(nullable = false)
     private String cpf;
 
-    @Column(name="SENHA",nullable = false)
-    private String senha;
-
-    @Column(name = "EMAIL",nullable = false)
+    @Column(nullable = false)
     private String email;
 
-    @Column(name="LOGADO",nullable = false)
+    @Column(nullable = false)
+    private String senha;
+
+    @Column(nullable = false)
     private boolean logado;
 
     public Usuario() {
     }
 
-    public Usuario(String email, UUID id, LocalDate dataDeNascimento, String nome, String cpf, String senha, boolean logado) {
+    public Usuario(String email, UUID id, LocalDate dataNascimento, String nome, String cpf, String senha, boolean logado) {
         this.email = email;
         this.id = id;
-        this.dataDeNascimento = dataDeNascimento;
+        this.dataNascimento = dataNascimento;
         this.nome = nome;
         this.cpf = cpf;
         this.senha = senha;
@@ -55,12 +55,12 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getDataDeNascimento() {
-        return dataDeNascimento;
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
     }
 
-    public void setDataDeNascimento(LocalDate dataDeNascimento) {
-        this.dataDeNascimento = dataDeNascimento;
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     public String getNome() {

@@ -1,49 +1,59 @@
 package br.edu.ibmec.cptm.model;
 
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name="TB_NOTIFICACAO",schema="CPTM")
+@Table(name = "TB_NOTIFICACAO", schema = "CPTM")
 public class Notificacao implements Serializable {
 
     @Id
-    @Basic(optional = false)
-    @Column(name="ID_NOTIFICACAO")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_NOTIFICACAO")
     private UUID id;
 
-    @Column(name = "TEXTO",nullable = false)
-    private String texto;
-
-    @Column(name="TITULO", nullable = false)
+    @Column(name = "TITULO", nullable = false)
     private String titulo;
 
-    @Column(name="DATAENVIO",nullable = false)
+    @Column(name = "TEXTO", nullable = false)
+    private String texto;
+
+    @Column(name = "DATA_ENVIO", nullable = false)
     private LocalDateTime dataEnvio;
 
+    @ManyToOne
+    @JoinColumn(name = "LINHA_ID")
+    private Linha linha;
 
     @ManyToOne
-    @JoinColumn(name="LINHA_NOTIFICACAO")
-    private Linha linhaNotificacao;
+    @JoinColumn(name = "ESTACAO_ID")
+    private Estacao estacao;
 
     @ManyToOne
-    @JoinColumn(name="ESTACAO_NOTIFICACAO")
-    private Estacao estacaoNotificacao;
+    @JoinColumn(name = "USUARIO_ID")
+    private TimeCptm timeCptm;
 
     public Notificacao() {
     }
 
-    public Notificacao(UUID id, String texto, String titulo, LocalDateTime dataEnvio, Linha linhaNotificacao, Estacao estacaoNotificacao) {
+    public Notificacao(UUID id, String titulo, String texto, LocalDateTime dataEnvio, Linha linha, Estacao estacao, TimeCptm timeCptm) {
         this.id = id;
-        this.texto = texto;
         this.titulo = titulo;
+        this.texto = texto;
         this.dataEnvio = dataEnvio;
-        this.linhaNotificacao = linhaNotificacao;
-        this.estacaoNotificacao = estacaoNotificacao;
+        this.linha = linha;
+        this.estacao = estacao;
+        this.timeCptm = timeCptm;
+    }
+
+    public TimeCptm getTimeCptm() {
+        return timeCptm;
+    }
+
+    public void setTimeCptm(TimeCptm timeCptm) {
+        this.timeCptm = timeCptm;
     }
 
     public UUID getId() {
@@ -78,19 +88,19 @@ public class Notificacao implements Serializable {
         this.dataEnvio = dataEnvio;
     }
 
-    public Linha getLinhaNotificacao() {
-        return linhaNotificacao;
+    public Linha getLinha() {
+        return linha;
     }
 
-    public void setLinhaNotificacao(Linha linhaNotificacao) {
-        this.linhaNotificacao = linhaNotificacao;
+    public void setLinha(Linha linhaNotificacao) {
+        this.linha = linhaNotificacao;
     }
 
-    public Estacao getEstacaoNotificacao() {
-        return estacaoNotificacao;
+    public Estacao getEstacao() {
+        return estacao;
     }
 
-    public void setEstacaoNotificacao(Estacao estacaoNotificacao) {
-        this.estacaoNotificacao = estacaoNotificacao;
+    public void setEstacao(Estacao estacaoNotificacao) {
+        this.estacao = estacaoNotificacao;
     }
 }

@@ -1,32 +1,36 @@
 package br.edu.ibmec.cptm.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
-
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.sql.Time;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="TB_TIMECPTM",schema="CPTM")
-public class TimeCptm extends Usuario{
+@DiscriminatorValue("TIME_CPTM")
+public class TimeCptm extends Usuario implements Serializable {
 
-    @JoinColumn(name="NOTIFICACAO_TIME")
-    private List<Notificacao> noticicacaoEnviada;
+    @OneToMany(mappedBy = "timeCptm", cascade = CascadeType.ALL)
+    private List<Notificacao> notificacoesEnviadas = new ArrayList<>();
 
-    public TimeCptm(String email, UUID id, LocalDate dataDeNascimento, String nome, String cpf, String senha, boolean logado, List<Notificacao> noticicacaoEnviada) {
+    public TimeCptm() {
+    }
+
+    public TimeCptm(List<Notificacao> notificacoesEnviadas) {
+        this.notificacoesEnviadas = notificacoesEnviadas;
+    }
+
+    public TimeCptm(String email, UUID id, LocalDate dataDeNascimento, String nome, String cpf, String senha, boolean logado, List<Notificacao> notificacoesEnviadas) {
         super(email, id, dataDeNascimento, nome, cpf, senha, logado);
-        this.noticicacaoEnviada = noticicacaoEnviada;
+        this.notificacoesEnviadas = notificacoesEnviadas;
     }
 
-    public List<Notificacao> getNoticicacaoEnviada() {
-        return noticicacaoEnviada;
+    public List<Notificacao> getNotificacoesEnviadas() {
+        return notificacoesEnviadas;
     }
 
-    public void setNoticicacaoEnviada(List<Notificacao> noticicacaoEnviada) {
-        this.noticicacaoEnviada = noticicacaoEnviada;
+    public void setNotificacoesEnviadas(List<Notificacao> noticicacaoEnviada) {
+        this.notificacoesEnviadas = noticicacaoEnviada;
     }
 }

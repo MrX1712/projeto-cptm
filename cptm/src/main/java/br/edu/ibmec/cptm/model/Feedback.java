@@ -1,59 +1,52 @@
 package br.edu.ibmec.cptm.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import java.io.Serializable;
-
 @Entity
-@Table(name="TB_FEEDBACK",schema = "CPTM")
+@Table(name = "TB_FEEDBACK", schema = "CPTM")
 public class Feedback implements Serializable {
+
     @Id
-    @Basic(optional = false)
-    @Column(name="ID_FEEDBACK",nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_FEEDBACK", nullable = false)
     private UUID id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "ID_PASSAGEIRO", nullable = false)
-    private Passageiro passageiro= new Passageiro();
+    @JoinColumn(name = "PASSAGEIRO_ID", nullable = false)
+    private Passageiro passageiro;
 
-    @Column(name="COMENTARIO",nullable = false)
+    @Column(name="TIPO", nullable = false)
+    private String tipo;
+
+    @Column(name = "COMENTARIO", nullable = false)
     private String comentario;
 
-    @Column(name = "NOTA",nullable = false)
+    @Column(name = "NOTA", nullable = false)
     private int nota;
 
-    @Column(name = "DATAENVIO",nullable = false)
+    @Column(name = "DATA_ENVIO", nullable = false)
     private LocalDateTime dataEnvio;
 
-    public Feedback() {
-    }
+    public Feedback() {}
 
-    public Feedback(UUID id, Passageiro passageiro, String comentario, int nota, LocalDateTime dataEnvio) {
+    public Feedback(UUID id, Passageiro passageiro, String tipo, String comentario, int nota, LocalDateTime dataEnvio) {
         this.id = id;
         this.passageiro = passageiro;
+        this.tipo = tipo;
         this.comentario = comentario;
         this.nota = nota;
         this.dataEnvio = dataEnvio;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public UUID getId() {

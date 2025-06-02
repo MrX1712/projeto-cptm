@@ -1,52 +1,50 @@
 package br.edu.ibmec.cptm.model;
 
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name="TB_SOLICITACAOAJUDA",schema = "CPTM")
+@Table(name = "TB_SOLICITACAO_AJUDA", schema = "CPTM")
 public class SolicitacaoAjuda implements Serializable {
+
     @Id
-    @Basic(optional = false)
-    @Column(name = "ID_AJUDA")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_SOLICITACAO")
     private UUID id;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_LINHA", nullable = false)
+    private Linha linha;
 
     @ManyToOne
-    @JoinColumn(name="ESTACAO_AJUDA")
-    private Estacao estacao=new Estacao();
+    @JoinColumn(name = "ID_ESTACAO", nullable = false)
+    private Estacao estacao;
 
     @ManyToOne
-    @JoinColumn(name="LINHA_AJUDA")
-    private Linha linha=new Linha();
+    @JoinColumn(name = "ID_PASSAGEIRO", nullable = false)
+    private Passageiro passageiro;
 
-    @OneToOne
-    @JoinColumn(name="PASSAGEIRO_AJUDA")
-    private Passageiro passageiro=new Passageiro();
-
-    @Column(name="COMENTARIO",nullable=false)
-    private String comentario;
-
-    @Column(name = "TEMA",nullable = false)
+    @Column(name = "TEMA", nullable = false)
     private int tema;
 
-    @Column(name = "STATUS_AJUDA",nullable = false)
-    private boolean statusAjuda;
+    @Column(name = "COMENTARIO",nullable = false)
+    private String comentario;
+
+    @Column(name = "STATUS", nullable = false)
+    private boolean status;
 
     public SolicitacaoAjuda() {
     }
 
-    public SolicitacaoAjuda(UUID id, Estacao estacao, Linha linha, Passageiro passageiro, String comentario, int tema, boolean statusAjuda) {
+    public SolicitacaoAjuda(UUID id, Estacao estacao, Linha linha, Passageiro passageiro, String comentario, int tema, boolean status) {
         this.id = id;
         this.estacao = estacao;
         this.linha = linha;
         this.passageiro = passageiro;
         this.comentario = comentario;
         this.tema = tema;
-        this.statusAjuda = statusAjuda;
+        this.status = status;
     }
 
     public UUID getId() {
@@ -97,11 +95,11 @@ public class SolicitacaoAjuda implements Serializable {
         this.tema = tema;
     }
 
-    public boolean isStatusAjuda() {
-        return statusAjuda;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setStatusAjuda(boolean statusAjuda) {
-        this.statusAjuda = statusAjuda;
+    public void setStatus(boolean statusAjuda) {
+        this.status = statusAjuda;
     }
 }

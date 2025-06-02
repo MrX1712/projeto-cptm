@@ -6,20 +6,33 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name="TB_ESTACAO",schema = "CPTM")
+@Table(name = "TB_ESTACAO", schema = "CPTM")
 public class Estacao implements Serializable {
 
     @Id
-    @Basic(optional=false)
+    @Basic(optional = false)
     @Column(name = "ID_ESTACAO")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(name = "NOME", nullable = false)
+    private String nome;
 
-    @Column(name = "NOMEESTACAO")
-    private String nomeEstacao;
+    @Column(name = "NUMERO", nullable = false)
+    private int numero;
+
+    @ManyToOne
+    @JoinColumn(name = "LINHA_ID", nullable = false)
+    private Linha linha;
 
     public Estacao() {
+    }
+
+    public Estacao(UUID id, String nome, int numero, Linha linha) {
+        this.id = id;
+        this.nome = nome;
+        this.numero = numero;
+        this.linha = linha;
     }
 
     public UUID getId() {
@@ -30,18 +43,27 @@ public class Estacao implements Serializable {
         this.id = id;
     }
 
-    public String getNomeEstacao() {
-        return nomeEstacao;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNomeEstacao(String nomeEstacao) {
-        this.nomeEstacao = nomeEstacao;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public Estacao(UUID id, String nomeEstacao) {
-        this.id = id;
-        this.nomeEstacao = nomeEstacao;
+    public int getNumero() {
+        return numero;
+    }
 
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
 
+    public Linha getLinha() {
+        return linha;
+    }
+
+    public void setLinha(Linha linha) {
+        this.linha = linha;
     }
 }

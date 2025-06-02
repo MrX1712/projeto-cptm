@@ -1,36 +1,32 @@
 package br.edu.ibmec.cptm.model;
 
-import br.edu.ibmec.cptm.model.Estacao;
 import jakarta.persistence.*;
-
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 @Entity
-@Table(name="TB_LINHA",schema="CPTM")
+@Table(name = "TB_LINHA", schema = "CPTM")
 public class Linha implements Serializable {
 
     @Id
-    @Basic(optional = false)
-    @Column(name = "ID_LINHA")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_LINHA")
     private UUID id;
 
-    @JoinColumn(name="LINHA_ESTACAO")
-    @OneToMany
-    private List<Estacao> estacao;
-
-    @Column(name="NOME_ESTACAO",nullable = false)
+    @Column(name = "NOME", nullable = false)
     private String nome;
+
+    @OneToMany(mappedBy = "linha", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Estacao> estacoes = new ArrayList<>();
 
     public Linha() {
     }
 
-    public Linha(UUID id, List<Estacao> estacao, String nome) {
+    public Linha(UUID id, List<Estacao> estacoes, String nome) {
         this.id = id;
-        this.estacao = estacao;
+        this.estacoes = estacoes;
         this.nome = nome;
     }
 
@@ -42,12 +38,12 @@ public class Linha implements Serializable {
         this.id = id;
     }
 
-    public List<Estacao> getEstacao() {
-        return estacao;
+    public List<Estacao> getEstacoes() {
+        return estacoes;
     }
 
-    public void setEstacao(List<Estacao> estacao) {
-        this.estacao = estacao;
+    public void setEstacoes(List<Estacao> estacoes) {
+        this.estacoes = estacoes;
     }
 
     public String getNome() {
