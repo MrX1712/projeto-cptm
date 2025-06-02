@@ -38,7 +38,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
   <div class="container">
-    <a class="navbar-brand" href="listar.html">Painel CPTM+</a>
+    <a class="navbar-brand" href="listar.html" th:href="@{/cptm}">Painel CPTM+</a>
   </div>
 </nav>
 
@@ -49,10 +49,10 @@
     Tem certeza que deseja excluir a notificação <strong>Demora na linha 11</strong>?
   </div>
 
-  <form action="/linhas/delete" method="post">
+  <form action="/linhas/delete" th:action="@{/cptm/feeback/remover/{id}(id=${feedback.idFeedback})}" method="post">
     <input type="hidden" name="id" value="f47ac10b-58cc-4372-a567-0e02b2c3d479" />
     <button type="submit" class="btn btn-delete">Sim, excluir</button>
-    <a href="listar.html" class="btn btn-cancel ms-2">Cancelar</a>
+    <a href="listar.html" th:action="@{/cptm/feedback/remover/{id}(id=${feedback.idFeedback})}" class="btn btn-cancel ms-2">Cancelar</a>
   </form>
 </main>
 

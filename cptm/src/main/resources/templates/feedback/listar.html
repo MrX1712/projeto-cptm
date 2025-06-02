@@ -28,24 +28,36 @@
     <ul class="list-group mt-3" id="feedback-list">
         <!-- Exemplo estático -->
         <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Demora na linha 11</span>
+            <span>Solicitação de melhoria no atendimento</span>
             <div>
-                <button class="btn btn-outline-danger btn-sm btn-mark-seen me-2">Marcar como visto</button>
-                <button class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                <form th:action="@{/cptm/feedback/visto/{id}(id=${feedback.idFeedback})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-success btn-sm btn-mark-seen me-2">Marcar como visto</button>
+                </form>
+                <form th:action="@{/cptm/feedback/remover/{id}(id=${feedback.idFeedback})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                </form>
             </div>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <span>Solicitação de melhoria no atendimento</span>
             <div>
-                <button class="btn btn-outline-danger btn-sm btn-mark-seen me-2">Marcar como visto</button>
-                <button class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                <form th:action="@{/cptm/feedback/visto/{id}(id=${feedback.idFeedback})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-success btn-sm btn-mark-seen me-2">Marcar como visto</button>
+                </form>
+                <form th:action="@{/cptm/feedback/remover/{id}(id=${feedback.idFeedback})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                </form>
             </div>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Sugestão para mais vagões na linha 7</span>
+            <span>Solicitação de melhoria no atendimento</span>
             <div>
-                <button class="btn btn-outline-danger btn-sm btn-mark-seen me-2">Marcar como visto</button>
-                <button class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                <form th:action="@{/cptm/feedback/visto/{id}(id=${feedback.idFeedback})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-success btn-sm btn-mark-seen me-2">Marcar como visto</button>
+                </form>
+                <form th:action="@{/cptm/feedback/remover/{id}(id=${feedback.idFeedback})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                </form>
             </div>
         </li>
     </ul>

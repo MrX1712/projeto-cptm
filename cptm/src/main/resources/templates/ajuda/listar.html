@@ -30,22 +30,34 @@
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <span>Problema no trem da Linha 7</span>
             <div>
-                <button class="btn btn-outline-danger btn-sm btn-mark-seen me-2">Marcar como visto</button>
-                <button class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                <form th:action="@{/cptm/ajuda/visto/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-success btn-sm btn-mark-seen me-2">Marcar como visto</button>
+                </form>
+                <form th:action="@{/cptm/ajuda/remover/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                </form>
             </div>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <span>Solicitação de ajuda em estação Tamanduateí</span>
             <div>
-                <button class="btn btn-outline-danger btn-sm btn-mark-seen me-2">Marcar como visto</button>
-                <button class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                <form th:action="@{/cptm/ajuda/visto/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-success btn-sm btn-mark-seen me-2">Marcar como visto</button>
+                </form>
+                <form th:action="@{/cptm/ajuda/remover/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                </form>
             </div>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <span>Acidente reportado na Linha 12</span>
             <div>
-                <button class="btn btn-outline-danger btn-sm btn-mark-seen me-2">Marcar como visto</button>
-                <button class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                <form th:action="@{/cptm/ajuda/visto/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-success btn-sm btn-mark-seen me-2">Marcar como visto</button>
+                </form>
+                <form th:action="@{/cptm/ajuda/remover/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm btn-delete">Excluir</button>
+                </form>
             </div>
         </li>
         <!-- Fim do exemplo -->
