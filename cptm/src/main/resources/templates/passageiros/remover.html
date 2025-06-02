@@ -38,21 +38,21 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
   <div class="container">
-    <a class="navbar-brand" href="listar.html" th:href="@{/cptm}">Painel CPTM+</a>
+    <a class="navbar-brand" href="listar.html">Painel CPTM+</a>
   </div>
 </nav>
 
 
 <main class="container my-4" style="max-width: 600px;">
-  <h2>Excluir Linha</h2>
+  <h2>Excluir Passageiro</h2>
   <div class="alert alert-warning mt-4" role="alert">
-    Tem certeza que deseja excluir a notificação <strong>Demora na linha 11</strong>?
+    Tem certeza que deseja excluir o Usuáro <strong>Paulo Octávio</strong>?
   </div>
 
-  <form action="/linhas/delete" th:action="@{/cptm/feeback/remover/{id}(id=${feedback.idFeedback})}" method="post">
+  <form action="/linhas/delete" method="post">
     <input type="hidden" name="id" value="f47ac10b-58cc-4372-a567-0e02b2c3d479" />
     <button type="submit" class="btn btn-delete">Sim, excluir</button>
-    <a href="listar.html" th:action="@{/cptm/feedback/remover/{id}(id=${feedback.idFeedback})}" class="btn btn-cancel ms-2">Cancelar</a>
+    <a href="listar.html" class="btn btn-cancel ms-2">Cancelar</a>
   </form>
 </main>
 
