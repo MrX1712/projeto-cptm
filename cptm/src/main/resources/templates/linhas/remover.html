@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -38,7 +38,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
     <div class="container">
-        <a class="navbar-brand" href="listar.html">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="@{/adm/painel-administrativo/linhas}">Painel CPTM+</a>
     </div>
 </nav>
 
@@ -46,13 +46,13 @@
 <main class="container my-4" style="max-width: 600px;">
     <h2>Excluir Linha</h2>
     <div class="alert alert-warning mt-4" role="alert">
-        Tem certeza que deseja excluir a linha <strong>Linha 7 - Rubi</strong>?
+        Tem certeza que deseja excluir a linha <strong th:text="${linha.nome}">Linha 7 - Rubi</strong>?
     </div>
 
-    <form action="/linhas/delete" method="post">
-        <input type="hidden" name="id" value="f47ac10b-58cc-4372-a567-0e02b2c3d479" />
+    <form th:action="@{/adm/painel-administrativo/estacoes/delete}" method="post">
+        <input type="hidden" name="id" th:value="${estacao.id}" />
         <button type="submit" class="btn btn-delete">Sim, excluir</button>
-        <a href="listar.html" class="btn btn-cancel ms-2">Cancelar</a>
+        <a th:href="@{/adm/painel-administrativo/estacoes}" class="btn btn-cancel ms-2">Cancelar</a>
     </form>
 </main>
 

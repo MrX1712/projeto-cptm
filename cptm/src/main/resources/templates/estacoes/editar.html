@@ -1,8 +1,13 @@
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html lang="pt-BR" >
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Gestão de Estações - Editar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
     <style>
         /* Navbar vermelho */
         .navbar-custom {
@@ -39,19 +44,26 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
     <div class="container">
-        <a class="navbar-brand" th:href="/adm/painel-administrativo">Painel CPTM+</a>
+        <a class="navbar-brand" href="listar.html">Painel CPTM+</a>
     </div>
 </nav>
 
 
 <main class="container my-4" style="max-width: 600px;">
     <h2>Editar Estação</h2>
-    <form th:action="@{cptm/estacoes/editar}" th:object="${estacao}" method="post" class="mt-4">
-        <input type="text" id="id" th:field="*{id}" class="form-control" readonly="" required="">
+    <form action="/estacoes" method="post" class="mt-4">
+        <input type="hidden" name="id" value="123e4567-e89b-12d3-a456-426614174000" />
 
         <div class="mb-3">
             <label for="nome" class="form-label">Nome da Estação</label>
-            <input type="text" id="nome" th:field="*{nomeEstacao}" class="form-control" placeholder="Estação Central" required="">
+            <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    class="form-control"
+                    value="Estação Central"
+                    required
+            />
         </div>
 
         <button type="submit" class="btn btn-update">Atualizar</button>
@@ -60,6 +72,5 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
-</body></html>
+</body>
+</html>

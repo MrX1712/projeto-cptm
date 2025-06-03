@@ -44,9 +44,9 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
     <div class="container">
-        <a class="navbar-brand" href="../adm/painel-administrativo.html">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="/adm/painel-administrativo">Painel CPTM+</a>
         <div>
-            <a href="inserir.html" class="btn btn-new">+ Nova Estação</a>
+            <a th:href="/adm/painel-administrativo/estacoes/inserir" class="btn btn-new">+ Nova Estação</a>
         </div>
     </div>
 </nav>
@@ -54,7 +54,7 @@
 
 <main class="container my-4" style="max-width: 600px;">
     <h2>Criar Nova Estação</h2>
-    <form action="/estacoes" method="post" class="mt-4">
+    <form th:action="@{adm/painel-administrativo/estacoes/inserir}" th:object="${estacao}" method="post" class="mt-4">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome da Estação</label>
             <input
@@ -67,7 +67,7 @@
             />
         </div>
         <button type="submit" class="btn btn-save">Salvar</button>
-        <a href="listar.html" class="btn btn-cancel ms-2">Cancelar</a>
+        <a th:href="/adm/painel-administrativo/estacoes" class="btn btn-cancel ms-2">Cancelar</a>
     </form>
 </main>
 

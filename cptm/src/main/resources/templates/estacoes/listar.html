@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -56,9 +56,9 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
     <div class="container">
-        <a class="navbar-brand" href="../adm/painel-administrativo.html">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="/adm/painel-administrativo">Painel CPTM+</a>
         <div>
-            <a href="inserir.html" class="btn btn-new">+ Nova Estação</a>
+            <a th:href="/adm/painel-administrativo/estacoes/inserir" class="btn btn-new">+ Nova Estação</a>
         </div>
     </div>
 </nav>
@@ -76,12 +76,12 @@
             </thead>
             <tbody>
             <!-- Exemplo estático, substituir por backend -->
-            <tr>
-                <td>123e4567-e89b-12d3-a456-426614174000</td>
-                <td>Tamanduateí</td>
+            <tr th:each="estacao : ${estacoes}">
+                <td th:text="${estacao.id}">UUID aqui</td>
+                <td th:text="${estacao.nomeEstacao}>Nome aqui</td>
                 <td>
-                    <a href="editar.html?id=123e4567-e89b-12d3-a456-426614174000" class="btn btn-sm btn-edit me-2">Editar</a>
-                    <a href="remover.html?id=123e4567-e89b-12d3-a456-426614174000" class="btn btn-sm btn-delete">Excluir</a>
+                    <a th:href="@{/adm/painel-administrativo/estacoes/editar(id=${estacao.id})}" class="btn btn-sm btn-edit me-2">Editar</a>
+                    <a th:href="@{/adm/painel-administrativo/estacoes/remover(id=${estacao.id})}" class="btn btn-sm btn-delete">Excluir</a>
                 </td>
             </tr>
             <!-- Loop backend aqui -->
