@@ -146,7 +146,6 @@ body {
 }
 
 .feedback-container label {
-    font-weight: 600;
     font-size: 14px;
     min-width: 90px;
 }
@@ -190,11 +189,12 @@ body {
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    width:105%;
-    margin-bottom: 40px;
+    width:110%;
+    margin-top: -15px;
+    margin-left: -5px;
     padding-bottom: 25px;
-    margin: 0 auto 40px auto;
     transform: translateX(-5px);
+    justify-content: center;
 }
 
 .feedback-header {
@@ -212,7 +212,7 @@ body {
     bottom: 6px;
     left: 30px;
     right: 30px;
-    height: 1px;
+    height: 0.5px;
     background-color: white;
 }
 
@@ -225,8 +225,8 @@ body {
 }
 
 .form-container label {
-    font-weight: 600;
     font-size: 16px;
+    color: black;
 }
 
 .stars {
