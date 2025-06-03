@@ -220,7 +220,7 @@ input[type="text"]::placeholder {
 }
 
 .linha-rubi {
-    background-color: #8B0000; /* cor da linha rubi */
+    background-color: #8B0000;
 }
 
 .estacao-box {

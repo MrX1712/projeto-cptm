@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,8 +15,7 @@
             color: white;
             transition: background-color 0.3s ease;
         }
-        .btn-save:hover,
-        .btn-save:focus {
+        .btn-save:hover, .btn-save:focus {
             background-color: #bb292d;
             border-color: #bb292d;
             color: white;
@@ -27,8 +26,7 @@
             background-color: transparent;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-        .btn-cancel:hover,
-        .btn-cancel:focus {
+        .btn-cancel:hover, .btn-cancel:focus {
             background-color: #EE3338;
             color: white;
             text-decoration: none;
@@ -36,63 +34,44 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
-        <a class="navbar-brand" href="listar.html">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="@{/adm/painel-administrativo}">Painel CPTM+</a>
     </div>
 </nav>
 
 <main class="container my-4" style="max-width: 600px;">
     <h2>Criar Nova Notificação</h2>
-    <form action="/notificacoes" method="post" class="mt-4">
+    <form th:action="@{/adm/notificacao/salvar}" method="post" th:object="${notificacao}" class="mt-4">
+
         <div class="mb-3">
             <label for="titulo" class="form-label">Título</label>
-            <input
-                    type="text"
-                    id="titulo"
-                    name="titulo"
-                    class="form-control"
-                    placeholder="Digite o título da notificação"
-                    required
-            />
+            <input type="text" id="titulo" th:field="*{titulo}" class="form-control" required />
         </div>
 
         <div class="mb-3">
             <label for="texto" class="form-label">Texto</label>
-            <textarea
-                    id="texto"
-                    name="texto"
-                    class="form-control"
-                    rows="4"
-                    placeholder="Digite o conteúdo da notificação"
-                    required
-            ></textarea>
+            <textarea id="texto" th:field="*{texto}" class="form-control" rows="4" required></textarea>
         </div>
 
         <div class="mb-3">
             <label for="linha" class="form-label">Linha</label>
-            <select id="linha" name="linha" class="form-select" required>
-                <!-- Exemplo estático, substituir pelo backend -->
+            <select id="linha" th:field="*{linha}" class="form-select" required>
                 <option value="">Selecione uma linha</option>
-                <option value="f47ac10b-58cc-4372-a567-0e02b2c3d479">Linha 7 - Rubi</option>
-                <option value="a73bdc21-1234-4b56-a789-0f12d3c45678">Linha 9 - Esmeralda</option>
-                <option value="d9bc2145-5678-4bcd-987a-ef1234567890">Linha 8 - Diamante</option>
+                <option th:each="linha : ${linhas}" th:value="${linha.id}" th:text="${linha.nome}"></option>
             </select>
         </div>
 
         <div class="mb-3">
             <label for="estacao" class="form-label">Estação</label>
-            <select id="estacao" name="estacao" class="form-select" required>
-                <!-- Exemplo estático, substituir pelo backend -->
+            <select id="estacao" th:field="*{estacao}" class="form-select" required>
                 <option value="">Selecione uma estação</option>
-                <option value="123e4567-e89b-12d3-a456-426614174000">Estação Central</option>
-                <option value="223e4567-e89b-12d3-a456-426614174001">Pinheiros</option>
-                <option value="323e4567-e89b-12d3-a456-426614174002">Barra Funda</option>
+                <option th:each="estacao : ${estacoes}" th:value="${estacao.id}" th:text="${estacao.nome}"></option>
             </select>
         </div>
 
         <button type="submit" class="btn btn-save">Salvar</button>
-        <a href="listar.html" class="btn btn-cancel ms-2">Cancelar</a>
+        <a th:href="@{/adm/notificacao/listar}" class="btn btn-cancel ms-2">Cancelar</a>
     </form>
 </main>
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Remover Funcionário</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-custom { background-color: #EE3338; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/adm/painel-administrativo}">Painel CPTM+</a>
+    </div>
+</nav>
+<div class="container mt-4">
+    <h2>Confirmar Exclusão</h2>
+    <p>Deseja realmente excluir o funcionário abaixo?</p>
+    <ul>
+        <li><strong>Nome:</strong> <span th:text="${func.nome}"></span></li>
+        <li><strong>CPF:</strong> <span th:text="${func.cpf}"></span></li>
+        <li><strong>Email:</strong> <span th:text="${func.email}"></span></li>
+        <li><strong>Data de Nascimento:</strong> <span th:text="${#temporals.format(func.dataDeNascimento, 'dd/MM/yyyy')}"></span></li>
+        <li><strong>Senha:</strong> <span th:text="${func.senha}"></span></li>
+        <li>
+            <strong>Notificações Enviadas:</strong>
+            <ul>
+                <li th:each="notif : ${func.notificacoes}">
+                    <strong>Título:</strong> <span th:text="${notif.titulo}"></span> |
+                    <strong>Texto:</strong> <span th:text="${notif.texto}"></span> |
+                    <strong>Data:</strong> <span th:text="${#temporals.format(notif.dataDeEnvio, 'dd/MM/yyyy HH:mm')}"></span> |
+                    <strong>Linha:</strong> <span th:text="${notif.linha.nome}"></span> |
+                    <strong>Estação:</strong> <span th:text="${notif.estacao.nome}"></span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <form th:action="@{/adm/funcionarios/excluir/{id}(id=${func.id})}" method="post">
+        <button type="submit" class="btn btn-danger">Excluir</button>
+        <a th:href="@{/adm/funcionarios/listar}" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>

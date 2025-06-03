@@ -1,61 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Excluir Linha</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>Confirmar Exclusão</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     .navbar-custom {
       background-color: #EE3338;
     }
-    .btn-delete {
-      background-color: #EE3338;
-      border-color: #EE3338;
-      color: white;
-      transition: background-color 0.3s ease;
-    }
-    .btn-delete:hover,
-    .btn-delete:focus {
-      background-color: #bb292d;
-      border-color: #bb292d;
-      color: white;
-    }
-    .btn-cancel {
-      color: #EE3338;
-      border: 2px solid #EE3338;
-      background-color: transparent;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    .btn-cancel:hover,
-    .btn-cancel:focus {
-      background-color: #EE3338;
-      color: white;
-      text-decoration: none;
-    }
   </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
   <div class="container">
-    <a class="navbar-brand" href="listar.html">Painel CPTM+</a>
+    <a class="navbar-brand" th:href="@{/adm/painel-administrativo}">Painel CPTM+</a>
   </div>
 </nav>
 
+<div class="container mt-4">
+  <h2>Confirmar Exclusão</h2>
 
-<main class="container my-4" style="max-width: 600px;">
-  <h2>Excluir Passageiro</h2>
-  <div class="alert alert-warning mt-4" role="alert">
-    Tem certeza que deseja excluir o Usuáro <strong>Paulo Octávio</strong>?
+  <div th:if="${passageiro}">
+    <p>Deseja realmente excluir o passageiro <strong th:text="${passageiro.nome}">Nome</strong>?</p>
+    <ul>
+      <li><strong>CPF:</strong> <span th:text="${passageiro.cpf}"></span></li>
+      <li><strong>Email:</strong> <span th:text="${passageiro.email}"></span></li>
+      <li><strong>Data de Nascimento:</strong> <span th:text="${#temporals.format(passageiro.dataDeNascimento, 'dd/MM/yyyy')}"></span></li>
+      <li><strong>Senha:</strong> <span th:text="${#temporals.format(passageiro.senha)}"></span></li>
+      <li>
+        <strong>Linhas Favoritas:</strong>
+        <ul style="margin-top: 5px; margin-bottom: 0;" th:if="${passageiro.linhasFavoritas != null}">
+          <li th:each="linha : ${passageiro.linhasFavoritas}" th:text="${linha.nome}">Rubi</li>
+        </ul>
+      </li>
+    </ul>
+    <form th:action="@{/adm/passageiro/excluir/{id}(id=${passageiro.id})}" method="post">
+      <button type="submit" class="btn btn-danger">Excluir</button>
+      <a th:href="@{/adm/passageiro/listar}" class="btn btn-secondary">Cancelar</a>
+    </form>
   </div>
-
-  <form action="/linhas/delete" method="post">
-    <input type="hidden" name="id" value="f47ac10b-58cc-4372-a567-0e02b2c3d479" />
-    <button type="submit" class="btn btn-delete">Sim, excluir</button>
-    <a href="listar.html" class="btn btn-cancel ms-2">Cancelar</a>
-  </form>
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</div>
 </body>
 </html>

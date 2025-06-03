@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -38,7 +38,7 @@
                         <img class="cadastro" src="/images/add-user.png" alt="img suporte">
                     </button>
                 </div>
-                <div class="login-container">
+                <div class="login-container" th:action="@{/login}" method="post">
                     <div class="login-header">Login</div>
                     <form class="login-form">
                         <label for="email">E-mail:</label>
