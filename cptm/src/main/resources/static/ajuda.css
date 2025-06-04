@@ -119,12 +119,12 @@ body {
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    margin-bottom: 70px;
+    margin-top: 15px;
     width:90%;
     margin-left:14px;
     padding-bottom: 25px;
-    margin-top: 25px;
     justify-content: center;
+    margin-bottom: 100px;
 
 }
 
