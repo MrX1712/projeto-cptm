@@ -70,7 +70,7 @@
 <body>
 <div class="form-container">
     <h1 th:text="${estacao.id != null} ? 'Editar Estação' : 'Nova Estação'"></h1>
-    <form th:action="@{/cptm+/adm/painel-administrativo/estacoes/salvar}" th:object="${estacao}" method="post">
+    <form th:action="@{/cptm+/adm/painel-administrativo/estacoes/salvar-edicao}" th:object="${estacao}" method="post">
         <!-- ID da estação será passado no formulário -->
         <input type="hidden" th:field="*{id}" />
 

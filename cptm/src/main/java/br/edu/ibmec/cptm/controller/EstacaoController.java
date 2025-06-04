@@ -45,7 +45,7 @@ public class EstacaoController {
         }
         model.addAttribute("estacao", estacao);
         model.addAttribute("linhas", linhaRepository.findAll()); // Lista todas as linhas
-        return "estacoes/inserir";  // Redireciona para o formulário de edição
+        return "estacoes/editar";  // Redireciona para o formulário de edição
     }
 
     // Salvar estação (criar ou editar)
@@ -64,6 +64,24 @@ public class EstacaoController {
         // Redireciona para a lista de estações
         return "redirect:/cptm+/adm/painel-administrativo/estacoes/listar";
     }
+
+    // Salvar estação (editar apenas o nome)
+    @PostMapping("/salvar-edicao")
+    public String salvarEdicaoEstacao(@ModelAttribute Estacao estacao) {
+        // Verificando se a estação existe no banco
+        Estacao estacaoExistente = estacaoRepository.findById(estacao.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Estação não encontrada"));
+
+        // Atualizando apenas o nome da estação (preservando a linha)
+        estacaoExistente.setNome(estacao.getNome());
+
+        // Salvando a estação atualizada
+        estacaoRepository.save(estacaoExistente);
+
+        // Redireciona para a lista de estações
+        return "redirect:/cptm+/adm/painel-administrativo/estacoes/listar";
+    }
+
 
     // Excluir estação
     @GetMapping("/excluir/{id}")
