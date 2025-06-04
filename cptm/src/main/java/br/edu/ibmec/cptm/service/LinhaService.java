@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -29,5 +30,9 @@ public class LinhaService {
 
     public Linha buscarPorNome(String nome) {
         return linhaRepository.findByNome(nome).orElse(null);
+    }
+
+    public Linha buscarPorId(UUID id) {
+        return linhaRepository.findById(id).orElse(null);
     }
 }

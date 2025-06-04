@@ -1,6 +1,7 @@
 package br.edu.ibmec.cptm.service;
 
 import br.edu.ibmec.cptm.model.Estacao;
+import br.edu.ibmec.cptm.model.Linha;
 import br.edu.ibmec.cptm.repository.EstacaoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,13 @@ public class EstacaoService {
 
     public void remover(Estacao estacao) {
         estacaoRepository.delete(estacao);
+    }
+
+    public List<Estacao> listarPorLinha(Linha linha) {
+        return  estacaoRepository.findAllByLinha(linha);
+    }
+
+    public Estacao buscarPorId(UUID id) {
+        return estacaoRepository.findById(id).orElse(null);
     }
 }

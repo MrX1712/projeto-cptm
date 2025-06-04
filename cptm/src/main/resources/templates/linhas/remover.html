@@ -36,12 +36,11 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/adm/painel-administrativo/linhas}">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo/linhas}">Painel CPTM+</a>
     </div>
 </nav>
-
 
 <main class="container my-4" style="max-width: 600px;">
     <h2>Excluir Linha</h2>
@@ -49,10 +48,10 @@
         Tem certeza que deseja excluir a linha <strong th:text="${linha.nome}">Linha 7 - Rubi</strong>?
     </div>
 
-    <form th:action="@{/adm/painel-administrativo/estacoes/delete}" method="post">
-        <input type="hidden" name="id" th:value="${estacao.id}" />
+    <form th:action="@{/cptm+/adm/painel-administrativo/linhas/deletar}" th:object="${linha}" method="post">
+        <input type="hidden" th:field="*{id}" />
         <button type="submit" class="btn btn-delete">Sim, excluir</button>
-        <a th:href="@{/adm/painel-administrativo/estacoes}" class="btn btn-cancel ms-2">Cancelar</a>
+        <a th:href="@{/cptm+/adm/painel-administrativo/linhas}" class="btn btn-cancel ms-2">Cancelar</a>
     </form>
 </main>
 

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TB_LINHA", schema = "CPTM")
+@Table(name = "TB_LINHA")
 public class Linha implements Serializable {
 
     @Id

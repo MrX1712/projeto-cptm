@@ -1,76 +1,38 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gestão de Estações - Criar</title>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-    />
-    <style>
-        /* Navbar vermelho */
-        .navbar-custom {
-            background-color: #EE3338;
-        }
-        /* Botão salvar vermelho */
-        .btn-save {
-            background-color: #EE3338;
-            border-color: #EE3338;
-            color: white;
-            transition: background-color 0.3s ease;
-        }
-        .btn-save:hover,
-        .btn-save:focus {
-            background-color: #bb292d;
-            border-color: #bb292d;
-            color: white;
-        }
-        /* Botão cancelar outline vermelho */
-        .btn-cancel {
-            color: #EE3338;
-            border: 2px solid #EE3338;
-            background-color: transparent;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .btn-cancel:hover,
-        .btn-cancel:focus {
-            background-color: #EE3338;
-            color: white;
-            text-decoration: none;
-        }
-    </style>
+    <title>Cadastro de Estação</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
-    <div class="container">
-        <a class="navbar-brand" th:href="/adm/painel-administrativo">Painel CPTM+</a>
-        <div>
-            <a th:href="/adm/painel-administrativo/estacoes/inserir" class="btn btn-new">+ Nova Estação</a>
-        </div>
-    </div>
-</nav>
+<div class="container mt-5">
+    <h2 th:text="${#strings.isEmpty(estacao.id) ? 'Nova Estação' : 'Editar Estação'}"></h2>
+    <form th:action="@{/cptm+/adm/painel-administrativo/estacoes/salvar}" th:object="${estacao}" method="post">
 
-
-<main class="container my-4" style="max-width: 600px;">
-    <h2>Criar Nova Estação</h2>
-    <form th:action="@{adm/painel-administrativo/estacoes/inserir}" th:object="${estacao}" method="post" class="mt-4">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome da Estação</label>
-            <input
-                    type="text"
-                    id="nome"
-                    name="nome"
-                    class="form-control"
-                    placeholder="Digite o nome da estação"
-                    required
-            />
+            <input type="text" id="nome" class="form-control" th:field="*{nome}" placeholder="Digite o nome" required />
         </div>
-        <button type="submit" class="btn btn-save">Salvar</button>
-        <a th:href="/adm/painel-administrativo/estacoes" class="btn btn-cancel ms-2">Cancelar</a>
-    </form>
-</main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="mb-3">
+            <label for="linhaId" class="form-label">Linha</label>
+            <select id="linhaId" name="linhaId" class="form-select" required>
+                <option value="" disabled
+                        th:selected="${estacao.linha == null}">Selecione a linha</option>
+                <option th:each="linha : ${linhas}"
+                        th:value="${linha.id}"
+                        th:text="${linha.nome}"
+                        th:selected="${estacao.linha != null} ? ${linha.id} == ${estacao.linha.id} : false">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a th:href="@{/estacoes/listar}" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+</div>
 </body>
 </html>

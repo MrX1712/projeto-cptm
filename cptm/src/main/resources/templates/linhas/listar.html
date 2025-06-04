@@ -2,91 +2,148 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Linhas - Listar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <title>Listar Linhas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        .navbar-custom {
-            background-color: #EE3338;
+        body {
+            font-family: 'Roboto Condensed', Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
         }
-        .btn-new {
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .top-bar {
+            margin-bottom: 20px;
+        }
+        .btn-back {
+            background-color: transparent;
+            border: 2px solid #EE3338;
+            color: #EE3338;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: inline-block;
+        }
+        .btn-back:hover {
             background-color: #EE3338;
-            border-color: #EE3338;
             color: white;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
         }
-        .btn-new:hover, .btn-new:focus {
-            background-color: #bb292d;
-            border-color: #bb292d;
+        h1 {
+            color: #EE3338;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: 'Roboto Condensed', Arial, sans-serif;
+            text-align: center;
+        }
+        .btn-new-line {
+            background-color: #EE3338;
+            border: none;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+            display: inline-block;
             color: white;
             text-decoration: none;
         }
-        .btn-edit {
-            background-color: #f0ad4e;
-            border-color: #eea236;
-            color: black;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-        .btn-edit:hover, .btn-edit:focus {
-            background-color: #d59420;
-            border-color: #c4840a;
-            color: black;
-        }
-        .btn-delete {
-            background-color: #EE3338;
-            border-color: #EE3338;
-            color: white;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-        .btn-delete:hover, .btn-delete:focus {
+        .btn-new-line:hover {
             background-color: #bb292d;
-            border-color: #bb292d;
+            text-decoration: none;
             color: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+        }
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #EE3338;
+            color: white;
+            font-weight: 700;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn-warning, .btn-info, .btn-danger {
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 6px 12px;
+            margin-right: 6px;
+            color: white !important;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .btn-warning {
+            background-color: #f0ad4e;
+            border: none;
+        }
+        .btn-warning:hover {
+            background-color: #ec971f;
+            color: white !important;
+            text-decoration: none;
+        }
+        .btn-info {
+            background-color: #5bc0de;
+            border: none;
+        }
+        .btn-info:hover {
+            background-color: #31b0d5;
+            color: white !important;
+            text-decoration: none;
+        }
+        .btn-danger {
+            background-color: #d9534f;
+            border: none;
+        }
+        .btn-danger:hover {
+            background-color: #c9302c;
+            color: white !important;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/adm/painel-administrativo}">Painel CPTM+</a>
-        <div>
-            <a th:href="@{/adm/painel-administrativo/linhas/inserir}" class="btn btn-new">+ Nova Linha</a>
-        </div>
+<div class="container">
+    <div class="top-bar">
+        <a th:href="@{/cptm+/adm/painel-administrativo}" class="btn-back">Voltar ao Painel</a>
     </div>
-</nav>
-
-<main class="container my-4">
-    <h2>Lista de Linhas</h2>
-    <div class="table-responsive mt-3">
-        <table class="table table-striped table-hover align-middle">
-            <thead class="table-danger text-dark">
-            <tr>
-                <th>ID (UUID)</th>
-                <th>Nome</th>
-                <th>Estações</th>
-                <th style="width:180px;">Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Exemplo estático -->
-            <tr th:each="linha : ${linhas}">
-                <td th:text="${linha.id}">UUID aqui</td>
-                <td th:text="${linha.nome}">Linha 7 - Rubi</td>
-                <td th:text="${linha.estacao}">Lapa, Luz, Barra Funda</td>
-                <td>
-                    <a th:href="@{/adm/painel-administrativo/linhas/editar/{id}(id=${linha.id})}" class="btn btn-sm btn-edit me-2">Editar</a>
-                    <a th:href="@{/adm/painel-administrativo/linhas/remover/{id}(id=${linha.id})}" class="btn btn-sm btn-delete">Excluir</a>
-                </td>
-            </tr>
-            <!-- Loop backend -->
-            </tbody>
-        </table>
-    </div>
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <h1>Linhas</h1>
+    <a th:href="@{/cptm+/adm/painel-administrativo/linhas/novo}" class="btn-new-line">Nova Linha</a>
+    <table>
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="linha : ${linhas}">
+            <td th:text="${linha.nome}"></td>
+            <td>
+                <a class="btn-warning" th:href="@{/cptm+/adm/painel-administrativo/linhas/editar/{id}(id=${linha.id})}">Editar</a>
+                <a class="btn btn-primary" th:href="@{/cptm+/adm/painel-administrativo/estacoes/listar}">Listar Estações</a>
+                <a class="btn-danger" th:href="@{/cptm+/adm/painel-administrativo/linhas/excluir/{id}(id=${linha.id})}"
+                   onclick="return confirm('Excluir linha?');">Excluir</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

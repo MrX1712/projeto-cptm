@@ -21,7 +21,7 @@ public class Estacao implements Serializable {
     @Column(name = "NUMERO", nullable = false)
     private int numero;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LINHA_ID", nullable = false)
     private Linha linha;
 
