@@ -34,7 +34,7 @@ public class SolicitacaoAjudaController {
         model.addAttribute("passageiros", passageiroService.listar());
         model.addAttribute("linhas", linhaService.listar());
         model.addAttribute("estacoes", estacaoService.listar());
-        return "/ajuda/listar";
+        return "ajuda/listar";
     }
 
     @GetMapping("/novo")
@@ -43,7 +43,7 @@ public class SolicitacaoAjudaController {
         model.addAttribute("passageiros", passageiroService.listar());
         model.addAttribute("linhas", linhaService.listar());
         model.addAttribute("estacoes", estacaoService.listar());
-        return "/ajuda/inserir";
+        return "ajuda/inserir";
     }
 
     @PostMapping("/salvar")

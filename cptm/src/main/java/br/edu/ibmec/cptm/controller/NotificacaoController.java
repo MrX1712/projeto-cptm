@@ -39,7 +39,7 @@ public class NotificacaoController {
         model.addAttribute("timeCptms", timeCptmService.listar());
         model.addAttribute("linhas", linhaService.listar());
         model.addAttribute("estacoes", estacaoService.listar());
-        return "/notificacoes/listar";
+        return "notificacoes/listar";
     }
 
     @GetMapping("/novo")
@@ -48,7 +48,7 @@ public class NotificacaoController {
         model.addAttribute("times", timeCptmService.listar());
         model.addAttribute("linhas", linhaService.listar());
         model.addAttribute("estacoes", estacaoService.listar());
-        return "/notificacoes/inserir";
+        return "notificacoes/inserir";
     }
 
     @PostMapping("/salvar")

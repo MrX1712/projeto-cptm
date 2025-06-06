@@ -27,14 +27,14 @@ public class PassageiroController {
     public String listarPassageiro(Model model) {
         model.addAttribute("passageiros", passageiroService.listar());
         model.addAttribute("linhas", linhaService.listar());
-        return "/passageiros/listar";
+        return "passageiros/listar";
     }
 
     @GetMapping("/novo")
     public String novoPassageiro(Model model) {
         model.addAttribute("passageiro", new Passageiro());
         model.addAttribute("linhas", linhaService.listar());
-        return "/passageiros/inserir";
+        return "passageiros/inserir";
     }
 
     @PostMapping("/salvar")

@@ -26,14 +26,14 @@ public class FeedbackController {
     @GetMapping("/listar")
     public String listarFeedbacks(Model model) {
         model.addAttribute("feedbacks", feedbackService.listar());
-        return "/feedback/listar"; // Certifique-se de que está em /templates/feedbacks/listar.html
+        return "feedback/listar"; // Certifique-se de que está em /templates/feedbacks/listar.html
     }
 
     @GetMapping("/novo")
     public String novoFeedback(Model model) {
         model.addAttribute("feedback", new Feedback());
         model.addAttribute("passageiros", passageiroService.listar());
-        return "/feedback/inserir"; // Formulário de criação
+        return "feedback/inserir"; // Formulário de criação
     }
 
     @PostMapping("/salvar")
