@@ -1,97 +1,106 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <title>Solicitações de Ajuda</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ajuda - Marcar como Visto</title>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        .btn-seen {
-            pointer-events: none;
-            opacity: 0.6;
+        .navbar-custom {
+            background-color: #EE3338;
+        }
+
+        .btn-new {
+            background-color: #EE3338;
+            border-color: #EE3338;
+            color: white;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-new:hover, .btn-new:focus {
+            background-color: #bb292d;
+            border-color: #bb292d;
+            color: white;
+        }
+
+        .btn-mark-resolved {
+            border: 2px solid #0d6efd;
+            color: #0d6efd;
+        }
+
+        .btn-mark-resolved:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .btn-sm {
+                width: 100%;
+                margin-bottom: 8px;
+            }
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
-        <a class="navbar-brand" href="../adm/painel-administrativo.html">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
+        <div>
+            <a th:href="@{/cptm+/adm/painel-administrativo/ajuda/novo}" class="btn btn-new">+ Nova Solicitação</a>
+        </div>
     </div>
 </nav>
 
-<main class="container my-4" style="max-width: 700px;">
-    <h2>Itens de Ajuda</h2>
-
-    <ul class="list-group mt-3" id="ajuda-list">
-        <!-- Exemplo estático -->
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Problema no trem da Linha 7</span>
-            <div>
-                <form th:action="@{/cptm/ajuda/visto/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-outline-success btn-sm btn-mark-seen me-2">Marcar como visto</button>
-                </form>
-                <form th:action="@{/cptm/ajuda/remover/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm btn-delete">Excluir</button>
-                </form>
-            </div>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Solicitação de ajuda em estação Tamanduateí</span>
-            <div>
-                <form th:action="@{/cptm/ajuda/visto/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-outline-success btn-sm btn-mark-seen me-2">Marcar como visto</button>
-                </form>
-                <form th:action="@{/cptm/ajuda/remover/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm btn-delete">Excluir</button>
-                </form>
-            </div>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Acidente reportado na Linha 12</span>
-            <div>
-                <form th:action="@{/cptm/ajuda/visto/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-outline-success btn-sm btn-mark-seen me-2">Marcar como visto</button>
-                </form>
-                <form th:action="@{/cptm/ajuda/remover/{id}(id=${ajuda.idAjuda})}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm btn-delete">Excluir</button>
-                </form>
-            </div>
-        </li>
-        <!-- Fim do exemplo -->
-    </ul>
-</main>
-
-<script>
-    // Marcar como visto
-    document.querySelectorAll('.btn-mark-seen').forEach(button => {
-        button.addEventListener('click', () => {
-            // Simula backend aqui (exemplo comentado)
-            // fetch('/ajuda/mark-seen', { method: 'POST', body: JSON.stringify({id: ...}) })
-
-            button.textContent = 'Visto';
-            button.classList.remove('btn-outline-danger');
-            button.classList.add('btn-success', 'btn-seen');
-            button.disabled = true;
-        });
-    });
-
-    // Excluir item da lista
-    document.querySelectorAll('.btn-delete').forEach(button => {
-        button.addEventListener('click', () => {
-            const li = button.closest('li');
-            if (confirm('Tem certeza que deseja excluir este item de ajuda?')) {
-                // Simula exclusão backend
-                // fetch('/ajuda/delete', { method: 'POST', body: JSON.stringify({id: ...}) })
-
-                li.remove();
-            }
-        });
-    });
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<div class="container mt-4">
+    <h2 class="mb-3">Lista de Solicitações de Ajuda</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Passageiro</th>
+                <th>Linha</th>
+                <th>Estação</th>
+                <th>Tema</th>
+                <th>Comentário</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${solicitacoes}" th:classappend="${!s.status} ? 'table-warning'">
+                <td th:text="${s.passageiro.nome}">Passageiro</td>
+                <td th:text="${s.linha.nome}">Linha</td>
+                <td th:text="${s.estacao.nome}">Estação</td>
+                <td th:switch="${s.tema}">
+                    <span th:case="1">Furto</span>
+                    <span th:case="2">Assédio</span>
+                    <span th:case="3">Ajuda com Mobilidade</span>
+                    <span th:case="4">Informações</span>
+                    <span th:case="5">Outros</span>
+                    <span th:case="*">Desconhecido</span>
+                </td>
+                <td th:text="${s.comentario}">Comentário</td>
+                <td>
+                    <span th:if="${s.status}" class="badge bg-success">Resolvido</span>
+                    <span th:unless="${s.status}" class="badge bg-danger">Pendente</span>
+                </td>
+                <td>
+                    <div class="d-grid gap-2 d-md-flex">
+                        <form th:action="@{/cptm+/adm/painel-administrativo/ajuda/resolver/{id}(id=${s.id})}" method="post">
+                            <button type="submit" class="btn btn-sm btn-mark-resolved me-md-2" th:disabled="${s.status}">
+                                Marcar como Resolvido
+                            </button>
+                        </form>
+                        <form th:action="@{/cptm+/adm/painel-administrativo/ajuda/remover/{id}(id=${s.id})}" method="post">
+                            <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

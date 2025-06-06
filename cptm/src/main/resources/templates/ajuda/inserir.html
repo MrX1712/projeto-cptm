@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nova Solicitação de Ajuda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        .navbar-custom { background-color: #EE3338; }
+        .form-container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 700px;
+            margin: auto;
+        }
+        .btn-submit {
+            background-color: #EE3338;
+            color: white;
+            border: none;
+        }
+        .btn-submit:hover { background-color: #bb292d; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
+    </div>
+</nav>
+<div class="container mt-5">
+    <div class="form-container">
+        <h3 class="mb-4">Nova Solicitação de Ajuda</h3>
+        <form th:action="@{/cptm+/adm/painel-administrativo/ajuda/salvar}" th:object="${solicitacaoAjuda}" method="post">
+            <div class="mb-3">
+                <label for="linhaId" class="form-label">Linha</label>
+                <select class="form-select" id="linhaId" th:field="*{linha.id}" required>
+                    <option th:each="l : ${linhas}" th:value="${l.id}" th:text="${l.nome}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="estacaoId" class="form-label">Estação</label>
+                <select class="form-select" id="estacaoId" th:field="*{estacao.id}" required>
+                    <option th:each="e : ${estacoes}" th:value="${e.id}" th:text="${e.nome}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="passageiroId" class="form-label">Passageiro</label>
+                <select class="form-select" id="passageiroId" th:field="*{passageiro.id}" required>
+                    <option th:each="p : ${passageiros}" th:value="${p.id}" th:text="${p.nome}"></option>
+                </select>
+            </div>
+            <label for="temaId" class="form-label">Problema / Tipo de Ajuda</label>
+            <select class="form-select" id="temaId" th:field="*{tema}" required>
+                <option value="1">Furto ou roubo</option>
+                <option value="2">Assédio</option>
+                <option value="3">Ajuda com mobilidade reduzida</option>
+                <option value="4">Confusão ou desorientação</option>
+                <option value="5">Pessoa perdida</option>
+                <option value="6">Emergência médica</option>
+                <option value="7">Problema com bilhete ou acesso</option>
+                <option value="8">Comportamento agressivo</option>
+            </select>
+
+            <div class="mb-3">
+                <label for="comentarioId" class="form-label">Comentário</label>
+                <textarea class="form-control" id="comentarioId" th:field="*{comentario}" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-submit">Enviar Solicitação</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

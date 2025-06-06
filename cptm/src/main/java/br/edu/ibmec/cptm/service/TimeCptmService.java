@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -23,8 +24,8 @@ public class TimeCptmService {
         return timeCptmRepository.save(timeCptm);
     }
 
-    public void remover(TimeCptm timeCptm) {
-        timeCptmRepository.delete(timeCptm);
+    public void remover(UUID id) {
+        timeCptmRepository.deleteById(id);
     }
 
     public TimeCptm buscarPorEmail(String email) {
@@ -33,5 +34,9 @@ public class TimeCptmService {
 
     public TimeCptm buscarPorCpf(String cpf) {
         return timeCptmRepository.findByCpf(cpf).orElse(null);
+    }
+
+    public TimeCptm buscarPorId(UUID id) {
+        return timeCptmRepository.findById(id).orElse(null);
     }
 }

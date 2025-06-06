@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Inserir Feedback</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .navbar-custom {
+            background-color: #EE3338;
+        }
+
+        .btn-save {
+            background-color: #EE3338;
+            border-color: #EE3338;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: #bb292d;
+            border-color: #bb292d;
+        }
+
+        .btn-cancel {
+            border: 2px solid #EE3338;
+            color: #EE3338;
+        }
+
+        .btn-cancel:hover {
+            background-color: #EE3338;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
+    </div>
+</nav>
+
+<main class="container my-4" style="max-width: 600px;">
+    <h2>Inserir Feedback</h2>
+    <form th:action="@{/cptm+/adm/painel-administrativo/feedback/salvar}" method="post" th:object="${feedback}" class="mt-4">
+
+        <!-- Passageiro -->
+        <div class="mb-3">
+            <label for="passageiro" class="form-label">Passageiro</label>
+            <select id="passageiro" th:field="*{passageiro}" class="form-select" required>
+                <option th:each="p : ${passageiros}" th:value="${p.id}" th:text="${p.nome}">Passageiro</option>
+            </select>
+        </div>
+
+        <!-- Tipo (Setor relacionado) -->
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Assunto (Setor da CPTM)</label>
+            <select id="tipo" th:field="*{tipo}" class="form-select" required>
+                <option value="">Selecione um setor</option>
+                <option value="ATENDIMENTO">Atendimento</option>
+                <option value="LIMPEZA">Limpeza</option>
+                <option value="SEGURANÇA">Segurança</option>
+                <option value="ACESSIBILIDADE">Acessibilidade</option>
+                <option value="PONTUALIDADE">Pontualidade</option>
+                <option value="SINALIZACAO">Sinalização</option>
+                <option value="ESTRUTURA">Estrutura da Estação</option>
+                <option value="APLICATIVO">Aplicativo</option>
+                <option value="OUTROS">Outros</option>
+            </select>
+        </div>
+
+
+        <!-- Comentário -->
+        <div class="mb-3">
+            <label for="comentario" class="form-label">Comentário</label>
+            <textarea id="comentario" th:field="*{comentario}" class="form-control" rows="4" required></textarea>
+        </div>
+
+        <!-- Nota -->
+        <div class="mb-3">
+            <label for="nota" class="form-label">Nota (0 a 10)</label>
+            <input type="number" id="nota" th:field="*{nota}" class="form-control" min="0" max="10" required />
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-save">Salvar</button>
+            <a th:href="@{/cptm+/adm/painel-administrativo/feedback/listar}" class="btn btn-cancel ms-2">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

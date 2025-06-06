@@ -36,13 +36,21 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/adm/painel-administrativo}">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
     </div>
 </nav>
 
 <main class="container my-4" style="max-width: 600px;">
-    <h2>Criar Nova Notificação</h2>
-    <form th:action="@{/adm/notificacao/salvar}" method="post" th:object="${notificacao}" class="mt-4">
+    <h2>Criar Notificação</h2>
+    <form th:action="@{/cptm+/adm/painel-administrativo/notificacoes/salvar}" method="post" th:object="${notificacao}" class="mt-4">
+
+        <div class="mb-3">
+            <label for="timeCptm" class="form-label">Time CPTM</label>
+            <select id="timeCptm" th:field="*{timeCptm}" class="form-select" required>
+                <option value="">Selecione um time CPTM</option>
+                <option th:each="time : ${times}" th:value="${time.id}" th:text="${time.nome}"></option>
+            </select>
+        </div>
 
         <div class="mb-3">
             <label for="titulo" class="form-label">Título</label>
@@ -71,10 +79,41 @@
         </div>
 
         <button type="submit" class="btn btn-save">Salvar</button>
-        <a th:href="@{/adm/notificacao/listar}" class="btn btn-cancel ms-2">Cancelar</a>
+        <a th:href="@{/cptm+/adm/painel-administrativo/notificacoes/listar}" class="btn btn-cancel ms-2">Cancelar</a>
     </form>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Quando a linha for alterada, faça uma requisição para carregar as estações da linha selecionada
+    document.getElementById("linha").addEventListener("change", function() {
+        var linhaId = this.value;  // Obtém o ID da linha selecionada
+        var estacaoSelect = document.getElementById("estacao");  // O campo de seleção de estações
+
+        if (linhaId) {
+            // Faz uma requisição AJAX para obter as estações da linha selecionada
+            fetch(`/cptm+/adm/painel-administrativo/notificacoes/estacoes/${linhaId}`)
+                .then(response => response.json())  // Espera a resposta como JSON
+                .then(data => {
+                    // Limpa as opções anteriores
+                    estacaoSelect.innerHTML = '<option value="">Selecione uma estação</option>';
+
+                    // Adiciona as estações filtradas ao campo de seleção
+                    data.forEach(estacao => {
+                        var option = document.createElement("option");
+                        option.value = estacao.id;
+                        option.textContent = estacao.nome;
+                        estacaoSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar as estações:', error);
+                });
+        } else {
+            // Se nenhuma linha for selecionada, limpa o campo de estações
+            estacaoSelect.innerHTML = '<option value="">Selecione uma estação</option>';
+        }
+    });
+</script>
 </body>
 </html>

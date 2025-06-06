@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -26,8 +28,8 @@ public class SolicitacaoAjudaService {
         return solicitacaoAjudaRepository.save(solicitacaoAjuda);
     }
 
-    public void remover(SolicitacaoAjuda solicitacaoAjuda) {
-        solicitacaoAjudaRepository.delete(solicitacaoAjuda);
+    public void remover(UUID id) {
+        solicitacaoAjudaRepository.deleteById(id);
     }
 
     public List<SolicitacaoAjuda> listarPorStatus(boolean status) {
@@ -45,4 +47,14 @@ public class SolicitacaoAjudaService {
     public List<SolicitacaoAjuda> listarPorPassageiro(Passageiro passageiro) {
         return solicitacaoAjudaRepository.findAllByPassageiro(passageiro);
     }
+
+    public void marcarComoResolvido(UUID id) {
+        Optional<SolicitacaoAjuda> optional = solicitacaoAjudaRepository.findById(id);
+        if (optional.isPresent()) {
+            SolicitacaoAjuda solicitacao = optional.get();
+            solicitacao.setStatus(true);
+            solicitacaoAjudaRepository.save(solicitacao);
+        }
+    }
 }
+

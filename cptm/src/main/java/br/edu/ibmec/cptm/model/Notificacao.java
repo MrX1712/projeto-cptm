@@ -1,6 +1,8 @@
 package br.edu.ibmec.cptm.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -20,7 +22,8 @@ public class Notificacao implements Serializable {
     @Column(name = "TEXTO", nullable = false)
     private String texto;
 
-    @Column(name = "DATA_ENVIO", nullable = false)
+    @Column(nullable = false)
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dataEnvio;
 
     @ManyToOne

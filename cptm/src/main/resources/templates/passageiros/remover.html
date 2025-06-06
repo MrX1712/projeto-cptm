@@ -13,7 +13,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
   <div class="container">
-    <a class="navbar-brand" th:href="@{/adm/painel-administrativo}">Painel CPTM+</a>
+    <a class="navbar-brand" th:href="@{cptm+/adm/painel-administrativo}">Painel CPTM+</a>
   </div>
 </nav>
 
@@ -25,7 +25,7 @@
     <ul>
       <li><strong>CPF:</strong> <span th:text="${passageiro.cpf}"></span></li>
       <li><strong>Email:</strong> <span th:text="${passageiro.email}"></span></li>
-      <li><strong>Data de Nascimento:</strong> <span th:text="${#temporals.format(passageiro.dataDeNascimento, 'dd/MM/yyyy')}"></span></li>
+      <li><strong>Data de Nascimento:</strong> <span th:text="${#temporals.format(passageiro.dataNascimento, 'dd/MM/yyyy')}"></span></li>
       <li><strong>Senha:</strong> <span th:text="${#temporals.format(passageiro.senha)}"></span></li>
       <li>
         <strong>Linhas Favoritas:</strong>
@@ -34,9 +34,9 @@
         </ul>
       </li>
     </ul>
-    <form th:action="@{/adm/passageiro/excluir/{id}(id=${passageiro.id})}" method="post">
+    <form th:action="@{/cptm+/adm/painel-administrativo/passageiros/remover/{id}(id=${passageiro.id})}" method="post">
       <button type="submit" class="btn btn-danger">Excluir</button>
-      <a th:href="@{/adm/passageiro/listar}" class="btn btn-secondary">Cancelar</a>
+      <a th:href="@{cptm+/adm/painel-administrativo/passageiros/listar}" class="btn btn-secondary">Cancelar</a>
     </form>
   </div>
 </div>

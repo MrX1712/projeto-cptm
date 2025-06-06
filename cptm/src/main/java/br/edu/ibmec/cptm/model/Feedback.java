@@ -18,7 +18,7 @@ public class Feedback implements Serializable {
     @JoinColumn(name = "PASSAGEIRO_ID", nullable = false)
     private Passageiro passageiro;
 
-    @Column(name="TIPO", nullable = false)
+    @Column(name = "TIPO", nullable = false)
     private String tipo;
 
     @Column(name = "COMENTARIO", nullable = false)
@@ -30,6 +30,9 @@ public class Feedback implements Serializable {
     @Column(name = "DATA_ENVIO", nullable = false)
     private LocalDateTime dataEnvio;
 
+    @Column(name = "VISTO", nullable = false)
+    private boolean visto = false;
+
     public Feedback() {}
 
     public Feedback(UUID id, Passageiro passageiro, String tipo, String comentario, int nota, LocalDateTime dataEnvio) {
@@ -39,16 +42,10 @@ public class Feedback implements Serializable {
         this.comentario = comentario;
         this.nota = nota;
         this.dataEnvio = dataEnvio;
+        this.visto = false;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
+    // Getters e Setters
     public UUID getId() {
         return id;
     }
@@ -63,6 +60,14 @@ public class Feedback implements Serializable {
 
     public void setPassageiro(Passageiro passageiro) {
         this.passageiro = passageiro;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getComentario() {
@@ -87,5 +92,13 @@ public class Feedback implements Serializable {
 
     public void setDataEnvio(LocalDateTime dataEnvio) {
         this.dataEnvio = dataEnvio;
+    }
+
+    public boolean isVisto() {
+        return visto;
+    }
+
+    public void setVisto(boolean visto) {
+        this.visto = visto;
     }
 }
