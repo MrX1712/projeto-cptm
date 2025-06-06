@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Remover Solicitação</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        .navbar-custom { background-color: #EE3338; }
+        .btn-delete {
+            background-color: #EE3338;
+            color: white;
+            border: none;
+        }
+        .btn-delete:hover { background-color: #bb292d; }
+        .btn-cancel {
+            border: 2px solid #EE3338;
+            color: #EE3338;
+        }
+        .btn-cancel:hover {
+            background-color: #EE3338;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
+    </div>
+</nav>
+<div class="container mt-5">
+    <div class="alert alert-warning">
+        Tem certeza que deseja excluir esta solicitação de ajuda?
+    </div>
+    <form th:action="@{/cptm+/adm/painel-administrativo/ajuda/remover/{id}(id=${ajuda.id})}" method="post">
+        <input type="hidden" th:value="${ajuda.id}" />
+        <button type="submit" class="btn btn-delete">Sim, Excluir</button>
+        <a th:href="@{/cptm+/adm/painel-administrativo/ajuda/listar}" class="btn btn-cancel ms-2">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>

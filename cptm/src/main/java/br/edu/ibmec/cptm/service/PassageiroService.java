@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -23,8 +24,8 @@ public class PassageiroService {
         return passageiroRepository.save(passageiro);
     }
 
-    public void remover(Passageiro passageiro) {
-        passageiroRepository.delete(passageiro);
+    public void remover(UUID id){
+        passageiroRepository.deleteById(id);
     }
 
     public Passageiro buscarPorCpf(String cpf) {

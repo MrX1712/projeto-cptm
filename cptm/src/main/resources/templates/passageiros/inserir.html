@@ -31,13 +31,13 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/adm/painel-administrativo}">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
     </div>
 </nav>
 
 <main class="container my-4" style="max-width: 600px;">
     <h2>Cadastrar Passageiro</h2>
-    <form th:action="@{/adm/passageiro/salvar}" method="post" th:object="${passageiro}" class="mt-4">
+    <form th:action="@{/cptm+/adm/painel-administrativo/passageiros/salvar}" method="post" th:object="${passageiro}" class="mt-4">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
             <input id="nome" th:field="*{nome}" class="form-control" required/>
@@ -52,21 +52,26 @@
         </div>
         <div class="mb-3">
             <label for="dataDeNascimento" class="form-label">Data de Nascimento</label>
-            <input type="date" id="dataDeNascimento" th:field="*{dataDeNascimento}" class="form-control" required/>
+            <input type="date" id="dataDeNascimento" th:field="*{dataNascimento}" class="form-control" required/>
         </div>
         <div class="mb-3">
             <label for="senha" class="form-label">Senha</label>
             <input type="password" id="senha" th:field="*{senha}" class="form-control" required/>
         </div>
-        <div class="mb-3">
-            <label for="linhasFavoritas" class="form-label">Linhas Favoritas</label>
-            <select multiple th:field="*{linhasFavoritas}" id="linhasFavoritas" class="form-select" required>
-                <option th:each="linha : ${linhas}" th:value="${linha}" th:text="${linha.nome}"></option>
-            </select>
+        <label>Linhas favoritas:</label>
+        <div th:each="linha : ${linhas}" class="form-check">
+            <input class="form-check-input"
+                   type="checkbox"
+                   th:id="'linha-' + ${linha.id}"
+                   th:value="${linha.id}"
+                   th:field="*{linhasFavoritas}" />
+            <label class="form-check-label" th:for="'linha-' + ${linha.id}" th:text="${linha.nome}"></label>
         </div>
 
-        <button type="submit" class="btn btn-save">Salvar</button>
-        <a th:href="@{/adm/passageiro/listar}" class="btn btn-cancel ms-2">Cancelar</a>
+        <div class="mt-4">
+            <button type="submit" class="btn btn-save">Salvar</button>
+            <a th:href="@{/cptm+/adm/painel-administrativo/passageiros/listar}" class="btn btn-cancel ms-2">Cancelar</a>
+        </div>
     </form>
 </main>
 </body>

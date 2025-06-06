@@ -10,17 +10,20 @@
             background-color: #f5f5f5;
             padding: 20px;
         }
+
         .container {
-            max-width: 900px;
+            max-width: 100%;
             margin: 0 auto;
             background: white;
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
+
         .top-bar {
             margin-bottom: 20px;
         }
+
         .btn-back {
             background-color: transparent;
             border: 2px solid #EE3338;
@@ -33,10 +36,12 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             display: inline-block;
         }
+
         .btn-back:hover {
             background-color: #EE3338;
             color: white;
         }
+
         h1 {
             color: #EE3338;
             font-weight: 700;
@@ -44,6 +49,7 @@
             font-family: 'Roboto Condensed', Arial, sans-serif;
             text-align: center;
         }
+
         .btn-new-line {
             background-color: #EE3338;
             border: none;
@@ -56,29 +62,37 @@
             color: white;
             text-decoration: none;
         }
+
         .btn-new-line:hover {
             background-color: #bb292d;
             text-decoration: none;
             color: white;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 16px;
+            table-layout: auto;
         }
+
         th, td {
             padding: 12px 15px;
             border-bottom: 1px solid #ddd;
             text-align: left;
+            white-space: nowrap;
         }
+
         th {
             background-color: #EE3338;
             color: white;
             font-weight: 700;
         }
+
         tr:hover {
             background-color: #f1f1f1;
         }
+
         .btn-warning, .btn-info, .btn-danger {
             font-weight: 600;
             border-radius: 8px;
@@ -89,32 +103,63 @@
             display: inline-block;
             cursor: pointer;
         }
+
         .btn-warning {
             background-color: #f0ad4e;
             border: none;
         }
+
         .btn-warning:hover {
             background-color: #ec971f;
             color: white !important;
-            text-decoration: none;
         }
+
         .btn-info {
             background-color: #5bc0de;
             border: none;
         }
+
         .btn-info:hover {
             background-color: #31b0d5;
             color: white !important;
-            text-decoration: none;
         }
+
         .btn-danger {
             background-color: #d9534f;
             border: none;
         }
+
         .btn-danger:hover {
             background-color: #c9302c;
             color: white !important;
-            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+                width: 100%;
+            }
+
+            thead tr {
+                display: none;
+            }
+
+            td {
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+                border-bottom: 1px solid #ddd;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 50%;
+                padding-left: 15px;
+                font-weight: bold;
+                text-align: left;
+            }
         }
     </style>
 </head>
@@ -129,19 +174,19 @@
         <thead>
         <tr>
             <th>Nome</th>
+            <th>Estações</th>
             <th>Ações</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="linha : ${linhas}">
-            <td th:text="${linha.nome}"></td>
-            <td>
-                <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/listar?linhaId={id}(id=${linha.id})}" class="btn btn-primary btn-sm">
-                    Listar Estações
-                </a>
+            <td data-label="Nome" th:text="${linha.nome}"></td>
+            <td data-label="Estações">
+                <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/listar?linhaId={id}(id=${linha.id})}"
+                   class="btn btn-primary btn-sm">Listar Estações</a>
             </td>
-            <td>
-                <a th:href="@{/cptm+/adm/painel-administrativo/linhas/editar/{id}(id=${linha.id})}" class="btn btn-primary btn-sm">Editar</a>
+            <td data-label="Ações">
+                <a th:href="@{/cptm+/adm/painel-administrativo/linhas/editar/{id}(id=${linha.id})}" class="btn btn-info btn-sm">Editar</a>
                 <a th:href="@{/cptm+/adm/painel-administrativo/linhas/remover/{id}(id=${linha.id})}" class="btn btn-danger btn-sm">Remover</a>
             </td>
         </tr>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -23,8 +24,8 @@ public class FeedbackService {
         return feedbackRepository.save(feedback);
     }
 
-    public void remover(Feedback feedback) {
-        feedbackRepository.delete(feedback);
+    public void remover(UUID id) {
+        feedbackRepository.deleteById(id);
     }
 
     public List<Feedback> listarPorTipo(String tipo) {
@@ -34,4 +35,11 @@ public class FeedbackService {
     public List<Feedback> listarPorNota(int nota) {
         return feedbackRepository.findFeedbackByNota(nota);
     }
+
+    public void marcarComoVisto(UUID id) {
+        Feedback feedback = feedbackRepository.findById(id).orElseThrow();
+        feedback.setVisto(true);
+        feedbackRepository.save(feedback);
+    }
+
 }

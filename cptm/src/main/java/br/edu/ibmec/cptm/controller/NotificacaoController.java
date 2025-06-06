@@ -47,7 +47,7 @@ public class NotificacaoController {
         model.addAttribute("notificacao", new Notificacao());
         model.addAttribute("times", timeCptmService.listar());
         model.addAttribute("linhas", linhaService.listar());
-        model.addAttribute("estacoes", estacaoService.listar()); // Inicialmente sem filtro
+        model.addAttribute("estacoes", estacaoService.listar());
         return "/notificacoes/inserir";
     }
 
