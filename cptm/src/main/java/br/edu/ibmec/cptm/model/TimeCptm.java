@@ -12,7 +12,7 @@ import java.util.UUID;
 public class TimeCptm extends Usuario implements Serializable {
 
     @OneToMany(mappedBy = "timeCptm", cascade = CascadeType.ALL)
-    private List<Notificacao> notificacoesEnviadas = new ArrayList<>();
+    private List<Notificacao> notificacoesEnviadas;
 
     public TimeCptm() {
     }
@@ -24,6 +24,10 @@ public class TimeCptm extends Usuario implements Serializable {
     public TimeCptm(String email, UUID id, LocalDate dataDeNascimento, String nome, String cpf, String senha, boolean logado, List<Notificacao> notificacoesEnviadas) {
         super(email, id, dataDeNascimento, nome, cpf, senha, logado);
         this.notificacoesEnviadas = notificacoesEnviadas;
+    }
+
+    public void adicionarNotificacao(Notificacao notificacao) {
+        notificacoesEnviadas.add(notificacao);
     }
 
     public List<Notificacao> getNotificacoesEnviadas() {

@@ -15,8 +15,6 @@
             vertical-align: middle;
         }
 
-
-
         .btn-new {
             background-color: #EE3338;
             border-color: #EE3338;
@@ -30,7 +28,7 @@
             color: white;
         }
 
-        .btn-primary{
+        .btn-primary {
             background-color: #EE3338;
             border-color: #EE3338;
             color: white;
@@ -42,22 +40,24 @@
             border-color: #bb292d;
             color: white;
         }
-
-
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/adm/painel-administrativo}">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
         <div>
-            <a th:href="@{/adm/timecptm/inserir}" class="btn btn-new">+ Nova Notificação</a>
+            <a th:href="@{/cptm+/adm/painel-administrativo/notificacoes/inserir}" class="btn btn-new">+ Nova Notificação</a>
         </div>
     </div>
 </nav>
 
 <main class="container mt-4">
     <h2>Lista de Funcionários da CPTM</h2>
+
+    <div class="mb-3">
+        <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/novo}" class="btn btn-new">+ Novo Funcionário</a>
+    </div>
 
     <table class="table table-bordered table-striped">
         <thead>
@@ -69,31 +69,24 @@
             <th>Senha</th>
             <th>Notificações Enviadas</th>
             <th>Ações</th>
-
         </tr>
         </thead>
         <tbody>
-        <tr th:each="funcionario : ${funcionarios}">
-            <td th:text="${funcionario.nome}">Nome</td>
-            <td th:text="${funcionario.cpf}">CPF</td>
-            <td th:text="${funcionario.email}">Email</td>
-            <td th:text="${#temporals.format(funcionario.dataDeNascimento, 'dd/MM/yyyy')}">Data</td>
-            <td th:text="${funcionario.senha}">Senha</td>
+        <tr th:each="timeCptm : ${times}">
+            <td th:text="${timeCptm.nome}">Nome</td>
+            <td th:text="${timeCptm.cpf}">CPF</td>
+            <td th:text="${timeCptm.email}">Email</td>
+            <td th:text="${#temporals.format(timeCptm.dataNascimento, 'dd/MM/yyyy')}">Data</td>
+            <td th:text="${timeCptm.senha}">Senha</td>
             <td>
-                <ul>
-                    <li th:each="notificacao : ${funcionario.notificacoesEnviadas}">
-                        <strong>Título:</strong> <span th:text="${notificacao.titulo}"></span><br>
-                        <strong>Texto:</strong> <span th:text="${notificacao.texto}"></span><br>
-                        <strong>Data:</strong> <span th:text="${#temporals.format(notificacao.dataDeEnvio, 'dd/MM/yyyy')}"></span><br>
-                        <strong>Linha:</strong> <span th:text="${notificacao.linha.nome}"></span><br>
-                        <strong>Estação:</strong> <span th:text="${notificacao.estacao.nome}"></span><br>
-                        <hr />
-                    </li>
-                </ul>
+                <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/notificacoes/{id}(id=${timeCptm.id})}" class="btn btn-primary btn-sm">
+                    Notificações Enviadas
+                </a>
             </td>
+
             <td>
-                <a th:href="@{/adm/funcionario/editar/{id}(id=${funcionario.id})}" class="btn btn-primary btn-sm">Editar</a>
-                <a th:href="@{/adm/funcionario/remover/{id}(id=${funcionario.id})}" class="btn btn-danger btn-sm">Remover</a>
+                <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/editar/{id}(id=${timeCptm.id})}" class="btn btn-primary btn-sm">Editar</a>
+                <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/remover/{id}(id=${timeCptm.id})}" class="btn btn-danger btn-sm">Remover</a>
             </td>
         </tr>
         </tbody>

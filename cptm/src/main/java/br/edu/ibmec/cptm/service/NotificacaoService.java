@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -26,8 +27,9 @@ public class NotificacaoService {
         return notificacaoRepositoy.save(notificacao);
     }
 
-    public void remover(Notificacao notificacao) {
-        notificacaoRepositoy.delete(notificacao);
+
+    public void remover(UUID id) {
+        notificacaoRepositoy.deleteById(id);
     }
 
     public List<Notificacao> listarPorLinha(Linha linha) {
@@ -36,5 +38,9 @@ public class NotificacaoService {
 
     public List<Notificacao> listarPorEstacao(Estacao estacao) {
         return notificacaoRepositoy.findAllByEstacao(estacao);
+    }
+
+    public Notificacao buscarPorId(UUID id) {
+        return notificacaoRepositoy.findById(id).orElse(null);
     }
 }

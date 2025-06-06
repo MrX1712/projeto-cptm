@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -21,11 +24,28 @@ public class EstacaoController {
     private LinhaRepository linhaRepository;
 
     // Lista as estações
+// Lista as estações (filtradas por linha, se a linhaId for fornecida)
     @GetMapping("/listar")
-    public String listarEstacoes(Model model) {
-        model.addAttribute("estacoes", estacaoRepository.findAll());  // Lista todas as estações
-        return "estacoes/listar";  // Template Thymeleaf
+    public String listarEstacoes(@RequestParam(required = false) UUID linhaId, Model model) {
+        List<Estacao> estacoes;
+
+        // Se linhaId for fornecido, filtra as estações pela linha
+        if (linhaId != null) {
+            Linha linha = linhaRepository.findById(linhaId).orElse(null); // Recupera a linha
+            if (linha != null) {
+                estacoes = estacaoRepository.findAllByLinha(linha); // Filtra as estações pela linha
+            } else {
+                estacoes = new ArrayList<>();  // Se a linha não for encontrada, exibe uma lista vazia
+            }
+            model.addAttribute("linha", linha);  // Adiciona a linha ao modelo
+        } else {
+            estacoes = estacaoRepository.findAll();  // Caso não tenha linhaId, lista todas as estações
+        }
+
+        model.addAttribute("estacoes", estacoes);  // Passa as estações para a view
+        return "estacoes/listar";  // Retorna para a página de listagem de estações
     }
+
 
     // Formulário para criar ou editar estação
     @GetMapping("/novo")
@@ -67,7 +87,7 @@ public class EstacaoController {
 
     // Salvar estação (editar apenas o nome)
     @PostMapping("/salvar-edicao")
-    public String salvarEdicaoEstacao(@ModelAttribute Estacao estacao) {
+    public String salvarEditarEstacao(@ModelAttribute Estacao estacao) {
         // Verificando se a estação existe no banco
         Estacao estacaoExistente = estacaoRepository.findById(estacao.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Estação não encontrada"));

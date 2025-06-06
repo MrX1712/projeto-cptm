@@ -136,10 +136,13 @@
         <tr th:each="linha : ${linhas}">
             <td th:text="${linha.nome}"></td>
             <td>
-                <a class="btn-warning" th:href="@{/cptm+/adm/painel-administrativo/linhas/editar/{id}(id=${linha.id})}">Editar</a>
-                <a class="btn btn-primary" th:href="@{/cptm+/adm/painel-administrativo/estacoes/listar}">Listar Estações</a>
-                <a class="btn-danger" th:href="@{/cptm+/adm/painel-administrativo/linhas/excluir/{id}(id=${linha.id})}"
-                   onclick="return confirm('Excluir linha?');">Excluir</a>
+                <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/listar?linhaId={id}(id=${linha.id})}" class="btn btn-primary btn-sm">
+                    Listar Estações
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/cptm+/adm/painel-administrativo/linhas/editar/{id}(id=${linha.id})}" class="btn btn-primary btn-sm">Editar</a>
+                <a th:href="@{/cptm+/adm/painel-administrativo/linhas/remover/{id}(id=${linha.id})}" class="btn btn-danger btn-sm">Remover</a>
             </td>
         </tr>
         </tbody>

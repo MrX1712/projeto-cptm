@@ -103,16 +103,36 @@
             color: white;
             text-decoration: none;
         }
+        .btn-back {
+            background-color: transparent;
+            border: 2px solid #EE3338;
+            color: #EE3338;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: inline-block;
+        }
+        .btn-back:hover {
+            background-color: #EE3338;
+            color: white;
+        }
     </style>
 </head>
 <body>
 <div class="container">
+    <div class="top-bar">
+        <a th:href="@{/cptm+/adm/painel-administrativo}" class="btn-back">Voltar ao Painel</a>
+    </div>
     <h1 th:text="${linha != null} ? 'Estações da linha: ' + ${linha.nome} : 'Estações'"></h1>
     <a class="btn btn-primary mb-3" th:href="@{/cptm+/adm/painel-administrativo/estacoes/novo}">Nova Estação</a>
     <table>
         <thead>
         <tr>
             <th>Nome</th>
+            <th>Número</th>
             <th>Linha</th>
             <th>Ações</th>
         </tr>
@@ -120,6 +140,7 @@
         <tbody>
         <tr th:each="estacao : ${estacoes}">
             <td th:text="${estacao.nome}"></td>
+            <td th:text="${estacao.numero}"></td>
             <td th:text="${estacao.linha != null ? estacao.linha.nome : 'Sem Linha'}"></td>
             <td>
                 <a class="btn btn-warning" th:href="@{/cptm+/adm/painel-administrativo/estacoes/editar/{id}(id=${estacao.id})}">Editar</a>

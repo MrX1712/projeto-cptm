@@ -28,12 +28,12 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/adm/painel-administrativo}">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
     </div>
 </nav>
 <main class="container my-4" style="max-width: 600px;">
     <h2>Novo Funcionário CPTM</h2>
-    <form th:action="@{/adm/funcionarios/salvar}" th:object="${funcionario}" method="post" class="mt-4">
+    <form th:action="@{/cptm+/adm/painel-administrativo/time-cptm/salvar}" th:object="${timeCptm}" method="post" class="mt-4">
         <div class="mb-3">
             <label class="form-label">Nome</label>
             <input type="text" th:field="*{nome}" class="form-control" required/>
@@ -48,14 +48,14 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Data de Nascimento</label>
-            <input type="date" th:field="*{dataDeNascimento}" class="form-control" required/>
+            <input type="date" th:field="*{dataNascimento}" class="form-control" required/>
         </div>
         <div class="mb-3">
             <label class="form-label">Senha</label>
             <input type="password" th:field="*{senha}" class="form-control" required/>
         </div>
         <button type="submit" class="btn btn-save">Salvar</button>
-        <a th:href="@{/adm/funcionarios/listar}" class="btn btn-cancel ms-2">Cancelar</a>
+        <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/listar}" class="btn btn-cancel ms-2">Cancelar</a>
     </form>
 </main>
 </body>

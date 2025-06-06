@@ -19,7 +19,7 @@ public class Estacao implements Serializable {
     private String nome;
 
     @Column(name = "NUMERO", nullable = false)
-    private int numero;
+    private Integer numero;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LINHA_ID", nullable = false)
@@ -51,11 +51,11 @@ public class Estacao implements Serializable {
         this.nome = nome;
     }
 
-    public int getNumero() {
+    public Integer getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(Integer numero) {
         this.numero = numero;
     }
 

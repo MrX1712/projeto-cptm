@@ -2,91 +2,136 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Notificações - Listar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <title>Listar Notificações</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        .navbar-custom {
-            background-color: #EE3338;
+        body {
+            font-family: 'Roboto Condensed', Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
         }
-        .btn-new {
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #EE3338;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+        }
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
             background-color: #EE3338;
-            border-color: #EE3338;
             color: white;
-            font-weight: 600;
+            font-weight: 700;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn-primary {
+            background-color: #EE3338;
+            border: none;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
             transition: background-color 0.3s ease;
         }
-        .btn-new:hover, .btn-new:focus {
+        .btn-primary:hover {
             background-color: #bb292d;
-            border-color: #bb292d;
-            color: white;
         }
-        .table-header {
-            background-color: #f8d7da;
-            color: #721c24;
+        .btn-warning, .btn-danger {
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 6px 12px;
+            margin-right: 6px;
         }
-        .btn-edit {
-            background-color: yellow;
-            border-color: #2cd520;
+        .btn-warning {
+            background-color: #f0ad4e;
+            border: none;
             color: black;
-            font-weight: 600;
         }
-        .btn-edit:hover, .btn-edit:focus {
-            background-color: #26a11d;
-            border-color: #26a11d;
-        }
-        .btn-delete {
-            background-color: #EE3338;
-            border-color: #EE3338;
+        .btn-warning:hover {
+            background-color: #ec971f;
             color: white;
-            font-weight: 600;
         }
-        .btn-delete:hover, .btn-delete:focus {
-            background-color: #bb292d;
-            border-color: #bb292d;
+        .btn-danger {
+            background-color: #d9534f;
+            border: none;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #c9302c;
+        }
+        .btn-back {
+            background-color: transparent;
+            border: 2px solid #EE3338;
+            color: #EE3338;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .btn-back:hover {
+            background-color: #EE3338;
+            color: white;
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/adm/painel-administrativo}">Painel CPTM+</a>
-        <div>
-            <a th:href="@{/adm/notificacao/inserir}" class="btn btn-new">+ Nova Notificação</a>
-        </div>
+<div class="container">
+    <div class="d-flex justify-content-between mb-3">
+        <a th:href="@{/cptm+/adm/painel-administrativo}" class="btn-back">Voltar ao Painel</a>
+        <a class="btn btn-primary" th:href="@{/cptm+/adm/painel-administrativo/notificacoes/novo}">Nova Notificação</a>
     </div>
-</nav>
 
-<main class="container my-4">
-    <h2>Lista de Notificações</h2>
+    <h1>Notificações</h1>
 
-    <div class="table-responsive mt-3">
-        <table class="table table-hover align-middle">
-            <thead class="table-header">
-            <tr>
-                <th>Título</th>
-                <th>Texto</th>
-                <th>Linha</th>
-                <th>Estação</th>
-                <th>Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="n : ${notificacoes}">
-                <td th:text="${notificacao.titulo}">Título</td>
-                <td th:text="${notificacao.texto}">Texto</td>
-                <td th:text="${notificacao.linha.nome}">Linha</td>
-                <td th:text="${notificacao.estacao.nome}">Estação</td>
-                <td>
-                    <a th:href="@{/adm/notificacao/editar/{id}(id=${notificacao.id})}" class="btn btn-sm btn-edit me-2">Editar</a>
-                    <a th:href="@{/adm/notificacao/remover/{id}(id=${notificacao.id})}" class="btn btn-sm btn-delete">Excluir</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <table>
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Texto</th>
+            <th>Data de Envio</th>
+            <th>Time CPTM</th>
+            <th>Linha</th>
+            <th>Estação</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="notificacao : ${notificacoes}">
+            <td th:text="${notificacao.titulo}"></td>
+            <td th:text="${notificacao.texto}"></td>
+            <td th:text="${notificacao.dataEnvio}"></td>
+            <td th:text="${notificacao.timeCptm.nome}">Time</td>
+            <td th:text="${notificacao.linha.nome}">Linha</td>
+            <td th:text="${notificacao.estacao.nome}">Estação</td>
+            <td>
+                <a class="btn btn-danger"
+                   th:href="@{/cptm+/adm/painel-administrativo/notificacoes/remover/{id}(id=${notificacao.id})}"
+                   onclick="return confirm('Excluir notificação?');">
+                    Excluir
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

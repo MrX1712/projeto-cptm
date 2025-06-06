@@ -11,34 +11,22 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/adm/painel-administrativo}">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
     </div>
 </nav>
 <div class="container mt-4">
     <h2>Confirmar Exclusão</h2>
     <p>Deseja realmente excluir o funcionário abaixo?</p>
     <ul>
-        <li><strong>Nome:</strong> <span th:text="${func.nome}"></span></li>
-        <li><strong>CPF:</strong> <span th:text="${func.cpf}"></span></li>
-        <li><strong>Email:</strong> <span th:text="${func.email}"></span></li>
-        <li><strong>Data de Nascimento:</strong> <span th:text="${#temporals.format(func.dataDeNascimento, 'dd/MM/yyyy')}"></span></li>
-        <li><strong>Senha:</strong> <span th:text="${func.senha}"></span></li>
-        <li>
-            <strong>Notificações Enviadas:</strong>
-            <ul>
-                <li th:each="notif : ${func.notificacoes}">
-                    <strong>Título:</strong> <span th:text="${notif.titulo}"></span> |
-                    <strong>Texto:</strong> <span th:text="${notif.texto}"></span> |
-                    <strong>Data:</strong> <span th:text="${#temporals.format(notif.dataDeEnvio, 'dd/MM/yyyy HH:mm')}"></span> |
-                    <strong>Linha:</strong> <span th:text="${notif.linha.nome}"></span> |
-                    <strong>Estação:</strong> <span th:text="${notif.estacao.nome}"></span>
-                </li>
-            </ul>
-        </li>
+        <li><strong>Nome:</strong> <span th:text="${timeCptm.nome}"></span></li>
+        <li><strong>CPF:</strong> <span th:text="${timeCptm.cpf}"></span></li>
+        <li><strong>Email:</strong> <span th:text="${timeCptm.email}"></span></li>
+        <li><strong>Data de Nascimento:</strong> <span th:text="${#temporals.format(timeCptm.dataNascimento, 'dd/MM/yyyy')}"></span></li>
+        <li><strong>Senha:</strong> <span th:text="${timeCptm.senha}"></span></li>
     </ul>
-    <form th:action="@{/adm/funcionarios/excluir/{id}(id=${func.id})}" method="post">
+    <form th:action="@{/cptm+/adm/painel-administrativo/time-cptm/excluir/{id}(id=${timeCptm.id})}" method="post">
         <button type="submit" class="btn btn-danger">Excluir</button>
-        <a th:href="@{/adm/funcionarios/listar}" class="btn btn-secondary ms-2">Cancelar</a>
+        <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/listar}" class="btn btn-secondary ms-2">Cancelar</a>
     </form>
 </div>
 </body>
