@@ -10,65 +10,66 @@
     <title>CPTM+</title>
 </head>
 <body>
-<section>
+<div class="main-container">
 
-    <!-- Celular -->
-    <div class="phone-container">
-        <div class="phone-screen">
+    <!-- Header Fixo -->
+    <header class="header">
+        <div class="logo">
+            <img src="/images/cptm.png" alt="Logo CPTM+" />
+        </div>
+        <button onclick="location.href='/cptm+/login'" class="user-button" aria-label="Usuário">
+            <img src="/images/user.png" alt="user" />
+        </button>
+    </header>
 
-            <!-- Header -->
-            <header class="header">
-                <button onclick="location.href='/cptm+/home'" class="icon-button">
-                    <div class="logo">
-                        <img class="logo" src="/images/cptm.png" alt="Logo CPTM+" />
-                    </div>
-                </button>
-                <button onclick="location.href='/cptm+/login'" class="user-button" aria-label="Usuário">
-                    <img class="logo" src="/images/user.png" alt="user" />
-                </button>
-            </header>
+    <div class="content">
+        <div class="estacoes-container">
+            <div class="estacoes-header">Estações próximas</div>
 
-
-            <div class="content">
-                <div class="estacoes-container">
-                    <div class="estacoes-header">Estações próximas</div>
-                    <div class="form-group">
-                        <label for="partida">Local de Partida:</label>
-                        <input type="text" id="partida" placeholder="Insira o local de partida">
-                    </div>
-                    <div class="form-group">
-                        <label for="chegada">Local de Chegada:</label>
-                        <input type="text" id="chegada" placeholder="Insira o local de chegada">
-                    </div>
-                    <div class="map-container">
-                        <div class="marker marker1"></div>
-                        <div class="marker marker2"></div>
-                        <div class="marker marker3"></div>
-                    </div>
-                    <div class="info-label">Linha:</div>
-                    <div class="linha-box linha-rubi">Rubi</div>
-
-                    <div class="info-label">Estação:</div>
-                    <div class="estacao-box">Palmeiras Barra Funda</div>
-
-                <!-- Footer/Botões -->
-                <div class="bottom-nav">
-                    <button onclick="location.href='/cptm+/home'" class="icon-button">
-                        <img src="/images/homeIcon.png" alt="Home" class="icon" />
-                    </button>
-                    <button onclick="location.href='/cptm+/estacoes'" class="icon-button">
-                        <img src="/images/location-pin.png" alt="Localização" class="icon" />
-                    </button>
-                    <button onclick="location.href='/cptm+/rastreamento'" class="icon-button">
-                        <img src="/images/trem.png" alt="Trem" class="icon" />
-                    </button>
-                    <button onclick="location.href='/cptm+/ajuda'" class="icon-button">
-                        <img src="/images/siren.png" alt="Notificações" class="icon" />
-                    </button>
-                </div>
+            <div class="form-group">
+                <label for="partida">Local de Partida:</label>
+                <input type="text" id="partida" placeholder="Insira o local de partida">
             </div>
+
+            <div class="form-group">
+                <label for="chegada">Local de Chegada:</label>
+                <input type="text" id="chegada" placeholder="Insira o local de chegada">
+            </div>
+
+            <div class="map-container">
+                <div class="marker marker1" data-estacao="Estação Central"></div>
+                <div class="marker marker2" data-estacao="Estação Sul"></div>
+                <div class="marker marker3" data-estacao="Estação Norte"></div>
+            </div>
+
+            <div class="info-label">Linha:</div>
+            <div class="linha-box linha-rubi" onclick="selecionarLinha('rubi')">Rubi</div>
+
+            <div class="info-label">Estação:</div>
+            <div class="estacao-box" onclick="selecionarEstacao('palmeiras')">Palmeiras Barra Funda</div>
         </div>
     </div>
-</section>
+
+    <!-- Footer fixo -->
+    <div class="bottom-nav">
+        <button onclick="location.href='/cptm+/home'" class="icon-button">
+            <img src="/images/homeIcon.png" alt="Home" class="icon" />
+        </button>
+        <button onclick="location.href='/cptm+/estacoes'" class="icon-button">
+            <img src="/images/location-pin.png" alt="Localização" class="icon" />
+        </button>
+        <button onclick="location.href='/cptm+/rastreamento'" class="icon-button">
+            <img src="/images/trem.png" alt="Trem" class="icon" />
+        </button>
+        <button onclick="location.href='/cptm+/ajuda'" class="icon-button">
+            <img src="/images/siren.png" alt="Notificações" class="icon" />
+        </button>
+    </div>
+</div>
+
+<script src="/estacoes.js"></script>
+
+
+
 </body>
 </html>
