@@ -185,6 +185,26 @@ input::placeholder {
     background-size: 12px auto;
 }
 
+input[type="date"] {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    background-color: white;
+    color: #333;
+}
+
+input[type="date"]:focus {
+    border-color: #f44336;
+    box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
 /* Submit Button */
 .btn-submit {
     background-color: #f44336;
