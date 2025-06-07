@@ -16,6 +16,6 @@ public interface EstacaoRepository extends JpaRepository<Estacao, UUID> {
 
     List<Estacao> findAllByOrderByNumeroAsc();
 
-    List<Estacao> findAllByLinha(Linha linha);
+    List<Estacao> findAllByLinhaId(UUID linhaId);
 
 }

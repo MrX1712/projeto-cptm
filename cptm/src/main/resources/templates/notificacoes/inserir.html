@@ -31,6 +31,10 @@
             color: white;
             text-decoration: none;
         }
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -76,6 +80,9 @@
                 <option value="">Selecione uma estação</option>
                 <option th:each="estacao : ${estacoes}" th:value="${estacao.id}" th:text="${estacao.nome}"></option>
             </select>
+            <div id="loading-estacoes" class="text-muted mt-1" style="display: none;">
+                <small>Carregando estações...</small>
+            </div>
         </div>
 
         <button type="submit" class="btn btn-save">Salvar</button>
@@ -85,33 +92,94 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Quando a linha for alterada, faça uma requisição para carregar as estações da linha selecionada
     document.getElementById("linha").addEventListener("change", function() {
-        var linhaId = this.value;  // Obtém o ID da linha selecionada
-        var estacaoSelect = document.getElementById("estacao");  // O campo de seleção de estações
+        const linhaId = this.value;
+        const estacaoSelect = document.getElementById("estacao");
+        const loadingIndicator = document.getElementById("loading-estacoes");
+
+        console.log("Linha selecionada:", linhaId); // Debug
 
         if (linhaId) {
-            // Faz uma requisição AJAX para obter as estações da linha selecionada
-            fetch(`/cptm+/adm/painel-administrativo/notificacoes/estacoes/${linhaId}`)
-                .then(response => response.json())  // Espera a resposta como JSON
+            // Mostra indicador de carregamento
+            loadingIndicator.style.display = "block";
+            estacaoSelect.classList.add("loading");
+            estacaoSelect.disabled = true;
+
+            // Limpa as opções anteriores
+            estacaoSelect.innerHTML = '<option value="">Carregando...</option>';
+
+            // URL da requisição
+            const url = `/cptm+/adm/painel-administrativo/estacoes/json/${linhaId}`;
+            console.log("URL da requisição:", url); // Debug
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    console.log("Status da resposta:", response.status); // Debug
+                    console.log("Headers da resposta:", response.headers); // Debug
+
+                    if (!response.ok) {
+                        throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
+                    }
+
+                    return response.json();
+                })
                 .then(data => {
+                    console.log("Dados recebidos:", data); // Debug
+                    console.log("Tipo dos dados:", typeof data); // Debug
+                    console.log("É array?", Array.isArray(data)); // Debug
+                    console.log("Quantidade de estações:", data ? data.length : 0); // Debug
+
                     // Limpa as opções anteriores
                     estacaoSelect.innerHTML = '<option value="">Selecione uma estação</option>';
 
-                    // Adiciona as estações filtradas ao campo de seleção
-                    data.forEach(estacao => {
-                        var option = document.createElement("option");
-                        option.value = estacao.id;
-                        option.textContent = estacao.nome;
+                    // Verifica se data é um array válido
+                    if (Array.isArray(data) && data.length > 0) {
+                        data.forEach((estacao, index) => {
+                            console.log(`Estação ${index}:`, estacao); // Debug
+
+                            const option = document.createElement("option");
+                            option.value = estacao.id;
+                            option.textContent = estacao.nome;
+                            estacaoSelect.appendChild(option);
+                        });
+                    } else if (data && typeof data === 'object' && !Array.isArray(data)) {
+                        // Se não for array, tenta tratar como objeto único
+                        console.log("Dados não são array, tratando como objeto único");
+                        const option = document.createElement("option");
+                        option.value = data.id;
+                        option.textContent = data.nome;
                         estacaoSelect.appendChild(option);
-                    });
+                    } else {
+                        // Nenhuma estação encontrada
+                        estacaoSelect.innerHTML = '<option value="">Nenhuma estação encontrada</option>';
+                        console.log("Nenhuma estação encontrada ou dados inválidos");
+                    }
                 })
                 .catch(error => {
-                    console.error('Erro ao carregar as estações:', error);
+                    console.error('Erro detalhado:', error);
+                    estacaoSelect.innerHTML = '<option value="">Erro ao carregar estações</option>';
+
+                    // Mostra erro para o usuário
+                    alert(`Erro ao carregar estações: ${error.message}`);
+                })
+                .finally(() => {
+                    // Remove indicador de carregamento
+                    loadingIndicator.style.display = "none";
+                    estacaoSelect.classList.remove("loading");
+                    estacaoSelect.disabled = false;
                 });
         } else {
             // Se nenhuma linha for selecionada, limpa o campo de estações
             estacaoSelect.innerHTML = '<option value="">Selecione uma estação</option>';
+            loadingIndicator.style.display = "none";
+            estacaoSelect.classList.remove("loading");
+            estacaoSelect.disabled = false;
         }
     });
 </script>

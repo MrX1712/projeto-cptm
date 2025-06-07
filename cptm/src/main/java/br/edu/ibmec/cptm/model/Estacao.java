@@ -1,7 +1,7 @@
 package br.edu.ibmec.cptm.model;
 
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -23,6 +23,7 @@ public class Estacao implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LINHA_ID", nullable = false)
+    @JsonIgnore
     private Linha linha;
 
     public Estacao() {

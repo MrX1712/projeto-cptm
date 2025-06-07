@@ -35,8 +35,8 @@ public class EstacaoService {
         estacaoRepository.delete(estacao);
     }
 
-    public List<Estacao> listarPorLinha(Linha linha) {
-        return  estacaoRepository.findAllByLinha(linha);
+    public List<Estacao> listarPorLinha(UUID linhaId) {
+        return  estacaoRepository.findAllByLinhaId(linhaId);
     }
 
     public Estacao buscarPorId(UUID id) {

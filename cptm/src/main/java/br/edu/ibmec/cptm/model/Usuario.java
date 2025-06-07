@@ -3,6 +3,7 @@ package br.edu.ibmec.cptm.model;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Entity
@@ -45,6 +46,10 @@ public abstract class Usuario implements Serializable {
         this.cpf = cpf;
         this.senha = senha;
         this.logado = logado;
+    }
+    public String getDataNascimentoFormatada() {
+        if (dataNascimento == null) return "";
+        return this.dataNascimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public UUID getId() {

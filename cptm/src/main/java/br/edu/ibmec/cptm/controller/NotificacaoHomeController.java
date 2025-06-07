@@ -15,9 +15,10 @@ public class NotificacaoHomeController {
     @Autowired
     private NotificacaoService notificacaoService;
 
-    @GetMapping("/")
+    @GetMapping({"", "/"})
     public String notificacoesHome(Model model) {
         model.addAttribute("notificacoes", notificacaoService.listar());
         return "cptm/home";
     }
+
 }

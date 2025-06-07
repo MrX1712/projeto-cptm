@@ -77,11 +77,14 @@
         <label for="nome">Nome</label>
         <input type="text" th:field="*{nome}" id="nome" placeholder="Nome da estação" required />
 
+        <label for="numero" class="form-label">Número da Estação</label>
+        <input type="text" id="numero" th:field="*{numero}" placeholder="Digite o número da estação" required />
+
         <!-- Removido o campo de linha, pois não é necessário modificar -->
 
         <button type="submit">Salvar</button>
     </form>
-    <a th:href="@{/cptm+/adm/painel-administrativo/estacoes}" class="btn-cancel">Cancelar</a>
+    <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/listar}" class="btn-cancel">Cancelar</a>
 </div>
 </body>
 </html>

@@ -26,29 +26,21 @@
         <!-- Cadastro Container -->
         <div class="cadastro-container">
             <div class="cadastro-header">Cadastro</div>
-            <form class="form-container" id="cadastroForm">
+            <form th:action="@{/cptm+/login/salvar}" th:object="${passageiro}" method="post" class="form-container" id="cadastroForm">
 
-                <input type="text" id="nomeCompleto" placeholder="Nome Completo" required />
+                <input type="text" th:field="*{nome}" placeholder="Nome Completo" required />
 
-                <label for="nascimento">Data de nascimento:</label>
-                <div class="date-selectors">
-                    <select name="dia" id="dia" required>
-                        <option value="">Dia</option>
-                    </select>
-                    <select name="mes" id="mes" required>
-                        <option value="">Mês</option>
-                    </select>
-                    <select name="ano" id="ano" required>
-                        <option value="">Ano</option>
-                    </select>
-                </div>
+                <label for="dataNascimento">Data de nascimento:</label>
+                <input type="date" th:field="*{dataNascimento}" id="dataNascimento" required />
 
-                <input type="email" id="email" placeholder="Email" required />
-                <input type="text" id="cpf" placeholder="CPF" required maxlength="14" />
-                <input type="password" id="senha" placeholder="Senha" required minlength="6" />
+
+                <input type="email" th:field="*{email}" placeholder="Email" required />
+                <input type="text" th:field="*{cpf}" placeholder="CPF" required maxlength="14" />
+                <input type="password" th:field="*{senha}" placeholder="Senha" required minlength="6" />
 
                 <button type="submit" class="btn-submit">Cadastrar</button>
             </form>
+
         </div>
 
         <!-- Card Promocional -->

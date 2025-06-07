@@ -28,6 +28,10 @@ public class PassageiroService {
         passageiroRepository.deleteById(id);
     }
 
+    public Passageiro buscarPorId(UUID id){
+        return passageiroRepository.findById(id).orElse(null);
+    }
+
     public Passageiro buscarPorCpf(String cpf) {
         return passageiroRepository.findByCpf(cpf).orElse(null);
     }

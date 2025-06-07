@@ -226,25 +226,25 @@ body {
 }
 
 /* Cores dos círculos por número de linha */
-.linha-7 .circle-number {
+.linha-Rubi .circle-number {
     background: #D7515E;
 }
 
-.linha-10 .circle-number {
+.linha-Turquesa .circle-number {
     background: #40E0D0;
     color: #333;
 }
 
-.linha-11 .circle-number {
+.linha-Coral .circle-number {
     background: #FFA07A;
     color: #333;
 }
 
-.linha-12 .circle-number {
+.linha-Safira .circle-number {
     background: #8A2BE2;
 }
 
-.linha-13 .circle-number {
+.linha-Jade .circle-number {
     background: #00A96B;
 }
 
@@ -291,6 +291,13 @@ body {
 .linha-Vermelho .circle-number {
     background: #DC3545;
 }
+
+.notification-date {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 2px;
+}
+
 
 .notification-text {
     font-size: 14px;

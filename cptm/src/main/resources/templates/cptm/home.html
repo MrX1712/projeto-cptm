@@ -26,20 +26,25 @@
 
     <div class="content">
         <!-- Banner de notificações -->
-        <!-- Modificação na seção de notificações do home.html -->
 
-        <!-- Banner de notificações - VERSÃO AJUSTADA -->
         <div class="notification-banner" role="region" aria-label="Notificações do sistema">
             <div class="notification-track" tabindex="0" aria-live="polite">
                 <!-- Notificações do banco de dados -->
                 <div th:each="notificacao : ${notificacoes}"
-                     th:class="'notification-item linha-' + ${notificacao.linha.numero}"
+                     th:class="'notification-item linha-' + ${notificacao.linha.nome}"
                      role="alert">
-                    <div class="circle-number" th:text="${notificacao.linha.numero}"></div>
+                    <div class="circle-number" th:switch="${notificacao.linha.nome}">
+                        <span th:case="'Rubi'">7</span>
+                        <span th:case="'Turquesa'">10</span>
+                        <span th:case="'Coral'">11</span>
+                        <span th:case="'Safira'">12</span>
+                        <span th:case="'Jade'">13</span>
+                        <span th:case="*">?</span> <!-- Caso nome não reconhecido -->
+                    </div>
                     <div class="notification-text">
                         <div class="notification-content" th:text="${notificacao.titulo} + ' - ' + ${notificacao.texto}"></div>
                         <div class="notification-date"
-                             th:text="${notificacao.dataHora != null ? #temporals.format(notificacao.dataHora, 'dd/MM/yyyy HH:mm') : #temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}"></div>
+                             th:text="${T(java.time.format.DateTimeFormatter).ofPattern('dd/MM HH:mm').format(notificacao.dataEnvio)}"></div>
                     </div>
                 </div>
 
@@ -48,7 +53,6 @@
                     <div class="circle-number">i</div>
                     <div class="notification-text">
                         <div class="notification-content">Nenhuma notificação no momento</div>
-                        <div class="notification-date" th:text="${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}"></div>
                     </div>
                 </div>
             </div>

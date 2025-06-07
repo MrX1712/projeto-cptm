@@ -75,7 +75,7 @@ public class NotificacaoController {
     @ResponseBody
     public List<Estacao> listarEstacoesPorLinha(@PathVariable UUID linhaId) {
         Linha linha = linhaService.buscarPorId(linhaId);
-        return estacaoService.listarPorLinha(linha);
+        return estacaoService.listarPorLinha(linhaId);
     }
 
 }

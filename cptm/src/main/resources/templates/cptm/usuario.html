@@ -23,31 +23,32 @@
         <!-- Profile Container -->
         <div class="feedback-container">
             <div class="feedback-header">Seu Perfil</div>
-            <form class="form-container" id="profileForm">
+            <form class="form-container" id="profileForm" th:object="${passageiro}">
 
                 <label>Nome:</label>
                 <div class="input-row">
-                    <input type="text" id="nome" value="João Silva Jr." disabled>
+                    <input type="text" id="nome" th:field="*{nome}" disabled>
                     <button type="button" class="edit-btn" onclick="toggleEdit('nome')">Editar</button>
                 </div>
 
                 <label>E-mail:</label>
                 <div class="input-row">
-                    <input type="text" id="email" value="joao@gmail.com" disabled>
+                    <input type="text" id="email" th:field="*{email}" disabled>
                     <button type="button" class="edit-btn" onclick="toggleEdit('email')">Editar</button>
                 </div>
 
                 <label>Senha:</label>
                 <div class="input-row">
-                    <input type="password" id="senha" value="***************" disabled>
+                    <input type="password" id="senha" th:field="*{senha}" disabled>
                     <button type="button" class="edit-btn" onclick="toggleEdit('senha')">Editar</button>
                 </div>
 
                 <label>Data de nascimento:</label>
-                <input type="text" id="nascimento" value="16/12/1995" disabled>
+                <input type="text" id="nascimento" th:value="${passageiro.dataNascimentoFormatada}" disabled>
+
 
                 <label>CPF:</label>
-                <input type="text" id="cpf" value="123.456.789-00" disabled>
+                <input type="text" id="cpf" th:field="*{cpf}" disabled>
 
                 <button type="submit" class="send-button">Salvar Alterações</button>
             </form>
