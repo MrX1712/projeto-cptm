@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport"
@@ -26,19 +26,30 @@
 
     <div class="content">
         <!-- Banner de notificações -->
-        <div class="notification-banner">
-            <div class="notification-track">
-                <div class="notification-item">
-                    <div class="circle-number">7</div>
-                    <div class="notification-text">Linha 7 - Safira está operando com atraso de 3 min</div>
+        <!-- Modificação na seção de notificações do home.html -->
+
+        <!-- Banner de notificações - VERSÃO AJUSTADA -->
+        <div class="notification-banner" role="region" aria-label="Notificações do sistema">
+            <div class="notification-track" tabindex="0" aria-live="polite">
+                <!-- Notificações do banco de dados -->
+                <div th:each="notificacao : ${notificacoes}"
+                     th:class="'notification-item linha-' + ${notificacao.linha.numero}"
+                     role="alert">
+                    <div class="circle-number" th:text="${notificacao.linha.numero}"></div>
+                    <div class="notification-text">
+                        <div class="notification-content" th:text="${notificacao.titulo} + ' - ' + ${notificacao.texto}"></div>
+                        <div class="notification-date"
+                             th:text="${notificacao.dataHora != null ? #temporals.format(notificacao.dataHora, 'dd/MM/yyyy HH:mm') : #temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}"></div>
+                    </div>
                 </div>
-                <div class="notification-item">
-                    <div class="circle-number">5</div>
-                    <div class="notification-text">Linha 5 - Evento especial no trajeto hoje</div>
-                </div>
-                <div class="notification-item">
-                    <div class="circle-number">1</div>
-                    <div class="notification-text">Linha 1 - Manutenção programada amanhã</div>
+
+                <!-- Mensagem quando não há notificações -->
+                <div th:if="${notificacoes != null and #lists.isEmpty(notificacoes)}" class="notification-item linha-12">
+                    <div class="circle-number">i</div>
+                    <div class="notification-text">
+                        <div class="notification-content">Nenhuma notificação no momento</div>
+                        <div class="notification-date" th:text="${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}"></div>
+                    </div>
                 </div>
             </div>
         </div>
