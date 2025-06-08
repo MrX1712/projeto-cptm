@@ -25,7 +25,7 @@ public class HomeNotificacaoController {
 
     @GetMapping({"", "/"})
     public String notificacoesHome(HttpSession session, Model model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = (Usuario) session.getAttribute("passageiroLogado");
 
         List<Notificacao> notificacoes;
 
