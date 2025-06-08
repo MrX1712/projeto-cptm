@@ -22,11 +22,11 @@ public class SolicitacaoAjuda implements Serializable {
     private Estacao estacao;
 
     @ManyToOne
-    @JoinColumn(name = "ID_PASSAGEIRO", nullable = false)
+    @JoinColumn(name = "ID_PASSAGEIRO")
     private Passageiro passageiro;
 
     @Column(name = "TEMA", nullable = false)
-    private int tema;
+    private Integer tema;
 
     @Column(name = "COMENTARIO",nullable = false)
     private String comentario;
@@ -37,7 +37,7 @@ public class SolicitacaoAjuda implements Serializable {
     public SolicitacaoAjuda() {
     }
 
-    public SolicitacaoAjuda(UUID id, Estacao estacao, Linha linha, Passageiro passageiro, String comentario, int tema, boolean status) {
+    public SolicitacaoAjuda(UUID id, Estacao estacao, Linha linha, Passageiro passageiro, String comentario, Integer tema, boolean status) {
         this.id = id;
         this.estacao = estacao;
         this.linha = linha;
@@ -87,11 +87,11 @@ public class SolicitacaoAjuda implements Serializable {
         this.comentario = comentario;
     }
 
-    public int getTema() {
+    public Integer getTema() {
         return tema;
     }
 
-    public void setTema(int tema) {
+    public void setTema(Integer tema) {
         this.tema = tema;
     }
 

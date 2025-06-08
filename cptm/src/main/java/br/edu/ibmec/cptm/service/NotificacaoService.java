@@ -43,4 +43,8 @@ public class NotificacaoService {
     public Notificacao buscarPorId(UUID id) {
         return notificacaoRepositoy.findById(id).orElse(null);
     }
+
+    public List<Notificacao> buscarLinhas(List<UUID> idsLinhas) {
+        return notificacaoRepositoy.findByLinhaIdIn(idsLinhas);
+    }
 }

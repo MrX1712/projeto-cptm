@@ -1,18 +1,16 @@
-<!doctype html>
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <link rel="stylesheet" href="/ajuda.css" />
     <title>CPTM+</title>
 </head>
-<body>
+<body th:attr="data-logado=${logado ? 'true' : 'false'}">
 <div class="main-container">
 
-    <!-- Header Fixo -->
+    <!-- Header -->
     <header class="header">
         <div class="logo">
             <img src="/images/cptm.png" alt="Logo CPTM+" />
@@ -24,56 +22,78 @@
     </header>
 
     <div class="content">
+
+        <!-- Mensagem de feedback -->
+        <div th:if="${mensagem}" class="mensagem">
+            <span th:text="${mensagem}"></span>
+        </div>
+
         <div class="ajuda-container">
             <div class="ajuda-header">Acionamento de ajuda</div>
-            <form class="form-container" id="ajudaForm">
 
+            <form class="form-container"
+                  th:action="@{/cptm+/ajuda/enviar}"
+                  th:object="${solicitacao}"
+                  method="post"
+                  id="formAjuda">
+
+                <!-- LINHA -->
                 <label for="linha">Linha:</label>
                 <div class="select-wrapper">
-                    <select id="linha" onchange="changeColor(this)" required>
+                    <select th:field="*{linha.id}" id="linha" required onchange="filtrarEstacoes()">
                         <option value="">Selecione</option>
-                        <option value="rubi">Linha 7 - Rubi</option>
-                        <option value="turquesa">Linha 10 - Turquesa</option>
-                        <option value="coral">Linha 11 - Coral</option>
-                        <option value="safira">Linha 12 - Safira</option>
-                        <option value="jade">Linha 13 - Jade</option>
+                        <option th:each="linha : ${linhas}"
+                                th:value="${linha.id}"
+                                th:switch="${linha.nome}">
+                            <span th:case="'Rubi'" th:text="'Linha 7 - Rubi'"></span>
+                            <span th:case="'Turquesa'" th:text="'Linha 10 - Turquesa'"></span>
+                            <span th:case="'Safira'" th:text="'Linha 12 - Safira'"></span>
+                            <span th:case="'Coral'" th:text="'Linha 11 - Coral'"></span>
+                            <span th:case="'Jade'" th:text="'Linha 13 - Jade'"></span>
+                            <span th:case="*" th:text="'Linha ? - ' + ${linha.nome}"></span>
+                        </option>
                     </select>
                 </div>
 
-                <label for="estacao">Estação:</label>
+                <!-- ESTAÇÃO -->
+                <label for="estacaoSelect">Estação:</label>
                 <div class="select-wrapper">
-                    <select id="estacao" onchange="changeColor(this)" required>
+                    <select id="estacaoSelect" th:field="*{estacao.id}" required>
                         <option value="">Selecione</option>
-                        <option value="corinthians-itaquera">Corinthians-Itaquera</option>
-                        <option value="palmeiras-barra-funda">Palmeiras Barra Funda</option>
-                        <option value="republica">República</option>
-                        <option value="bras">Brás</option>
-                        <option value="luz">Luz</option>
+                        <option th:each="estacao : ${estacoes}"
+                                th:value="${estacao.id}"
+                                th:data-idlinha="${estacao.linha.id}"
+                                th:text="${estacao.nome}">
+                        </option>
                     </select>
+                </div>
 
                 <div class="info">*Caso esteja em movimento, coloque a próxima estação</div>
 
+                <!-- CAMPO DE TEMA -->
                 <div class="custom-select-container">
-                    <select id="problema" required>
+                    <select class="form-select" id="temaId" th:field="*{tema}" required>
                         <option value="">Tipo de problema</option>
-                        <option value="mobilidade">Auxílio com Mobilidade</option>
-                        <option value="criminal">Denúncia Criminal</option>
-                        <option value="estrutura">Problema na Estrutura</option>
-                        <option value="localizacao">Ajuda com Localização</option>
-                        <option value="emergencia">Emergência Médica</option>
-                        <option value="outro">Outro</option>
+                        <option value="1">Furto ou roubo</option>
+                        <option value="2">Assédio</option>
+                        <option value="3">Ajuda com mobilidade reduzida</option>
+                        <option value="4">Confusão ou desorientação</option>
+                        <option value="5">Pessoa perdida</option>
+                        <option value="6">Emergência médica</option>
+                        <option value="7">Problema com bilhete ou acesso</option>
+                        <option value="8">Comportamento agressivo</option>
                     </select>
                 </div>
 
                 <label class="comment" for="comentario">Comentários:</label>
-                <textarea id="comentario" placeholder="Insira seu comentário sobre o ocorrido" required></textarea>
+                <textarea id="comentario" th:field="*{comentario}" placeholder="Insira seu comentário sobre o ocorrido" required></textarea>
 
-                <button type="submit" class="acionar-btn">Acionar</button>
+                <button type="submit" class="acionar-btn">!</button>
             </form>
         </div>
     </div>
 
-    <!-- Footer fixo -->
+    <!-- Footer -->
     <div class="bottom-nav">
         <button onclick="location.href='/cptm+/home'" class="icon-button">
             <img src="/images/homeIcon.png" alt="Home" class="icon" />
@@ -89,6 +109,58 @@
         </button>
     </div>
 </div>
-<script src="/ajuda.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("formAjuda");
+        const logado = document.body.getAttribute("data-logado") === "true";
+
+        console.log("Status de login:", logado); // Para debug
+
+        form.addEventListener("submit", function (e) {
+            if (!logado) {
+                e.preventDefault();
+                alert("Faça login para acionar ajuda.");
+                window.location.href = "/cptm+/login";
+            }
+        });
+    });
+
+    function filtrarEstacoes() {
+        const linhaSelect = document.getElementById("linha");
+        const estacaoSelect = document.getElementById("estacaoSelect");
+        const linhaSelecionada = linhaSelect.value;
+
+        estacaoSelect.value = "";
+
+        const opcoes = estacaoSelect.querySelectorAll("option");
+        opcoes.forEach(opcao => {
+            if (opcao.value === "") {
+                opcao.style.display = "block";
+                return;
+            }
+
+            const idLinha = opcao.getAttribute("data-idlinha");
+            if (!linhaSelecionada || idLinha === linhaSelecionada) {
+                opcao.style.display = "block";
+            } else {
+                opcao.style.display = "none";
+            }
+        });
+    }
+</script>
+
+<style>
+    .mensagem {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #c3e6cb;
+        text-align: center;
+    }
+</style>
+
 </body>
 </html>

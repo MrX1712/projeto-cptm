@@ -31,11 +31,12 @@ public class LoginController {
 
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
-            session.setAttribute("usuario", usuario);
 
             if (usuario instanceof Passageiro) {
+                session.setAttribute("passageiroLogado", usuario);
                 return "redirect:/cptm+/usuario";
             } else if (usuario instanceof TimeCptm) {
+                session.setAttribute("timeCptmLogado", usuario);
                 return "redirect:/cptm+/adm/painel-administrativo";
             }
         }
@@ -43,4 +44,5 @@ public class LoginController {
         model.addAttribute("loginInvalido", true);
         return "cptm/login";
     }
+
 }

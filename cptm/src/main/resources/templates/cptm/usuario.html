@@ -51,7 +51,7 @@
 
                 <label>Senha:</label>
                 <div class="input-row">
-                    <input type="password" id="senha" th:field="*{senha}" readonly>
+                    <input type="text" id="senha" th:field="*{senha}" readonly>
                     <button type="button" class="edit-btn" onclick="toggleEdit('senha')">Editar</button>
                 </div>
 
@@ -61,30 +61,37 @@
                 <label>CPF:</label>
                 <input type="text" id="cpf" th:field="*{cpf}" readonly>
 
+                <!-- Atualize a área de "Linhas Favoritas" -->
                 <label style="margin-top: 20px;">Linhas Favoritas:</label>
                 <div class="checkbox-container">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="linha-rubi" name="linhasFavoritas" value="rubi" class="custom-checkbox">
-                        <label for="linha-rubi" class="checkbox-label">
+                    <div th:each="linha : ${todasAsLinhas}" class="checkbox-item">
+                        <input type="checkbox"
+                               th:id="'linha-' + ${linha.id}"
+                               name="linhasFavoritas"
+                               th:value="${linha.id}"
+                               class="custom-checkbox"
+                               th:checked="${#lists.contains(passageiro.linhasFavoritas, linha)}" />
+
+                        <label th:for="'linha-' + ${linha.id}" class="checkbox-label">
                             <span class="checkbox-custom"></span>
                             <span class="linha-info">
-                                <span class="linha-numero">Linha 7</span>
-                                <span class="linha-nome rubi">Rubi</span>
+                                <span class="linha-numero"
+                                      th:switch="${linha.nome.toLowerCase()}">
+                                    <span th:case="'rubi'">Linha 7</span>
+                                    <span th:case="'turquesa'">Linha 10</span>
+                                    <span th:case="'coral'">Linha 11</span>
+                                    <span th:case="'safira'">Linha 12</span>
+                                    <span th:case="'jade'">Linha 13</span>
+                                    <span th:case="*">Linha ?</span>
+                                </span>
+                                <span class="linha-nome"
+                                      th:classappend="' ' + ${linha.nome.toLowerCase()}"
+                                      th:text="${linha.nome}"></span>
                             </span>
                         </label>
                     </div>
 
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="linha-turquesa" name="linhasFavoritas" value="turquesa" class="custom-checkbox">
-                        <label for="linha-turquesa" class="checkbox-label">
-                            <span class="checkbox-custom"></span>
-                            <span class="linha-info">
-                                <span class="linha-numero">Linha 11</span>
-                                <span class="linha-nome turquesa">Turquesa</span>
-                            </span>
-                        </label>
-                    </div>
-                </div>
+
 
                 <button type="submit" class="send-button" onclick="return handleFormSubmit()">Salvar Alterações</button>
 

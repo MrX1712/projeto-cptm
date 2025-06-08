@@ -18,4 +18,5 @@ public interface NotificacaoRepositosy extends JpaRepository<Notificacao, UUID> 
 
     List<Notificacao> findAllByEstacao(Estacao estacao);
 
+    List<Notificacao> findByLinhaIdIn(List<UUID> ids);
 }

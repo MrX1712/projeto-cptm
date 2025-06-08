@@ -493,5 +493,20 @@ body {
 
 .linha-nome.turquesa {
     background-color: #40E0D0;
-    color: #333;
+    color: white;
+}
+
+.linha-nome.coral {
+    background-color: #FFA07A;
+    color: white;
+}
+
+.linha-nome.jade {
+    background-color: #00A96B;
+    color: white;
+}
+
+.linha-nome.safira {
+    background-color: #8A2BE2;
+    color: white;
 }
