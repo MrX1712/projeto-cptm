@@ -12,13 +12,13 @@
 <body>
 <div class="main-container">
 
-<!-- Header Fixo -->
-        <header class="header">
-            <div class="logo">
+    <!-- Header Fixo -->
+    <header class="header">
+        <div class="logo">
             <img src="/images/cptm.png" alt="Logo CPTM+" />
         </div>
         <button th:onclick="${logado} ? 'location.href=\'/cptm+/usuario\'' : 'location.href=\'/cptm+/login\''"
-                    class="user-button" aria-label="Usuário">
+                class="user-button" aria-label="Usuário">
             <img src="/images/user.png" alt="user" />
         </button>
     </header>
@@ -76,7 +76,9 @@
             <img src="/images/siren.png" alt="Notificações" class="icon" />
         </button>
     </div>
-    <div id="loginModal" th:if="${loginInvalido}" class="modal" style="display:block;">
+
+    <!-- Modal original (mantido mas oculto) -->
+    <div id="loginModal" th:if="${loginInvalido}" class="modal" style="display:none;">
         <div class="modal-content">
             <h2>Login inválido</h2>
             <p>Verifique seu e-mail e senha.</p>
@@ -84,5 +86,98 @@
             <button onclick="location.href='/cptm+/login/novo'">Cadastrar</button>
         </div>
     </div>
+
+    <!-- Pop-up de Login Inválido -->
+    <div class="popup-overlay" id="loginInvalidoPopup">
+        <div class="popup-container">
+            <div class="popup-header">
+                <div class="popup-icon">❌</div>
+                Login Inválido
+            </div>
+            <div class="popup-body">
+                <div class="popup-message">
+                    Verifique seu e-mail e senha.
+                </div>
+                <div class="popup-buttons">
+                    <button class="popup-btn primary" onclick="location.href='/cptm+/login'">
+                        Tentar novamente
+                    </button>
+                    <button class="popup-btn secondary" onclick="location.href='/cptm+/login/novo'">
+                        Cadastrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up de Esqueceu Senha -->
+    <div class="popup-overlay" id="esqueceuSenhaPopup">
+        <div class="popup-container">
+            <div class="popup-header">
+                <div class="popup-icon">🔑</div>
+                Esqueceu a Senha?
+            </div>
+            <div class="popup-body">
+                <div class="popup-message">
+                    Entre em contato com o suporte para recuperar sua senha ou cadastre-se novamente.
+                </div>
+                <div class="popup-buttons">
+                    <button class="popup-btn primary" onclick="hidePopup('esqueceuSenhaPopup')">
+                        Fechar
+                    </button>
+                    <button class="popup-btn secondary" onclick="location.href='/cptm+/login/novo'">
+                        Cadastrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Função para mostrar pop-up de login inválido
+    function showLoginInvalidoPopup() {
+        document.getElementById('loginInvalidoPopup').classList.add('active');
+    }
+
+    // Função para mostrar pop-up de esqueceu senha
+    function esqueceuSenha() {
+        document.getElementById('esqueceuSenhaPopup').classList.add('active');
+    }
+
+    // Função para esconder pop-up
+    function hidePopup(popupId) {
+        document.getElementById(popupId).classList.remove('active');
+    }
+
+    // Fechar pop-up clicando no overlay
+    document.querySelectorAll('.popup-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+    });
+
+    // Fechar pop-up com tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.popup-overlay.active').forEach(popup => {
+                popup.classList.remove('active');
+            });
+        }
+    });
+
+    // Verificar se há erro de login na página carregada
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verificar se existe a condição loginInvalido do Thymeleaf
+        const loginModal = document.getElementById('loginModal');
+        if (loginModal) {
+            // Se o modal original existe, mostrar o pop-up estilizado
+            showLoginInvalidoPopup();
+        }
+    });
+</script>
+
 </body>
 </html>

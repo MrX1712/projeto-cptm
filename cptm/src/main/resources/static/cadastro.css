@@ -461,6 +461,10 @@ input[type="date"]:focus {
     .card p {
         font-size: 0.95rem;
     }
+
+    .card{
+        width: 90%;
+    }
     .botao-cadastro2 {
         font-size: 1rem;
     }

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -60,13 +61,38 @@
                 <label>CPF:</label>
                 <input type="text" id="cpf" th:field="*{cpf}" readonly>
 
-                <button type="submit" class="send-button">Salvar Alterações</button>
+                <label style="margin-top: 20px;">Linhas Favoritas:</label>
+                <div class="checkbox-container">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="linha-rubi" name="linhasFavoritas" value="rubi" class="custom-checkbox">
+                        <label for="linha-rubi" class="checkbox-label">
+                            <span class="checkbox-custom"></span>
+                            <span class="linha-info">
+                                <span class="linha-numero">Linha 7</span>
+                                <span class="linha-nome rubi">Rubi</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="linha-turquesa" name="linhasFavoritas" value="turquesa" class="custom-checkbox">
+                        <label for="linha-turquesa" class="checkbox-label">
+                            <span class="checkbox-custom"></span>
+                            <span class="linha-info">
+                                <span class="linha-numero">Linha 11</span>
+                                <span class="linha-nome turquesa">Turquesa</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="send-button" onclick="return handleFormSubmit()">Salvar Alterações</button>
 
                 <button type="button"
-                        onclick="if(confirm('Tem certeza que deseja sair da conta?')) location.href='/cptm+/logout'"
+                        onclick="showLogoutPopup()"
                         class="send-button"
                         style="margin-top: 10px; background-color: #ee3338;"
-                        title="Sair da conta">
+                        title="    Sair da conta   ">
                     Sair da Conta
                 </button>
             </form>
@@ -91,6 +117,50 @@
     </div>
 </div>
 
+<!-- Pop-up de Confirmação de Logout -->
+<div class="popup-overlay" id="logoutPopup">
+    <div class="popup-container">
+        <div class="popup-header">
+            <div class="popup-icon">⚠️</div>
+            Sair da Conta
+        </div>
+        <div class="popup-body">
+            <div class="popup-message">
+                Tem certeza que deseja sair da sua conta?<br>
+                Você precisará fazer login novamente.
+            </div>
+            <div class="popup-buttons">
+                <button class="popup-btn secondary" onclick="hidePopup('logoutPopup')">
+                    Cancelar
+                </button>
+                <button class="popup-btn primary" onclick="confirmLogout()">
+                    Sair
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pop-up de Sucesso -->
+<div class="popup-overlay" id="successPopup">
+    <div class="popup-container">
+        <div class="popup-header success">
+            <div class="popup-icon">✅</div>
+            Sucesso!
+        </div>
+        <div class="popup-body">
+            <div class="popup-message">
+                Seus dados foram atualizados com sucesso!
+            </div>
+            <div class="popup-buttons">
+                <button class="popup-btn success" onclick="hidePopup('successPopup')">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function toggleEdit(id) {
         const input = document.getElementById(id);
@@ -101,6 +171,70 @@
             input.setAttribute('readonly', true);
         }
     }
+
+    // Função para mostrar pop-up de logout
+    function showLogoutPopup() {
+        document.getElementById('logoutPopup').classList.add('active');
+    }
+
+    // Função para mostrar pop-up de sucesso
+    function showSuccessPopup() {
+        document.getElementById('successPopup').classList.add('active');
+    }
+
+    // Função para esconder pop-up
+    function hidePopup(popupId) {
+        document.getElementById(popupId).classList.remove('active');
+    }
+
+    // Função para confirmar logout
+    function confirmLogout() {
+        hidePopup('logoutPopup');
+        location.href = '/cptm+/logout';
+    }
+
+    // Função para lidar com o submit do formulário
+    function handleFormSubmit() {
+        // Após o submit ser bem-sucedido, mostrar o pop-up de sucesso
+        // Esta função será executada quando o formulário for enviado
+        setTimeout(function() {
+            // Verifica se há mensagem de sucesso do Thymeleaf
+            const mensagemElement = document.querySelector('.alert-success');
+            if (mensagemElement && mensagemElement.textContent.trim()) {
+                showSuccessPopup();
+                // Remove a mensagem padrão do Thymeleaf
+                mensagemElement.style.display = 'none';
+            }
+        }, 100);
+        return true; // Permite que o formulário seja enviado normalmente
+    }
+
+    // Fechar pop-up clicando no overlay
+    document.querySelectorAll('.popup-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+    });
+
+    // Fechar pop-up com tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.popup-overlay.active').forEach(popup => {
+                popup.classList.remove('active');
+            });
+        }
+    });
+
+    // Verificar se há mensagem de sucesso na página carregada
+    document.addEventListener('DOMContentLoaded', function() {
+        const mensagemElement = document.querySelector('.alert-success');
+        if (mensagemElement && mensagemElement.textContent.trim()) {
+            showSuccessPopup();
+            mensagemElement.style.display = 'none';
+        }
+    });
 </script>
 </body>
 </html>
