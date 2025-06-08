@@ -19,7 +19,8 @@
         <div class="logo">
             <img src="/images/cptm.png" alt="Logo CPTM+" />
         </div>
-        <button onclick="location.href='/cptm+/login'" class="user-button" aria-label="Usuário">
+        <button th:onclick="${logado} ? 'location.href=\'/cptm+/usuario\'' : 'location.href=\'/cptm+/login\''"
+                class="user-button" aria-label="Usuário">
             <img src="/images/user.png" alt="user" />
         </button>
     </header>
@@ -99,7 +100,7 @@
             <h2>Conecte-se com a CPTM do Futuro</h2>
             <div class="divider_2"></div>
             <p>Faça login e salve suas preferências, receba alertas sobre suas rotas e aproveite uma experiência mais personalizada!</p>
-            <button onclick="location.href='/cptm+/cadastro'" class="botao-cadastro">Cadastre-se</button>
+            <button onclick="location.href='/cptm+/login/novo'" class="botao-cadastro">Cadastre-se</button>
         </div>
 
     </div>
