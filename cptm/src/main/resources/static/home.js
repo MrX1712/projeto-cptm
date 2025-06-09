@@ -1,3 +1,4 @@
+// Caio é lindo
 const track = document.querySelector('.notification-track');
 const slides = document.querySelectorAll('.notification-item');
 
