@@ -1,4 +1,3 @@
-// Caio é lindo
 const sentidoPorLinha = {
     rubi: ["Luz", "Jundiaí"],
     turquesa: ["Luz", "Rio Grande da Serra"],
