@@ -63,7 +63,15 @@ public class CptmController {
     }
 
     @RequestMapping("/cadastro")
-    public String cadastro(HttpSession session, Model model) {
+    public String cadastro(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        Passageiro passageiro = (Passageiro) session.getAttribute("passageiroLogado");
+
+        if (passageiro != null) {
+            redirectAttributes.addFlashAttribute("mensagem", "Você já está logado!");
+            return "redirect:/cptm+/home";
+        }
+
+        model.addAttribute("passageiro", new Passageiro()); // <-- ISSO resolve o erro!
         adicionarStatusLogado(session, model);
         return "cptm/cadastro";
     }

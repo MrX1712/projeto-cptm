@@ -8,6 +8,7 @@
     <title>CPTM+</title>
 </head>
 <body th:attr="data-logado=${logado ? 'true' : 'false'}">
+<body th:attr="data-logado=${logado ? 'true' : 'false'}">
 <div class="main-container">
 
     <!-- Header -->
@@ -23,7 +24,7 @@
 
     <div class="content">
 
-        <!-- Mensagem de feedback -->
+        <!-- Mensagem de feedback (escondida) -->
         <div th:if="${mensagem}" class="mensagem">
             <span th:text="${mensagem}"></span>
         </div>
@@ -110,6 +111,49 @@
     </div>
 </div>
 
+<!-- Pop-up de Sucesso -->
+<div class="popup-overlay" id="successPopup">
+    <div class="popup-container">
+        <div class="popup-header success">
+            <div class="popup-icon">🚨</div>
+            Solicitação Enviada!
+        </div>
+        <div class="popup-body">
+            <div class="popup-message">
+                Sua solicitação de ajuda foi enviada com sucesso! Nossa equipe foi notificada e irá atendê-lo o mais rápido possível.
+            </div>
+            <div class="popup-buttons">
+                <button class="popup-btn success" onclick="hidePopup('successPopup')">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pop-up de Login Necessário -->
+<div class="popup-overlay" id="loginRequiredPopup">
+    <div class="popup-container">
+        <div class="popup-header warning">
+            <div class="popup-icon">🔒</div>
+            Login Necessário
+        </div>
+        <div class="popup-body">
+            <div class="popup-message">
+                Para acionar ajuda, você precisa estar logado no sistema. Faça login para continuar.
+            </div>
+            <div class="popup-buttons">
+                <button class="popup-btn secondary" onclick="hidePopup('loginRequiredPopup')">
+                    Cancelar
+                </button>
+                <button class="popup-btn primary" onclick="goToLogin()">
+                    Fazer Login
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const form = document.getElementById("formAjuda");
@@ -117,11 +161,16 @@
 
         console.log("Status de login:", logado); // Para debug
 
+        // Verificar se há mensagem de sucesso
+        const mensagemElement = document.querySelector('.mensagem span');
+        if (mensagemElement && mensagemElement.textContent.trim()) {
+            showSuccessPopup();
+        }
+
         form.addEventListener("submit", function (e) {
             if (!logado) {
                 e.preventDefault();
-                alert("Faça login para acionar ajuda.");
-                window.location.href = "/cptm+/login";
+                showLoginRequiredPopup();
             }
         });
     });
@@ -148,19 +197,45 @@
             }
         });
     }
+
+    // Funções dos pop-ups
+    function showSuccessPopup() {
+        document.getElementById('successPopup').classList.add('active');
+    }
+
+    function showLoginRequiredPopup() {
+        document.getElementById('loginRequiredPopup').classList.add('active');
+    }
+
+    function hidePopup(popupId) {
+        document.getElementById(popupId).classList.remove('active');
+    }
+
+    function goToLogin() {
+        window.location.href = "/cptm+/login";
+    }
+
+    // Fechar pop-up clicando no overlay
+    document.querySelectorAll('.popup-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+    });
+
+    // Fechar pop-up com tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.popup-overlay.active').forEach(popup => {
+                popup.classList.remove('active');
+            });
+        }
+    });
 </script>
 
-<style>
-    .mensagem {
-        background-color: #d4edda;
-        color: #155724;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 5px;
-        border: 1px solid #c3e6cb;
-        text-align: center;
-    }
-</style>
+
+
 
 </body>
 </html>

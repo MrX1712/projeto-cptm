@@ -28,6 +28,7 @@
     <div class="content">
         <!-- Banner de notificações -->
 
+
         <div class="notification-banner" role="region" aria-label="Notificações do sistema">
             <div class="notification-track" tabindex="0" aria-live="polite">
                 <!-- Notificações do banco de dados -->
@@ -100,11 +101,10 @@
             <h2>Conecte-se com a CPTM do Futuro</h2>
             <div class="divider_2"></div>
             <p>Faça login e salve suas preferências, receba alertas sobre suas rotas e aproveite uma experiência mais personalizada!</p>
-            <button onclick="location.href='/cptm+/login/novo'" class="botao-cadastro">Cadastre-se</button>
+            <button onclick="location.href='/cptm+/cadastro'" class="botao-cadastro">Cadastre-se</button>
         </div>
 
     </div>
-
     <!-- Footer fixo -->
     <div class="bottom-nav">
         <button onclick="location.href='/cptm+/home'" class="icon-button">
@@ -123,5 +123,14 @@
 </div>
 
 <script src="/home.js"></script>
+<div id="popup-mensagem" th:if="${mensagem}" class="popup-container">
+    <div class="popup-box">
+        <div class="popup-icon">&#10060;</div> <!-- X vermelho ❌ -->
+        <h2>Atenção!</h2>
+        <p>Você já está logado! Não é possível se cadastrar novamente.</p>
+        <button onclick="fecharPopup()">OK</button>
+    </div>
+</div>
+
 </body>
 </html>
