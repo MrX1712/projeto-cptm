@@ -1,18 +1,15 @@
+
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-
     <link rel="stylesheet" href="/rastreamento.css" />
     <title>CPTM+ | Rastreamento</title>
 </head>
-<body>
+<body th:attr="data-logado=${logado ? 'true' : 'false'}">
 <div class="main-container">
-
-    <!-- Header Fixo -->
     <header class="header">
         <div class="logo">
             <img class="logo-img" src="/images/cptm.png" alt="Logo CPTM+" />
@@ -24,42 +21,30 @@
     </header>
 
     <div class="content">
-
-        <!-- Container de Rastreamento -->
         <div class="rastreamento-container">
+            <div class="rastreamento-header">Rastreamento de Trens</div>
 
-            <!-- Header do Rastreamento -->
-            <div class="rastreamento-header">
-                Rastreamento de Trens
+            <!-- Botões de linha com IDs reais -->
+            <div th:each="linha : ${linhas}">
+                <button class="linha-btn"
+                        th:classappend="${linha.nome.toLowerCase()}"
+                        th:attr="data-linha=${linha.nome.toLowerCase()},
+                     data-nome=${linha.nome},
+                     data-id=${linha.id}"
+                        onclick="manusearClique(this)">
+                    <span class="ponto"></span>
+                    <span th:switch="${linha.nome}">
+                        <span th:case="'Rubi'" th:text="'Linha 7 - ' + ${linha.nome}">Linha 7 - Rubi</span>
+                        <span th:case="'Turquesa'" th:text="'Linha 10 - ' + ${linha.nome}">Linha 10 - Turquesa</span>
+                        <span th:case="'Coral'" th:text="'Linha 11 - ' + ${linha.nome}">Linha 11 - Coral</span>
+                        <span th:case="'Safira'" th:text="'Linha 12 - ' + ${linha.nome}">Linha 12 - Safira</span>
+                        <span th:case="'Jade'" th:text="'Linha 13 - ' + ${linha.nome}">Linha 13 - Jade</span>
+                        <span th:case="*" th:text="'Linha - ' + ${linha.nome}">Linha - ?</span>
+                    </span>
+                </button>
             </div>
 
-            <!-- Botões das Linhas -->
-            <button class="linha-btn rubi" onclick="selecionarLinha('rubi', 'Linha 7 - Rubi')">
-                <span class="ponto"></span>
-                Linha 7 - Rubi
-            </button>
 
-            <button class="linha-btn turquesa" onclick="selecionarLinha('turquesa', 'Linha 10 - Turquesa')">
-                <span class="ponto"></span>
-                Linha 10 - Turquesa
-            </button>
-
-            <button class="linha-btn coral" onclick="selecionarLinha('coral', 'Linha 11 - Coral')">
-                <span class="ponto"></span>
-                Linha 11 - Coral
-            </button>
-
-            <button class="linha-btn safira" onclick="selecionarLinha('safira', 'Linha 12 - Safira')">
-                <span class="ponto"></span>
-                Linha 12 - Safira
-            </button>
-
-            <button class="linha-btn jade" onclick="selecionarLinha('jade', 'Linha 13 - Jade')">
-                <span class="ponto"></span>
-                Linha 13 - Jade
-            </button>
-
-            <!-- Label da Linha Selecionada -->
             <div class="linha-selecionada-label">
                 Linha selecionada: <span class="texto-cor" id="linhaSelecionadaTexto">Nenhuma linha selecionada</span>
             </div>
@@ -69,7 +54,6 @@
                 <option value="">Selecione uma linha primeiro</option>
             </select>
 
-            <!-- Label da Estação Selecionada -->
             <div class="estacao-selecionada-label">
                 Estação selecionada: <span class="texto-cor" id="estacaoSelecionadaTexto">Nenhuma estação selecionada</span>
             </div>
@@ -79,149 +63,26 @@
                 <option value="">Selecionar sentido</option>
             </select>
 
-            <!-- Label do Sentido Selecionado -->
             <div class="sentido-selecionado-label">
                 Sentido selecionado: <span class="texto-cor" id="sentidoSelecionadoTexto">Nenhum sentido selecionado</span>
             </div>
 
-            <!-- Container do Trem -->
             <div class="train-box" id="trainBox">
                 <div class="train-icon">🚊</div>
-                <div class="train-info" id="trainInfo">Próximo trem: Chegando em 3 min</div>
+                <div class="train-info" id="trainInfo">
+                    Próximo trem: Chegando em <span id="tempoChegada" style="font-weight: bold;">3 min</span>
+                </div>
             </div>
-
         </div>
-
     </div>
 
-    <!-- Footer fixo -->
     <div class="bottom-nav">
-        <button onclick="location.href='/cptm+/home'" class="icon-button">
-            <img src="/images/homeIcon.png" alt="Home" class="icon" />
-        </button>
-        <button onclick="location.href='/cptm+/estacoes'" class="icon-button">
-            <img src="/images/location-pin.png" alt="Localização" class="icon" />
-        </button>
-        <button onclick="location.href='/cptm+/rastreamento'" class="icon-button">
-            <img src="/images/trem.png" alt="Trem" class="icon" />
-        </button>
-        <button onclick="location.href='/cptm+/ajuda'" class="icon-button">
-            <img src="/images/siren.png" alt="Notificações" class="icon" />
-        </button>
+        <button onclick="location.href='/cptm+/home'" class="icon-button"><img src="/images/homeIcon.png" alt="Home" class="icon" /></button>
+        <button onclick="location.href='/cptm+/estacoes'" class="icon-button"><img src="/images/location-pin.png" alt="Localização" class="icon" /></button>
+        <button onclick="location.href='/cptm+/rastreamento'" class="icon-button"><img src="/images/trem.png" alt="Trem" class="icon" /></button>
+        <button onclick="location.href='/cptm+/ajuda'" class="icon-button"><img src="/images/siren.png" alt="Notificações" class="icon" /></button>
     </div>
 </div>
-
-<script>
-    const colorMap = {
-        rubi: '#9b111e',
-        turquesa: '#40E0D0',
-        coral: '#FF7F50',
-        safira: '#800080',
-        jade: '#00A96B'
-    };
-
-    // Estações por linha (uma de cada)
-    const estacoesPorLinha = {
-        rubi: [{ value: 'palmeiras-barra-funda', text: 'Palmeiras Barra Funda' }],
-        turquesa: [{ value: 'santo-andre', text: 'Santo André' }],
-        coral: [{ value: 'corinthians-itaquera', text: 'Corinthians-Itaquera' }],
-        safira: [{ value: 'bras', text: 'Brás' }],
-        jade: [{ value: 'aeroporto-guarulhos', text: 'Aeroporto-Guarulhos' }]
-    };
-
-    let linhaSelecionada = null;
-
-    function selecionarLinha(linha, nomeCompleto) {
-        linhaSelecionada = linha;
-
-        // Atualizar texto da linha selecionada
-        const textoElement = document.getElementById('linhaSelecionadaTexto');
-        textoElement.textContent = nomeCompleto;
-        textoElement.style.color = colorMap[linha];
-
-        // Atualizar dropdown de estações
-        const select = document.getElementById('estacoesSelect');
-        select.innerHTML = '<option value="">Selecione uma estação</option>';
-
-        // Adicionar a única estação da linha
-        if (estacoesPorLinha[linha]) {
-            estacoesPorLinha[linha].forEach(estacao => {
-                const option = document.createElement('option');
-                option.value = estacao.value;
-                option.textContent = estacao.text;
-                select.appendChild(option);
-            });
-        }
-
-        // Aplicar cor da linha ao select
-        select.style.backgroundColor = colorMap[linha];
-        select.style.borderColor = colorMap[linha];
-        select.style.color = 'white';
-
-        // Reset outros elementos
-        document.getElementById('estacaoSelecionadaTexto').textContent = 'Nenhuma estação selecionada';
-        document.getElementById('sentidoSelecionadoTexto').textContent = 'Nenhum sentido selecionado';
-        document.getElementById('sentidoSelect').innerHTML = '<option value="">Selecionar sentido</option>';
-        document.getElementById('sentidoSelect').style.backgroundColor = '#666';
-        document.getElementById('trainBox').style.display = 'none';
-
-        // Destacar botão selecionado
-        document.querySelectorAll('.linha-btn').forEach(btn => {
-            btn.style.transform = 'scale(1)';
-            btn.style.boxShadow = 'none';
-        });
-
-        const botaoSelecionado = document.querySelector(`.linha-btn.${linha}`);
-        botaoSelecionado.style.transform = 'scale(1.03)';
-        botaoSelecionado.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
-    }
-
-    // Event listener para seleção de estação
-    document.getElementById('estacoesSelect').addEventListener('change', function() {
-        const estacaoTexto = this.options[this.selectedIndex].text;
-
-        if (this.value && linhaSelecionada) {
-            // Atualizar label da estação
-            document.getElementById('estacaoSelecionadaTexto').textContent = estacaoTexto;
-            document.getElementById('estacaoSelecionadaTexto').style.color = colorMap[linhaSelecionada];
-
-            // Carregar os dois sentidos
-            const sentidoSelect = document.getElementById('sentidoSelect');
-            sentidoSelect.innerHTML = '<option value="">Selecionar sentido</option>';
-            sentidoSelect.innerHTML += '<option value="ida">Sentido Terminal A</option>';
-            sentidoSelect.innerHTML += '<option value="volta">Sentido Terminal B</option>';
-
-            // Aplicar cor ao select de sentido
-            sentidoSelect.style.backgroundColor = colorMap[linhaSelecionada];
-            sentidoSelect.style.borderColor = colorMap[linhaSelecionada];
-            sentidoSelect.style.color = 'white';
-
-            // Reset sentido e esconder trem
-            document.getElementById('sentidoSelecionadoTexto').textContent = 'Nenhum sentido selecionado';
-            document.getElementById('trainBox').style.display = 'none';
-        }
-    });
-
-    // Event listener para seleção de sentido
-    document.getElementById('sentidoSelect').addEventListener('change', function() {
-        const sentidoTexto = this.options[this.selectedIndex].text;
-
-        if (this.value) {
-            // Atualizar label do sentido
-            document.getElementById('sentidoSelecionadoTexto').textContent = sentidoTexto;
-            document.getElementById('sentidoSelecionadoTexto').style.color = colorMap[linhaSelecionada];
-
-            // Mostrar card do trem
-            document.getElementById('trainBox').style.display = 'block';
-            document.getElementById('trainInfo').textContent = 'Próximo trem: Chegando em 3 min';
-        }
-    });
-
-
-</script>
-
+<script src="/rastreamento.js"></script>
 </body>
-
-
-
 </html>

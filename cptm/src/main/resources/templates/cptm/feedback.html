@@ -1,12 +1,13 @@
-<html lang="pt-br"><head>
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <link rel="stylesheet" href="/feedback.css">
     <title>CPTM+</title>
 </head>
-<body>
+<body th:attr="data-logado=${logado ? 'true' : 'false'}">
 <div class="main-container">
 
     <!-- Header Fixo -->
@@ -23,11 +24,15 @@
     <div class="content">
         <div class="feedback-container">
             <div class="feedback-header">Feedback</div>
-            <form class="form-container" id="feedbackForm">
+            <form class="form-container"
+                  id="feedbackForm"
+                  th:action="@{/cptm+/feedback/enviar}"
+                  th:object="${feedback}"
+                  method="post">
 
                 <div class="input-row">
-                    <label for="feedback-area">Área:</label>
-                    <select id="feedback-area" required>
+                    <label for="tipo">Área:</label>
+                    <select id="tipo" th:field="*{tipo}" required>
                         <option value="">Selecione</option>
                         <option value="atendimento">Atendimento</option>
                         <option value="estrutura">Estrutura</option>
@@ -36,6 +41,8 @@
                         <option value="outro">Outro</option>
                     </select>
                 </div>
+
+                <input type="hidden" id="rating" th:field="*{nota}" />
 
                 <label for="rating">Nota:</label>
                 <div class="stars">
@@ -47,7 +54,7 @@
                 </div>
 
                 <label for="comments">Comentários:</label>
-                <textarea id="comments" name="comments" placeholder="Insira seu feedback" required></textarea>
+                <textarea id="comments" th:field="*{comentario}" placeholder="Insira seu feedback" required></textarea>
 
                 <button type="submit" class="send-button">Enviar</button>
             </form>
@@ -72,5 +79,5 @@
 </div>
 
 <script src="/feedback.js"></script>
-
-</body></html>
+</body>
+</html>
