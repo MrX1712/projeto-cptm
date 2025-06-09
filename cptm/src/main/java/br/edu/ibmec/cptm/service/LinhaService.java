@@ -24,8 +24,8 @@ public class LinhaService {
         return linhaRepository.save(linha);
     }
 
-    public void remover(Linha linha) {
-        linhaRepository.delete(linha);
+    public void remover(UUID linhaId) {
+        linhaRepository.deleteById(linhaId);
     }
 
     public Linha buscarPorNome(String nome) {

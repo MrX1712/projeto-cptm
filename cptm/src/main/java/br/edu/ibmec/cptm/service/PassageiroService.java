@@ -43,4 +43,9 @@ public class PassageiroService {
     public List<Passageiro> listarPorDataDeNascimento() {
         return passageiroRepository.findAllByOrderByDataNascimentoAsc();
     }
+
+    public Passageiro buscarComLinhasFavoritas(UUID id) {
+        return passageiroRepository.buscarComLinhasFavoritas(id).orElse(null);
+    }
+
 }

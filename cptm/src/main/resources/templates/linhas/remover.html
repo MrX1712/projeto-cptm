@@ -48,7 +48,7 @@
         Tem certeza que deseja excluir a linha <strong th:text="${linha.nome}">Linha 7 - Rubi</strong>?
     </div>
 
-    <form th:action="@{/cptm+/adm/painel-administrativo/linhas/deletar}" th:object="${linha}" method="post">
+    <form th:action="@{/cptm+/adm/painel-administrativo/linhas/remover}" th:object="${linha}" method="post">
         <input type="hidden" th:field="*{id}" />
         <button type="submit" class="btn btn-delete">Sim, excluir</button>
         <a th:href="@{/cptm+/adm/painel-administrativo/linhas}" class="btn btn-cancel ms-2">Cancelar</a>

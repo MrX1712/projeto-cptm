@@ -18,7 +18,7 @@ public class Linha implements Serializable {
     @Column(name = "NOME", nullable = false)
     private String nome;
 
-    @OneToMany(mappedBy = "linha", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "linha", cascade = CascadeType.ALL)
     private List<Estacao> estacoes = new ArrayList<>();
 
     public Linha() {

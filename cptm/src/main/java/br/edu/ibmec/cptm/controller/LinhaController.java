@@ -2,10 +2,12 @@ package br.edu.ibmec.cptm.controller;
 
 import br.edu.ibmec.cptm.model.Linha;
 import br.edu.ibmec.cptm.repository.LinhaRepository;
+import br.edu.ibmec.cptm.service.LinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,6 +19,9 @@ public class LinhaController {
     @Autowired
     private LinhaRepository linhaRepository;
 
+    @Autowired
+    private LinhaService linhaService;
+
     @GetMapping
     public String listarLinhas(Model model) {
         List<Linha> linhas = linhaRepository.findAll();
@@ -27,7 +32,7 @@ public class LinhaController {
     @GetMapping("/novo")
     public String novaLinha(Model model) {
         model.addAttribute("linha", new Linha());
-        return "linhas/editar";  // formulario para criar/editar linha
+        return "linhas/editar";
     }
 
     @GetMapping("/editar/{id}")
@@ -39,13 +44,36 @@ public class LinhaController {
 
     @PostMapping("/salvar")
     public String salvarLinha(@ModelAttribute Linha linha) {
-        linhaRepository.save(linha);
+        if (linha.getId() != null) {
+            Linha existente = linhaService.buscarPorId(linha.getId());
+            if (existente != null) {
+                if (linha.getEstacoes() == null || linha.getEstacoes().isEmpty()) {
+                    linha.setEstacoes(existente.getEstacoes());
+                }
+            }
+        }
+        linhaService.salvarOuEditar(linha);
         return "redirect:/cptm+/adm/painel-administrativo/linhas";
     }
 
-    @GetMapping("/excluir/{id}")
-    public String excluirLinha(@PathVariable UUID id) {
-        linhaRepository.deleteById(id);
+    @GetMapping("/remover/{id}")
+    public String exibirTelaRemover(@PathVariable UUID id, Model model) {
+        Linha linha = linhaService.buscarPorId(id);
+        if (linha == null) {
+            return "redirect:/cptm+/adm/painel-administrativo/linhas";
+        }
+        model.addAttribute("linha", linha);
+        return "linhas/remover";
+    }
+
+    @PostMapping("/remover")
+    public String deletarLinha(@ModelAttribute Linha linha, RedirectAttributes redirectAttributes) {
+        try {
+            linhaService.remover(linha.getId());
+            redirectAttributes.addFlashAttribute("mensagem", "Linha excluída com sucesso.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Erro ao excluir a linha: " + e.getMessage());
+        }
         return "redirect:/cptm+/adm/painel-administrativo/linhas";
     }
 
