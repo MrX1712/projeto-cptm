@@ -16,7 +16,7 @@ function scrollToIndex(index) {
 function autoScroll() {
     if (isUserScrolling) return;
     scrollToIndex(currentIndex + 1);
-    autoScrollTimeout = setTimeout(autoScroll, 5000);
+    autoScrollTimeout = setTimeout(autoScroll, 8000);
 }
 
 track.addEventListener('scroll', () => {
@@ -27,7 +27,7 @@ track.addEventListener('scroll', () => {
     track.userScrollTimeout = setTimeout(() => {
         isUserScrolling = false;
         autoScroll();
-    }, 2000);
+    }, 3000);
 
     const scrollTop = track.scrollTop;
     const slideHeight = slides[0].offsetHeight + 15;
@@ -36,16 +36,42 @@ track.addEventListener('scroll', () => {
 
 autoScroll();
 
-function abrirPopup() {
-    const popup = document.getElementById('popup-mensagem');
+// === FUNÇÕES DOS POP-UPS ===
+
+// Função para verificar se o usuário está logado
+function isUserLoggedIn() {
+    return document.body.getAttribute('data-logado') === 'true';
+}
+
+// Função para verificar login e redirecionar para Ajuda
+function verificarLoginERedirecionarAjuda() {
+    if (isUserLoggedIn()) {
+        location.href = '/cptm+/ajuda';
+    } else {
+        abrirPopup('popup-ajuda');
+    }
+}
+
+// Função para verificar login e redirecionar para Feedback
+function verificarLoginERedirecionarFeedback() {
+    if (isUserLoggedIn()) {
+        location.href = '/cptm+/feedback';
+    } else {
+        abrirPopup('popup-feedback');
+    }
+}
+
+// Função para abrir pop-up
+function abrirPopup(popupId) {
+    const popup = document.getElementById(popupId);
     if (popup) {
         popup.classList.add('active');
     }
 }
 
-// Função para fechar o pop-up
-function fecharPopup() {
-    const popup = document.getElementById('popup-mensagem');
+// Função para fechar pop-up
+function fecharPopup(popupId) {
+    const popup = document.getElementById(popupId);
     if (popup) {
         popup.classList.remove('active');
     }
@@ -56,21 +82,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const popup = document.getElementById('popup-mensagem');
     if (popup) {
         // Mostrar o pop-up automaticamente se existe
-        abrirPopup();
+        abrirPopup('popup-mensagem');
     }
 });
 
 // Fechar pop-up clicando no fundo escuro
 document.addEventListener('click', function(e) {
-    const popup = document.getElementById('popup-mensagem');
-    if (popup && e.target === popup) {
-        fecharPopup();
-    }
+    const popups = ['popup-mensagem', 'popup-ajuda', 'popup-feedback'];
+
+    popups.forEach(popupId => {
+        const popup = document.getElementById(popupId);
+        if (popup && e.target === popup) {
+            fecharPopup(popupId);
+        }
+    });
 });
 
 // Fechar pop-up com tecla ESC
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-        fecharPopup();
+        const popups = ['popup-mensagem', 'popup-ajuda', 'popup-feedback'];
+
+        popups.forEach(popupId => {
+            const popup = document.getElementById(popupId);
+            if (popup && popup.classList.contains('active')) {
+                fecharPopup(popupId);
+            }
+        });
     }
 });

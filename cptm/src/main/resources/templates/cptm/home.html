@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/home.css" />
     <title>CPTM+</title>
 </head>
-<body>
+<body th:attr="data-logado=${logado ? 'true' : 'false'}">
 
 <!-- Container Principal -->
 <div class="main-container">
@@ -26,9 +26,7 @@
     </header>
 
     <div class="content">
-        <!-- Banner de notificações -->
-
-
+        <!-- Banner de notificações melhorado -->
         <div class="notification-banner" role="region" aria-label="Notificações do sistema">
             <div class="notification-track" tabindex="0" aria-live="polite">
                 <!-- Notificações do banco de dados -->
@@ -41,7 +39,7 @@
                         <span th:case="'Coral'">11</span>
                         <span th:case="'Safira'">12</span>
                         <span th:case="'Jade'">13</span>
-                        <span th:case="*">?</span> <!-- Caso nome não reconhecido -->
+                        <span th:case="*">?</span>
                     </div>
                     <div class="notification-text">
                         <div class="notification-content" th:text="${notificacao.titulo} + ' - ' + ${notificacao.texto}"></div>
@@ -50,11 +48,12 @@
                     </div>
                 </div>
 
-                <!-- Mensagem quando não há notificações -->
-                <div th:if="${notificacoes != null and #lists.isEmpty(notificacoes)}" class="notification-item linha-12">
-                    <div class="circle-number">i</div>
+                <!-- Banner quando não há notificações -->
+                <div th:if="${notificacoes == null or #lists.isEmpty(notificacoes)}" class="notification-item no-notifications">
+                    <div class="notification-icon">📢</div>
                     <div class="notification-text">
                         <div class="notification-content">Nenhuma notificação no momento</div>
+                        <div class="notification-subtitle">Fique tranquilo, você será notificado sobre qualquer novidade!</div>
                     </div>
                 </div>
             </div>
@@ -69,7 +68,7 @@
                 <span>Verificar Estações<br>Próximas</span>
             </button>
 
-            <button onclick="location.href='/cptm+/ajuda'" class="feature-card">
+            <button onclick="verificarLoginERedirecionarAjuda()" class="feature-card">
                 <img src="/images/siren.png" alt="Ajuda">
                 <span>Acionar Ajuda</span>
             </button>
@@ -79,7 +78,7 @@
                 <span>Rastrear Trens</span>
             </button>
 
-            <button onclick="location.href='/cptm+/feedback'" class="feature-card">
+            <button onclick="verificarLoginERedirecionarFeedback()" class="feature-card">
                 <img src="/images/feedback.png" alt="Feedback">
                 <span>Enviar Feedback</span>
             </button>
@@ -116,19 +115,47 @@
         <button onclick="location.href='/cptm+/rastreamento'" class="icon-button">
             <img src="/images/trem.png" alt="Trem" class="icon" />
         </button>
-        <button onclick="location.href='/cptm+/ajuda'" class="icon-button">
+        <button onclick="verificarLoginERedirecionarAjuda()" class="icon-button">
             <img src="/images/siren.png" alt="Notificações" class="icon" />
         </button>
     </div>
 </div>
 
 <script src="/home.js"></script>
+
+<!-- Pop-up para usuário já logado tentando se cadastrar -->
 <div id="popup-mensagem" th:if="${mensagem}" class="popup-container">
     <div class="popup-box">
-        <div class="popup-icon">&#10060;</div> <!-- X vermelho ❌ -->
+        <div class="popup-icon">&#10060;</div>
         <h2>Atenção!</h2>
         <p>Você já está logado! Não é possível se cadastrar novamente.</p>
-        <button onclick="fecharPopup()">OK</button>
+        <button onclick="fecharPopup('popup-mensagem')">OK</button>
+    </div>
+</div>
+
+<!-- Pop-up para Ajuda (Login necessário) -->
+<div id="popup-ajuda" class="popup-container">
+    <div class="popup-box">
+        <div class="popup-icon popup-icon-warning">⚠️</div>
+        <h2>Login Necessário</h2>
+        <p>Para acionar ajuda você precisa estar logado. Deseja fazer login agora?</p>
+        <div class="popup-buttons">
+            <button onclick="location.href='/cptm+/login'" class="popup-btn-primary">Fazer Login</button>
+            <button onclick="fecharPopup('popup-ajuda')" class="popup-btn-secondary">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Pop-up para Feedback (Login necessário) -->
+<div id="popup-feedback" class="popup-container">
+    <div class="popup-box">
+        <div class="popup-icon popup-icon-warning">⚠️</div>
+        <h2>Login Necessário</h2>
+        <p>Para enviar feedback você precisa estar logado. Deseja fazer login agora?</p>
+        <div class="popup-buttons">
+            <button onclick="location.href='/cptm+/login'" class="popup-btn-primary">Fazer Login</button>
+            <button onclick="fecharPopup('popup-feedback')" class="popup-btn-secondary">Cancelar</button>
+        </div>
     </div>
 </div>
 
