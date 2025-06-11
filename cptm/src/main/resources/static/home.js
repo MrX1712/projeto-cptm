@@ -78,13 +78,18 @@ function fecharPopup(popupId) {
 }
 
 // Verificar se existe mensagem ao carregar a página
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const popup = document.getElementById('popup-mensagem');
-    if (popup) {
-        // Mostrar o pop-up automaticamente se existe
-        abrirPopup('popup-mensagem');
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromCadastro = urlParams.get('from') === 'cadastro';
+
+    if (popup && fromCadastro) {
+        popup.style.display = 'flex'; // torna visível
+        abrirPopup('popup-mensagem'); // ativa com animação
     }
 });
+
+
 
 // Fechar pop-up clicando no fundo escuro
 document.addEventListener('click', function(e) {

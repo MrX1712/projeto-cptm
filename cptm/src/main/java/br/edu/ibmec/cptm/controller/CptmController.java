@@ -68,7 +68,7 @@ public class CptmController {
 
         if (passageiro != null) {
             redirectAttributes.addFlashAttribute("mensagem", "Você já está logado!");
-            return "redirect:/cptm+/home";
+            return "redirect:/cptm+/home?from=cadastro";
         }
 
         model.addAttribute("passageiro", new Passageiro()); // <-- ISSO resolve o erro!

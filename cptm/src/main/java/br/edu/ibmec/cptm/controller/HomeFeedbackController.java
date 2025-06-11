@@ -43,6 +43,6 @@ public class HomeFeedbackController {
             return "redirect:/cptm+/login";
         }
 
-        return "cptm/home";
+        return "redirect:/cptm+/home?from=feedback";
     }
 }
