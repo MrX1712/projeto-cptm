@@ -53,8 +53,13 @@ public class CptmController {
     @RequestMapping("/estacoes")
     public String estacoes(HttpSession session, Model model) {
         adicionarStatusLogado(session, model);
+
+        List<Linha> linhas = linhaService.listar(); // busca as linhas
+        model.addAttribute("linhas", linhas); // adiciona ao model para a view
+
         return "cptm/estacoes";
     }
+
 
     @RequestMapping("/feedback")
     public String feedback(HttpSession session, Model model) {

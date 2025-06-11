@@ -1,57 +1,72 @@
-<!doctype html>
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <link rel="stylesheet" href="/estacoes.css" />
-    <title>CPTM+</title>
+    <title>CPTM+ | Estações Próximas</title>
+    <link rel="stylesheet" href="/estacoes.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
 </head>
-<body>
+<body th:attr="data-logado=${logado ? 'true' : 'false'}">
 <div class="main-container">
-
-    <!-- Header Fixo -->
+    <!-- Header -->
     <header class="header">
         <div class="logo">
             <img src="/images/cptm.png" alt="Logo CPTM+" />
         </div>
         <button th:onclick="${logado} ? 'location.href=\'/cptm+/usuario\'' : 'location.href=\'/cptm+/login\''"
                 class="user-button" aria-label="Usuário">
-            <img src="/images/user.png" alt="user" />
+            <img src="/images/user.png" alt="Ícone do Usuário"/>
         </button>
     </header>
 
+    <!-- Conteúdo principal -->
     <div class="content">
         <div class="estacoes-container">
-            <div class="estacoes-header">Estações próximas</div>
+            <div class="estacoes-header">Estações Próximas</div>
 
-            <div class="form-group">
-                <label for="partida">Local de Partida:</label>
-                <input type="text" id="partida" placeholder="Insira o local de partida">
-            </div>
+            <form class="form-container" id="estacaoForm">
+                <div class="form-group">
+                    <label for="partida">Local de Partida:</label>
+                    <input type="text" id="partida" placeholder="Digite seu local" required />
+                </div>
 
-            <div class="form-group">
-                <label for="chegada">Local de Chegada:</label>
-                <input type="text" id="chegada" placeholder="Insira o local de chegada">
-            </div>
+                <div class="form-group">
+                    <label for="linha">Linha da CPTM:</label>
+                    <div class="select-wrapper">
+                        <select id="linha" required>
+                            <option value="">Selecione uma linha</option>
+                            <option th:each="linha : ${linhas}"
+                                    th:value="${linha.nome}"
+                                    th:switch="${linha.nome}">
+                                <th:block th:case="'Rubi'" th:text="'Linha 7 - Rubi'"></th:block>
+                                <th:block th:case="'Turquesa'" th:text="'Linha 10 - Turquesa'"></th:block>
+                                <th:block th:case="'Safira'" th:text="'Linha 12 - Safira'"></th:block>
+                                <th:block th:case="'Coral'" th:text="'Linha 11 - Coral'"></th:block>
+                                <th:block th:case="'Jade'" th:text="'Linha 13 - Jade'"></th:block>
+                                <th:block th:case="*" th:text="'Linha ? - ' + ${linha.nome}"></th:block>
+                            </option>
+                        </select>
 
+
+
+                    </div>
+                </div>
+
+                <button type="button" id="buscar-estacao" class="send-button">Buscar Estação Mais Próxima</button>
+            </form>
+
+            <!-- Mapa -->
             <div class="map-container">
-                <div class="marker marker1" data-estacao="Estação Central"></div>
-                <div class="marker marker2" data-estacao="Estação Sul"></div>
-                <div class="marker marker3" data-estacao="Estação Norte"></div>
+                <div id="google-map"></div>
             </div>
 
-            <div class="info-label">Linha:</div>
-            <div class="linha-box linha-rubi" onclick="selecionarLinha('rubi')">Rubi</div>
-
-            <div class="info-label">Estação:</div>
-            <div class="estacao-box" onclick="selecionarEstacao('palmeiras')">Palmeiras Barra Funda</div>
+            <div id="info-estacao" class="info-resultado"></div>
         </div>
     </div>
 
-    <!-- Footer fixo -->
+    <!-- Footer -->
     <div class="bottom-nav">
         <button onclick="location.href='/cptm+/home'" class="icon-button">
             <img src="/images/homeIcon.png" alt="Home" class="icon" />
@@ -69,8 +84,5 @@
 </div>
 
 <script src="/estacoes.js"></script>
-
-
-
 </body>
 </html>

@@ -1,59 +1,145 @@
-const estacoesData = {
-    'palmeiras': {
-        nome: 'Palmeiras Barra Funda',
-        linha: 'Linha 7 - Rubi',
-        tempo: '3 min',
-        cor: '#D7515E'
-    },
-    'luz': {
-        nome: 'Luz',
-        linha: 'Linha 1 - Azul / Linha 4 - Amarela / Linha 7 - Rubi',
-        tempo: '5 min',
-        cor: '#0066CC'
-    },
-    'bras': {
-        nome: 'Brás',
-        linha: 'Linha 3 - Vermelha / Linha 11 - Coral / Linha 12 - Safira',
-        tempo: '2 min',
-        cor: '#D7515E'
-    }
-};
+let map;
+let directionsService;
+let directionsRenderer;
 
-// Função para buscar rotas
-document.getElementById('partida').addEventListener('input', function(e) {
-    const partida = e.target.value.toLowerCase();
+function initMap() {
+    map = new google.maps.Map(document.getElementById("google-map"), {
+        zoom: 14,
+        center: { lat: -23.533773, lng: -46.625290 } // Centro de SP
+    });
 
-    if (partida.length > 2) {
-        console.log(`Local de partida: ${partida}`);
-        // Simular busca de estações próximas
-        setTimeout(() => {
-            if (partida.includes('palmeiras') || partida.includes('barra funda')) {
-                alert('Estação Palmeiras Barra Funda encontrada!');
-            }
-        }, 500);
-    }
-});
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
+}
 
-document.getElementById('chegada').addEventListener('input', function(e) {
-    const chegada = e.target.value.toLowerCase();
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('estacaoForm');
+    const buscarButton = document.getElementById('buscar-estacao');
 
-    if (chegada.length > 2) {
-        console.log(`Local de chegada: ${chegada}`);
-        // Simular cálculo de rota
-        setTimeout(() => {
-            const partida = document.getElementById('partida').value;
-            if (partida && chegada) {
-                alert(`Calculando rota de ${partida} para ${chegada}...`);
-            }
-        }, 500);
-    }
-});
+    // Adicionar listener ao botão
+    buscarButton.addEventListener('click', buscarEstacao);
 
-
-// Interação com marcadores do mapa
-document.querySelectorAll('.marker').forEach(marker => {
-    marker.addEventListener('click', function() {
-        const estacao = this.getAttribute('data-estacao');
-        alert(`Você clicou na ${estacao}`);
+    // Adicionar listener ao form para prevenir submit padrão
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        buscarEstacao();
     });
 });
+
+async function buscarEstacao() {
+    const endereco = document.getElementById("partida").value.trim();
+    const linha = document.getElementById("linha").value;
+    const infoDiv = document.getElementById("info-estacao");
+
+    // Limpar resultado anterior
+    infoDiv.innerHTML = "";
+
+    // Validação
+    if (!endereco || !linha) {
+        mostrarErro("Preencha todos os campos.");
+        return;
+    }
+
+    // Mostrar loading
+    mostrarLoading();
+
+    try {
+        // 1. Geocodifica o endereço
+        const geoRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(endereco)}&key=YOUR_API_KEY`);
+        const geoData = await geoRes.json();
+
+        if (geoData.status !== "OK") {
+            mostrarErro("Endereço não encontrado. Verifique o local digitado.");
+            return;
+        }
+
+        const origem = geoData.results[0].geometry.location;
+
+        // 2. Chama o backend para pegar a estação mais próxima da linha
+        const res = await fetch(`/cptm+/estacoes/mais-proxima?linha=${linha}&lat=${origem.lat}&lng=${origem.lng}`);
+
+        if (!res.ok) {
+            throw new Error('Erro na busca da estação');
+        }
+
+        const estacao = await res.json();
+
+        if (!estacao || !estacao.latitude || !estacao.longitude) {
+            mostrarErro("Não foi possível encontrar uma estação para essa linha.");
+            return;
+        }
+
+        // 3. Atualiza o texto com nome da estação
+        mostrarResultado(linha, estacao.nome);
+
+        // 4. Traça a rota até a estação
+        const destino = { lat: estacao.latitude, lng: estacao.longitude };
+
+        const rota = {
+            origin: origem,
+            destination: destino,
+            travelMode: google.maps.TravelMode.WALKING
+        };
+
+        directionsService.route(rota, function (result, status) {
+            if (status === "OK") {
+                directionsRenderer.setDirections(result);
+            } else {
+                console.error("Não foi possível traçar a rota:", status);
+                // Não mostrar erro para o usuário, pois já temos a informação da estação
+            }
+        });
+
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarErro("Ocorreu um erro ao buscar a estação. Tente novamente.");
+    }
+}
+
+function mostrarLoading() {
+    const infoDiv = document.getElementById("info-estacao");
+    infoDiv.innerHTML = `
+        <div style="text-align: center; color: #666;">
+            <div style="margin-bottom: 10px;">🔍</div>
+            Buscando estação mais próxima...
+        </div>
+    `;
+}
+
+function mostrarResultado(linha, nomeEstacao) {
+    const infoDiv = document.getElementById("info-estacao");
+    const linhaFormatada = formatarNomeLinha(linha);
+
+    infoDiv.innerHTML = `
+        <div style="text-align: center;">
+            <div style="margin-bottom: 8px; color: #f44336; font-size: 18px;">📍</div>
+            <div>Estação mais próxima da <strong>${linhaFormatada}</strong>:</div>
+            <div style="font-size: 18px; font-weight: bold; color: #f44336; margin-top: 5px;">
+                ${nomeEstacao}
+            </div>
+        </div>
+    `;
+}
+
+function mostrarErro(mensagem) {
+    const infoDiv = document.getElementById("info-estacao");
+    infoDiv.innerHTML = `
+        <div style="text-align: center; color: #d32f2f;">
+            <div style="margin-bottom: 8px; font-size: 18px;">⚠️</div>
+            ${mensagem}
+        </div>
+    `;
+}
+
+function formatarNomeLinha(linha) {
+    const formatacoes = {
+        'Rubi': 'Linha 7 - Rubi',
+        'Turquesa': 'Linha 10 - Turquesa',
+        'Coral': 'Linha 11 - Coral',
+        'Safira': 'Linha 12 - Safira',
+        'Jade': 'Linha 13 - Jade'
+    };
+
+    return formatacoes[linha] || `Linha ${linha}`;
+}

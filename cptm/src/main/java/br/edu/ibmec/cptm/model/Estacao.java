@@ -26,14 +26,22 @@ public class Estacao implements Serializable {
     @JsonIgnore
     private Linha linha;
 
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
+
     public Estacao() {
     }
 
-    public Estacao(UUID id, String nome, int numero, Linha linha) {
+    public Estacao(UUID id, String nome, Integer numero, Linha linha, Double latitude, Double longitude) {
         this.id = id;
         this.nome = nome;
         this.numero = numero;
         this.linha = linha;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public UUID getId() {
@@ -67,4 +75,21 @@ public class Estacao implements Serializable {
     public void setLinha(Linha linha) {
         this.linha = linha;
     }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
 }

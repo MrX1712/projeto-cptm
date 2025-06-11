@@ -135,6 +135,8 @@
             <th>Número</th>
             <th>Linha</th>
             <th>Ações</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
         </tr>
         </thead>
         <tbody>
@@ -142,6 +144,8 @@
             <td th:text="${estacao.nome}"></td>
             <td th:text="${estacao.numero}"></td>
             <td th:text="${estacao.linha != null ? estacao.linha.nome : 'Sem Linha'}"></td>
+            <td th:text="${estacao.latitude}">-</td>
+            <td th:text="${estacao.longitude}">-</td>
             <td>
                 <a class="btn btn-warning" th:href="@{/cptm+/adm/painel-administrativo/estacoes/editar/{id}(id=${estacao.id})}">Editar</a>
                 <a class="btn btn-danger" th:href="@{/cptm+/adm/painel-administrativo/estacoes/excluir/{id}(id=${estacao.id})}"

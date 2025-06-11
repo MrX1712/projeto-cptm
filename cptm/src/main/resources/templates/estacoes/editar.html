@@ -80,6 +80,12 @@
         <label for="numero" class="form-label">Número da Estação</label>
         <input type="text" id="numero" th:field="*{numero}" placeholder="Digite o número da estação" required />
 
+        <label for="latitude">Latitude</label>
+        <input type="text" id="latitude" th:field="*{latitude}" placeholder="Digite a latitude" required />
+
+        <label for="longitude">Longitude</label>
+        <input type="text" id="longitude" th:field="*{longitude}" placeholder="Digite a longitude" required />
+
         <!-- Removido o campo de linha, pois não é necessário modificar -->
 
         <button type="submit">Salvar</button>
