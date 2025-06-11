@@ -31,8 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
     highlightStars(0);
 
     form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Previne o envio padrão
+
         if (!logado) {
-            e.preventDefault();
             alert("Você precisa estar logado para enviar feedback.");
             window.location.href = "/cptm+/login";
             return;
@@ -42,8 +43,60 @@ document.addEventListener('DOMContentLoaded', () => {
         const comentario = document.getElementById('comments').value.trim();
 
         if (!tipo || !selectedRating || !comentario) {
-            e.preventDefault();
             alert("Preencha todos os campos e selecione uma nota.");
+            return;
         }
+
+        // Simula o envio (você pode substituir por uma chamada AJAX real)
+        setTimeout(() => {
+            showFeedbackPopup();
+            // Reset do form
+            form.reset();
+            selectedRating = 0;
+            highlightStars(0);
+        }, 500);
     });
+});
+
+// Funções específicas para o pop-up de feedback
+function showFeedbackPopup() {
+    const overlay = document.getElementById('feedback-popup-overlay');
+    if (overlay) {
+        overlay.style.display = 'flex';
+        // Previne scroll do body quando o popup está aberto
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeFeedbackPopup() {
+    const overlay = document.getElementById('feedback-popup-overlay');
+    if (overlay) {
+        overlay.style.display = 'none';
+        // Restaura o scroll do body
+        document.body.style.overflow = 'auto';
+
+        // Redireciona para a home após fechar o popup
+        setTimeout(() => {
+            window.location.href = '/cptm+/home';
+        }, 100);
+    }
+}
+
+document.addEventListener('click', function(e) {
+    const overlay = document.getElementById('feedback-popup-overlay');
+    const container = document.querySelector('.feedback-popup-container');
+
+    if (overlay && overlay.style.display === 'flex' &&
+        !container.contains(e.target)) {
+        closeFeedbackPopup();
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const overlay = document.getElementById('feedback-popup-overlay');
+        if (overlay && overlay.style.display === 'flex') {
+            closeFeedbackPopup();
+        }
+    }
 });
