@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CPTM+ | Estações Próximas</title>
     <link rel="stylesheet" href="/estacoes.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
 </head>
 <body th:attr="data-logado=${logado ? 'true' : 'false'}">
 <div class="main-container">
@@ -38,15 +37,15 @@
                         <select id="linha" required>
                             <option value="">Selecione uma linha</option>
                             <option th:each="linha : ${linhas}"
-                                    th:value="${linha.nome}"
-                                    th:switch="${linha.nome}">
-                                <th:block th:case="'Rubi'" th:text="'Linha 7 - Rubi'"></th:block>
-                                <th:block th:case="'Turquesa'" th:text="'Linha 10 - Turquesa'"></th:block>
-                                <th:block th:case="'Safira'" th:text="'Linha 12 - Safira'"></th:block>
-                                <th:block th:case="'Coral'" th:text="'Linha 11 - Coral'"></th:block>
-                                <th:block th:case="'Jade'" th:text="'Linha 13 - Jade'"></th:block>
-                                <th:block th:case="*" th:text="'Linha ? - ' + ${linha.nome}"></th:block>
+                                    th:value="${linha.id}"
+                                    th:text="${linha.nome == 'Rubi' ? 'Linha 7 - Rubi' :
+                                     linha.nome == 'Turquesa' ? 'Linha 10 - Turquesa' :
+                                     linha.nome == 'Safira' ? 'Linha 12 - Safira' :
+                                     linha.nome == 'Coral' ? 'Linha 11 - Coral' :
+                                     linha.nome == 'Jade' ? 'Linha 13 - Jade' :
+                                     'Linha ? - ' + linha.nome}">
                             </option>
+
                         </select>
 
 
@@ -84,5 +83,6 @@
 </div>
 
 <script src="/estacoes.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-tgvCbmlPEYQuEj_Chai_FmI-Ege3eMQ&callback=initMap" async defer></script>
 </body>
 </html>

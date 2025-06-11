@@ -2,7 +2,7 @@ let map;
 let directionsService;
 let directionsRenderer;
 
-function initMap() {
+window.initMap = function () {
     map = new google.maps.Map(document.getElementById("google-map"), {
         zoom: 14,
         center: { lat: -23.533773, lng: -46.625290 } // Centro de SP
@@ -11,7 +11,7 @@ function initMap() {
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
-}
+};
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('estacaoForm');
@@ -46,7 +46,7 @@ async function buscarEstacao() {
 
     try {
         // 1. Geocodifica o endereço
-        const geoRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(endereco)}&key=YOUR_API_KEY`);
+        const geoRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(endereco)}&key=AIzaSyB-tgvCbmlPEYQuEj_Chai_FmI-Ege3eMQ`);
         const geoData = await geoRes.json();
 
         if (geoData.status !== "OK") {
@@ -87,7 +87,6 @@ async function buscarEstacao() {
                 directionsRenderer.setDirections(result);
             } else {
                 console.error("Não foi possível traçar a rota:", status);
-                // Não mostrar erro para o usuário, pois já temos a informação da estação
             }
         });
 
@@ -132,14 +131,14 @@ function mostrarErro(mensagem) {
     `;
 }
 
-function formatarNomeLinha(linha) {
-    const formatacoes = {
+function formatarNomeLinha(linhaId) {
+    const mapeamento = {
         'Rubi': 'Linha 7 - Rubi',
         'Turquesa': 'Linha 10 - Turquesa',
         'Coral': 'Linha 11 - Coral',
         'Safira': 'Linha 12 - Safira',
         'Jade': 'Linha 13 - Jade'
     };
-
-    return formatacoes[linha] || `Linha ${linha}`;
+    // como linha agora é um UUID, essa função é só pra fallback
+    return mapeamento[linhaId] || `Linha`;
 }

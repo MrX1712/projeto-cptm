@@ -77,6 +77,8 @@ public class EstacaoController {
 
         estacaoExistente.setNome(estacao.getNome());
         estacaoExistente.setNumero(estacao.getNumero());
+        estacaoExistente.setLatitude(estacao.getLatitude());
+        estacaoExistente.setLongitude(estacao.getLongitude());
         estacaoRepository.save(estacaoExistente);
 
         return "redirect:/cptm+/adm/painel-administrativo/estacoes/listar";
