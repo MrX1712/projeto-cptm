@@ -8,22 +8,30 @@
         body {
             font-family: 'Roboto Condensed', Arial, sans-serif;
             background-color: #f5f5f5;
-            padding: 20px;
         }
-
-        .container {
-            max-width: 100%;
-            margin: 0 auto;
+        .navbar-custom {
+            background-color: #EE3338;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .logo-img {
+            height: 35px;
+            object-fit: contain;
+        }
+        .main-content {
+            max-width: 1000px;
+            margin: 30px auto;
             background: white;
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
-
         .top-bar {
             margin-bottom: 20px;
         }
-
         .btn-back {
             background-color: transparent;
             border: 2px solid #EE3338;
@@ -36,12 +44,10 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             display: inline-block;
         }
-
         .btn-back:hover {
             background-color: #EE3338;
             color: white;
         }
-
         h1 {
             color: #EE3338;
             font-weight: 700;
@@ -49,7 +55,6 @@
             font-family: 'Roboto Condensed', Arial, sans-serif;
             text-align: center;
         }
-
         .btn-new-line {
             background-color: #EE3338;
             border: none;
@@ -62,37 +67,31 @@
             color: white;
             text-decoration: none;
         }
-
         .btn-new-line:hover {
             background-color: #bb292d;
             text-decoration: none;
             color: white;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 16px;
             table-layout: auto;
         }
-
         th, td {
             padding: 12px 15px;
             border-bottom: 1px solid #ddd;
             text-align: left;
             white-space: nowrap;
         }
-
         th {
             background-color: #EE3338;
             color: white;
             font-weight: 700;
         }
-
         tr:hover {
             background-color: #f1f1f1;
         }
-
         .btn-warning, .btn-info, .btn-danger {
             font-weight: 600;
             border-radius: 8px;
@@ -103,54 +102,71 @@
             display: inline-block;
             cursor: pointer;
         }
-
         .btn-warning {
             background-color: #f0ad4e;
             border: none;
         }
-
         .btn-warning:hover {
             background-color: #ec971f;
             color: white !important;
         }
-
         .btn-info {
             background-color: #5bc0de;
             border: none;
         }
-
         .btn-info:hover {
             background-color: #31b0d5;
             color: white !important;
         }
-
         .btn-danger {
             background-color: #d9534f;
             border: none;
         }
-
         .btn-danger:hover {
             background-color: #c9302c;
             color: white !important;
         }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 6px 12px;
+            color: white !important;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            color: white !important;
+        }
 
+        /* Responsividade */
         @media (max-width: 768px) {
+            .main-content {
+                margin: 15px;
+                padding: 15px;
+            }
+            .navbar-brand {
+                font-size: 1rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
             table, thead, tbody, th, td, tr {
                 display: block;
                 width: 100%;
             }
-
             thead tr {
                 display: none;
             }
-
             td {
                 position: relative;
                 padding-left: 50%;
                 text-align: right;
                 border-bottom: 1px solid #ddd;
+                white-space: normal;
             }
-
             td::before {
                 content: attr(data-label);
                 position: absolute;
@@ -160,38 +176,68 @@
                 font-weight: bold;
                 text-align: left;
             }
+            .btn-warning, .btn-info, .btn-danger, .btn-primary {
+                display: block;
+                width: 100%;
+                margin-bottom: 8px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-img {
+                height: 30px;
+            }
+            .navbar-brand {
+                gap: 10px;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
 <body>
-<div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">
+            <img src="/images/cptm.png" alt="Logo CPTM+" class="logo-img" />
+            Painel CPTM+
+        </a>
+    </div>
+</nav>
+
+<div class="main-content">
     <div class="top-bar">
         <a th:href="@{/cptm+/adm/painel-administrativo}" class="btn-back">Voltar ao Painel</a>
     </div>
     <h1>Linhas</h1>
     <a th:href="@{/cptm+/adm/painel-administrativo/linhas/novo}" class="btn-new-line">Nova Linha</a>
-    <table>
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Estações</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="linha : ${linhas}">
-            <td data-label="Nome" th:text="${linha.nome}"></td>
-            <td data-label="Estações">
-                <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/listar?linhaId={id}(id=${linha.id})}"
-                   class="btn btn-primary btn-sm">Listar Estações</a>
-            </td>
-            <td data-label="Ações">
-                <a th:href="@{/cptm+/adm/painel-administrativo/linhas/editar/{id}(id=${linha.id})}" class="btn btn-info btn-sm">Editar</a>
-                <a th:href="@{/cptm+/adm/painel-administrativo/linhas/remover/{id}(id=${linha.id})}" class="btn btn-danger btn-sm">Remover</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Estações</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="linha : ${linhas}">
+                <td data-label="Nome" th:text="${linha.nome}"></td>
+                <td data-label="Estações">
+                    <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/listar?linhaId={id}(id=${linha.id})}"
+                       class="btn btn-primary btn-sm">Listar Estações</a>
+                </td>
+                <td data-label="Ações">
+                    <a th:href="@{/cptm+/adm/painel-administrativo/linhas/editar/{id}(id=${linha.id})}" class="btn btn-info btn-sm">Editar</a>
+                    <a th:href="@{/cptm+/adm/painel-administrativo/linhas/remover/{id}(id=${linha.id})}" class="btn btn-danger btn-sm">Remover</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

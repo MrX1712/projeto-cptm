@@ -11,44 +11,102 @@
     <style>
         body {
             background-color: #f8f9fa;
+            font-family: "Roboto Condensed", Arial, sans-serif;
         }
         .dashboard-container {
             max-width: 900px;
             margin: 40px auto;
-            padding: 20px;
+            padding: 30px;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .logo-img {
+            height: 40px;
+            object-fit: contain;
+        }
+        .dashboard-title {
+            text-align: center;
+            color: #EE3338;
+            font-weight: 700;
+            margin-bottom: 40px;
+            font-size: 2.2rem;
         }
         .btn-dashboard {
             width: 100%;
-            padding: 1.2rem;
-            font-size: 1.25rem;
+            padding: 1.5rem;
+            font-size: 1.1rem;
             font-weight: 600;
             border: 2px solid #EE3338;
             color: #EE3338;
             background-color: transparent;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70px;
         }
         .btn-dashboard:hover,
         .btn-dashboard:focus {
             background-color: #EE3338;
             color: white;
             text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(238, 51, 56, 0.3);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                margin: 20px;
+                padding: 20px;
+            }
+            .dashboard-title {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+            .btn-dashboard {
+                padding: 1.2rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .dashboard-container {
+                margin: 10px;
+                padding: 15px;
+            }
+            .dashboard-title {
+                font-size: 1.5rem;
+            }
+            .btn-dashboard {
+                padding: 1rem;
+                font-size: 0.95rem;
+            }
         }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
     <div class="container">
-        <a class="navbar-brand" href="#">Painel CPTM+</a>
+        <a class="navbar-brand" href="#">
+            <img src="/images/cptm.png" alt="Logo CPTM+" class="logo-img" />
+            Painel CPTM+
+        </a>
     </div>
 </nav>
 
 <main class="dashboard-container">
-    <h1 class="mb-4 text-center">Painel Administrativo CPTM+</h1>
+    <h1 class="dashboard-title">Painel Administrativo CPTM+</h1>
 
-    <div class="row g-3">
+    <div class="row g-4">
         <div class="col-12 col-md-6">
             <a th:href="@{/cptm+/adm/painel-administrativo/ajuda/listar}" class="btn btn-dashboard">Ajuda</a>
         </div>

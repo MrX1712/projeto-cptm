@@ -5,12 +5,26 @@
     <title>Nova Solicitação de Ajuda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
-        .navbar-custom { background-color: #EE3338; }
+        body {
+            font-family: "Roboto Condensed", Arial, sans-serif;
+        }
+        .navbar-custom {
+            background-color: #EE3338;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .logo-img {
+            height: 35px;
+            object-fit: contain;
+        }
         .form-container {
             background-color: #fff;
-            border-radius: 10px;
+            border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             max-width: 700px;
             margin: auto;
         }
@@ -19,13 +33,65 @@
             color: white;
             border: none;
         }
-        .btn-submit:hover { background-color: #bb292d; }
+        .btn-submit:hover {
+            background-color: #bb292d;
+        }
+        .btn-cancel {
+            border: 2px solid #EE3338;
+            color: #EE3338;
+        }
+        .btn-cancel:hover {
+            background-color: #EE3338;
+            color: white;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .form-container {
+                padding: 20px;
+                margin: 10px;
+            }
+            .navbar-brand {
+                font-size: 1rem;
+            }
+            h3 {
+                font-size: 1.3rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-img {
+                height: 30px;
+            }
+            .navbar-brand {
+                gap: 10px;
+            }
+            .form-container {
+                padding: 15px;
+                margin: 5px;
+            }
+            h3 {
+                font-size: 1.2rem;
+            }
+            .btn-submit,
+            .btn-cancel {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">
+            <img src="/images/cptm.png" alt="Logo CPTM+" class="logo-img" />
+            Painel CPTM+
+        </a>
     </div>
 </nav>
 <div class="container mt-5">
@@ -50,23 +116,28 @@
                     <option th:each="p : ${passageiros}" th:value="${p.id}" th:text="${p.nome}"></option>
                 </select>
             </div>
-            <label for="temaId" class="form-label">Problema / Tipo de Ajuda</label>
-            <select class="form-select" id="temaId" th:field="*{tema}" required>
-                <option value="1">Furto ou roubo</option>
-                <option value="2">Assédio</option>
-                <option value="3">Ajuda com mobilidade reduzida</option>
-                <option value="4">Confusão ou desorientação</option>
-                <option value="5">Pessoa perdida</option>
-                <option value="6">Emergência médica</option>
-                <option value="7">Problema com bilhete ou acesso</option>
-                <option value="8">Comportamento agressivo</option>
-            </select>
+            <div class="mb-3">
+                <label for="temaId" class="form-label">Problema / Tipo de Ajuda</label>
+                <select class="form-select" id="temaId" th:field="*{tema}" required>
+                    <option value="1">Furto ou roubo</option>
+                    <option value="2">Assédio</option>
+                    <option value="3">Ajuda com mobilidade reduzida</option>
+                    <option value="4">Confusão ou desorientação</option>
+                    <option value="5">Pessoa perdida</option>
+                    <option value="6">Emergência médica</option>
+                    <option value="7">Problema com bilhete ou acesso</option>
+                    <option value="8">Comportamento agressivo</option>
+                </select>
+            </div>
 
             <div class="mb-3">
                 <label for="comentarioId" class="form-label">Comentário</label>
                 <textarea class="form-control" id="comentarioId" th:field="*{comentario}" rows="4" required></textarea>
             </div>
-            <button type="submit" class="btn btn-submit">Enviar Solicitação</button>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-submit">Enviar Solicitação</button>
+                <a th:href="@{/cptm+/adm/painel-administrativo/ajuda/listar}" class="btn btn-cancel ms-2">Cancelar</a>
+            </div>
         </form>
     </div>
 </div>
