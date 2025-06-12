@@ -510,3 +510,103 @@ body {
     background-color: #8A2BE2;
     color: white;
 }
+
+/* === RESPONSIVIDADE === */
+
+/* Mobile Grande / Tablet Pequeno */
+@media (min-width: 600px) {
+    .main-container {
+        max-width: 100%;
+        width: 100%;
+        padding: 0 16px;
+    }
+
+    .content{
+        padding-right: 45px;
+    }
+
+    .header {
+        max-width: 100%;
+        height: 100px;
+        border-radius: 0;
+    }
+
+    .header .logo img {
+        height: 80px;
+    }
+
+    .bottom-nav {
+        max-width: 100%;
+        height: 70px;
+        border-radius: 0;
+    }
+
+    .bottom-nav .icon {
+        height: 28px;
+        width: 28px;
+    }
+
+    .feedback-header {
+        font-size: 26px;
+    }
+    .form-container label {
+        font-size: 18px;
+    }
+    .form-container input[type="text"],
+    .form-container input[type="password"] {
+        font-size: 18px;
+    }
+    .send-button {
+        font-size: 18px;
+        padding: 16px 70px;
+    }
+}
+
+/* Desktop Grande */
+@media (min-width: 992px) {
+    .main-container {
+        max-width: 450px;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .content{
+        padding-right: 15px;
+    }
+
+    .header {
+        max-width: 450px;
+        margin: 0 auto;
+    }
+    .bottom-nav {
+        max-width: 450px;
+        height: 75px;
+        margin: 0 auto;
+    }
+    .bottom-nav .icon {
+        height: 30px;
+        width: 30px;
+    }
+}
+
+/* Responsividade para o pop-up */
+@media (max-width: 480px) {
+    .popup-container {
+        max-width: 320px;
+        padding: 25px 20px;
+    }
+
+    .popup-header {
+        font-size: 18px;
+    }
+
+    .popup-message {
+        font-size: 15px;
+    }
+
+    .popup-btn {
+        font-size: 15px;
+        padding: 10px 20px;
+        min-width: 80px;
+    }
+}

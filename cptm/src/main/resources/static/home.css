@@ -519,6 +519,7 @@ body {
 .popup-box .popup-icon-warning {
     background-color: #ff9800;
     box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+    margin-top: 20px;
 }
 
 .popup-box h2 {
@@ -608,26 +609,36 @@ body {
     box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
 }
 
-/* === RESPONSIVIDADE  === */
+/* === RESPONSIVIDADE === */
 
 /* Mobile Grande / Tablet Pequeno */
 @media (min-width: 600px) {
     .main-container {
-        max-width: 550px;
+        max-width: 100%;
+        width: 100%;
+        padding: 0 16px;
     }
+
+    .content{
+        padding-right: 45px;
+    }
+
     .header {
-        max-width: 450px;
+        max-width: 100%;
         height: 100px;
         border-radius: 0;
     }
+
     .header .logo img {
         height: 80px;
     }
+
     .bottom-nav {
-        max-width: 450px;
+        max-width: 100%;
         height: 70px;
         border-radius: 0;
     }
+
     .bottom-nav .icon {
         height: 28px;
         width: 28px;
@@ -679,13 +690,26 @@ body {
 @media (min-width: 992px) {
     .main-container {
         max-width: 450px;
+        margin: 0 auto;
+        padding: 0;
     }
+
+    .content{
+        padding-right: 15px;
+    }
+
+    .cta-card{
+        padding-right: 15px;
+    }
+
     .header {
         max-width: 450px;
+        margin: 0 auto;
     }
     .bottom-nav {
         max-width: 450px;
         height: 75px;
+        margin: 0 auto;
     }
     .bottom-nav .icon {
         height: 30px;
