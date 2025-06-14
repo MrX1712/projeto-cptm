@@ -42,4 +42,7 @@ public class FeedbackService {
         feedbackRepository.save(feedback);
     }
 
+    public Feedback buscarPorId(UUID id) {
+        return feedbackRepository.findById(id).orElse(null);
+    }
 }

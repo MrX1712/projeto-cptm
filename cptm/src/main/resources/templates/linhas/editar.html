@@ -4,80 +4,226 @@
     <meta charset="UTF-8" />
     <title>Editar Linha</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
     <style>
         body {
-            font-family: 'Roboto Condensed', Arial, sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
+            font-family: "Roboto Condensed", Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
         }
+
+        /* === CONTAINER PRINCIPAL SEMPRE MOBILE === */
+        .main-container {
+            max-width: 414px;
+            width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* === HEADER FIXO === */
+        .header {
+            background-color: #EE3338;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .navbar-brand:hover {
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 30px;
+            object-fit: contain;
+        }
+
+        /* === CONTEÚDO === */
+        .content {
+            flex: 1;
+            padding: 25px 20px;
+            overflow-y: auto;
+        }
+
+        /* === CONTAINER DO FORMULÁRIO === */
         .form-container {
             background: white;
             border-radius: 15px;
-            padding: 30px;
-            max-width: 450px;
-            margin: 0 auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
-        h1 {
+
+        .page-title {
             text-align: center;
             margin-bottom: 25px;
             color: #EE3338;
             font-weight: 700;
+            font-size: 1.4rem;
             font-family: 'Roboto Condensed', Arial, sans-serif;
         }
-        label {
+
+        /* === FORMULÁRIO === */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
             font-weight: 600;
             color: #333;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 14px;
         }
-        input[type="text"] {
+
+        .form-input {
             width: 100%;
-            padding: 10px 12px;
-            margin: 8px 0 20px 0;
+            padding: 12px 15px;
             border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            font-size: 14px;
             box-sizing: border-box;
+            font-family: 'Roboto Condensed', Arial, sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
         }
-        button {
+
+        .form-input:focus {
+            outline: none;
+            border-color: #EE3338;
+            box-shadow: 0 0 0 3px rgba(238, 51, 56, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+
+        /* === BOTÕES === */
+        .btn-submit {
             background-color: #EE3338;
             color: white;
-            font-weight: 700;
-            padding: 12px 20px;
+            font-weight: 600;
+            padding: 15px 20px;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             width: 100%;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Roboto Condensed', Arial, sans-serif;
+            margin-bottom: 15px;
         }
-        button:hover {
+
+        .btn-submit:hover {
             background-color: #bb292d;
+            transform: translateY(-1px);
         }
+
         .btn-cancel {
-            margin-top: 10px;
             display: block;
             text-align: center;
             color: #EE3338;
-            font-weight: 700;
+            font-weight: 600;
             text-decoration: none;
-            font-size: 16px;
+            font-size: 14px;
+            padding: 10px;
+            border: 2px solid #EE3338;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
+
         .btn-cancel:hover {
-            text-decoration: underline;
+            background-color: #EE3338;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* === ESCONDER SCROLLBAR === */
+        .content::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* === RESPONSIVIDADE PARA TELAS MUITO PEQUENAS === */
+        @media (max-width: 360px) {
+            .content {
+                padding: 20px 15px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
+
+            .form-input {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            .btn-submit {
+                padding: 12px 15px;
+                font-size: 15px;
+            }
         }
     </style>
 </head>
+
 <body>
-<div class="form-container">
-    <h1 th:text="${linha.id != null} ? 'Editar Linha' : 'Nova Linha'"></h1>
-    <form th:action="@{/cptm+/adm/painel-administrativo/linhas/salvar}" th:object="${linha}" method="post">
-        <input type="hidden" th:field="*{id}" />
-        <label for="nome">Nome</label>
-        <input type="text" th:field="*{nome}" id="nome" placeholder="Nome da linha" required />
-        <button type="submit">Salvar</button>
-    </form>
-    <a th:href="@{/cptm+/adm/painel-administrativo/linhas}" class="btn-cancel">Cancelar</a>
+<div class="main-container">
+    <!-- Header -->
+    <header class="header">
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">
+            <img src="/images/cptm.png" alt="Logo CPTM+" class="logo-img" />
+            Painel CPTM+
+        </a>
+    </header>
+
+    <div class="content">
+        <div class="form-container">
+            <h1 class="page-title">Editar Linha</h1>
+
+            <form th:action="@{/cptm+/adm/painel-administrativo/linhas/salvar}" th:object="${linha}" method="post">
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="form-group">
+                    <label for="nome" class="form-label">Nome da Linha</label>
+                    <input type="text" id="nome" th:field="*{nome}" class="form-input"
+                           placeholder="Ex: Rubi, Turquesa, Coral..." required />
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Salvar Alterações
+                </button>
+            </form>
+
+            <a th:href="@{/cptm+/adm/painel-administrativo/linhas}" class="btn-cancel">
+                Cancelar
+            </a>
+        </div>
+    </div>
 </div>
 </body>
 </html>

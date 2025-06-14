@@ -10,126 +10,227 @@
     />
     <style>
         body {
-            background-color: #f8f9fa;
             font-family: "Roboto Condensed", Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
         }
-        .dashboard-container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 30px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+        /* === CONTAINER PRINCIPAL SEMPRE MOBILE === */
+        .main-container {
+            max-width: 414px;
+            width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
         }
+
+        /* === HEADER FIXO === */
+        .header {
+            background-color: #EE3338;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
         .navbar-brand {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
+
+        .navbar-brand:hover {
+            color: white;
+            text-decoration: none;
+        }
+
         .logo-img {
-            height: 40px;
+            height: 30px;
             object-fit: contain;
         }
+
+        /* === CONTEÚDO === */
+        .content {
+            flex: 1;
+            padding: 25px 20px;
+            overflow-y: auto;
+        }
+
         .dashboard-title {
             text-align: center;
             color: #EE3338;
             font-weight: 700;
-            margin-bottom: 40px;
-            font-size: 2.2rem;
+            margin-bottom: 30px;
+            font-size: 1.6rem;
+            line-height: 1.2;
         }
+
+        /* === GRID DE BOTÕES === */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
         .btn-dashboard {
-            width: 100%;
-            padding: 1.5rem;
-            font-size: 1.1rem;
+            padding: 20px 15px;
+            font-size: 0.9rem;
             font-weight: 600;
             border: 2px solid #EE3338;
             color: #EE3338;
-            background-color: transparent;
+            background-color: white;
             transition: all 0.3s ease;
             border-radius: 12px;
             text-decoration: none;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 70px;
+            text-align: center;
+            min-height: 80px;
+            position: relative;
+            overflow: hidden;
         }
+
         .btn-dashboard:hover,
         .btn-dashboard:focus {
             background-color: #EE3338;
             color: white;
             text-decoration: none;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(238, 51, 56, 0.3);
+            box-shadow: 0 4px 15px rgba(238, 51, 56, 0.3);
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .dashboard-container {
-                margin: 20px;
-                padding: 20px;
+        .btn-dashboard:active {
+            transform: translateY(0);
+        }
+
+        /* === ÍCONES DOS BOTÕES === */
+        .btn-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* === ESCONDER SCROLLBAR === */
+        .content::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* === RESPONSIVIDADE PARA TELAS MUITO PEQUENAS === */
+        @media (max-width: 360px) {
+            .content {
+                padding: 20px 15px;
             }
+
             .dashboard-title {
-                font-size: 1.8rem;
-                margin-bottom: 30px;
+                font-size: 1.4rem;
+                margin-bottom: 25px;
             }
+
+            .dashboard-grid {
+                gap: 12px;
+            }
+
             .btn-dashboard {
-                padding: 1.2rem;
-                font-size: 1rem;
+                padding: 18px 12px;
+                font-size: 0.85rem;
+                min-height: 75px;
+            }
+
+            .btn-icon {
+                font-size: 1.6rem;
+                margin-bottom: 6px;
             }
         }
 
-        @media (max-width: 576px) {
-            .dashboard-container {
-                margin: 10px;
-                padding: 15px;
-            }
-            .dashboard-title {
-                font-size: 1.5rem;
-            }
-            .btn-dashboard {
-                padding: 1rem;
-                font-size: 0.95rem;
-            }
+        /* === BOTÃO ESPECIAL PARA ITEM ÍMPAR === */
+        .btn-dashboard.full-width {
+            grid-column: 1 / -1;
+            margin: 0 auto;
+        }
+
+        /* === ANIMAÇÃO SUTIL === */
+        .btn-dashboard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-dashboard:hover::before {
+            left: 100%;
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EE3338;">
-    <div class="container">
+<div class="main-container">
+    <!-- Header -->
+    <header class="header">
         <a class="navbar-brand" href="#">
             <img src="/images/cptm.png" alt="Logo CPTM+" class="logo-img" />
             Painel CPTM+
         </a>
-    </div>
-</nav>
+    </header>
 
-<main class="dashboard-container">
-    <h1 class="dashboard-title">Painel Administrativo CPTM+</h1>
+    <div class="content">
+        <h1 class="dashboard-title">Painel Administrativo CPTM+</h1>
 
-    <div class="row g-4">
-        <div class="col-12 col-md-6">
-            <a th:href="@{/cptm+/adm/painel-administrativo/ajuda/listar}" class="btn btn-dashboard">Ajuda</a>
-        </div>
-        <div class="col-12 col-md-6">
-            <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/listar}" class="btn btn-dashboard">Estações</a>
-        </div>
-        <div class="col-12 col-md-6">
-            <a th:href="@{/cptm+/adm/painel-administrativo/feedback/listar}" class="btn btn-dashboard">Feedbacks</a>
-        </div>
-        <div class="col-12 col-md-6">
-            <a th:href="@{/cptm+/adm/painel-administrativo/linhas}" class="btn btn-dashboard">Linhas</a>
-        </div>
-        <div class="col-12 col-md-6">
-            <a th:href="@{/cptm+/adm/painel-administrativo/notificacoes/listar}" class="btn btn-dashboard">Notificações</a>
-        </div>
-        <div class="col-12 col-md-6">
-            <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/listar}" class="btn btn-dashboard">Time CPTM</a>
-        </div>
-        <div class="col-12 col-md-6">
-            <a th:href="@{/cptm+/adm/painel-administrativo/passageiros/listar}" class="btn btn-dashboard">Passageiros</a>
+        <div class="dashboard-grid">
+            <a th:href="@{/cptm+/adm/painel-administrativo/ajuda/listar}" class="btn-dashboard">
+                <span class="btn-icon">🆘</span>
+                Ajuda
+            </a>
+
+            <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/listar}" class="btn-dashboard">
+                <span class="btn-icon">🚉</span>
+                Estações
+            </a>
+
+            <a th:href="@{/cptm+/adm/painel-administrativo/feedback/listar}" class="btn-dashboard">
+                <span class="btn-icon">📋</span>
+                Feedbacks
+            </a>
+
+            <a th:href="@{/cptm+/adm/painel-administrativo/linhas}" class="btn-dashboard">
+                <span class="btn-icon">🚇</span>
+                Linhas
+            </a>
+
+            <a th:href="@{/cptm+/adm/painel-administrativo/notificacoes/listar}" class="btn-dashboard">
+                <span class="btn-icon">🔔</span>
+                Notificações
+            </a>
+
+            <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/listar}" class="btn-dashboard">
+                <span class="btn-icon">👥</span>
+                Time CPTM
+            </a>
+
+            <a th:href="@{/cptm+/adm/painel-administrativo/passageiros/listar}" class="btn-dashboard" style="grid-column: 1 / -1;">
+                <span class="btn-icon">👤</span>
+                Passageiros
+            </a>
         </div>
     </div>
-</main>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

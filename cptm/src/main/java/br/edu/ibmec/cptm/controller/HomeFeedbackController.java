@@ -36,6 +36,13 @@ public class HomeFeedbackController {
         if (usuario instanceof Passageiro passageiro) {
             feedback.setPassageiro(passageiro);
             feedback.setDataEnvio(LocalDateTime.now());
+
+            System.out.println("Salvando feedback: ");
+            System.out.println("Tipo: " + feedback.getTipo());
+            System.out.println("Nota: " + feedback.getNota());
+            System.out.println("Comentário: " + feedback.getComentario());
+            System.out.println("Passageiro: " + passageiro.getNome());
+
             feedbackService.salvarOuEditar(feedback);
             model.addAttribute("mensagem", "Feedback enviado com sucesso!");
             model.addAttribute("logado", true);
@@ -45,4 +52,5 @@ public class HomeFeedbackController {
 
         return "redirect:/cptm+/home?from=feedback";
     }
+
 }

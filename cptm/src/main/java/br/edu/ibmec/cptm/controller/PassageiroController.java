@@ -1,6 +1,5 @@
 package br.edu.ibmec.cptm.controller;
 
-
 import br.edu.ibmec.cptm.model.Linha;
 import br.edu.ibmec.cptm.model.Passageiro;
 import br.edu.ibmec.cptm.service.LinhaService;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,29 +30,32 @@ public class PassageiroController {
         return "passageiros/listar";
     }
 
-    @GetMapping("/novo")
-    public String novoPassageiro(Model model) {
-        model.addAttribute("passageiro", new Passageiro());
-        model.addAttribute("linhas", linhaService.listar());
-        return "passageiros/inserir";
-    }
-
-    @PostMapping("/salvar")
-    public String salvarPassageiro(@ModelAttribute Passageiro passageiro) {
-        List<Linha> linhasCompletas = passageiro.getLinhasFavoritas().stream()
-                .map(l -> linhaService.buscarPorId(l.getId()))
-                .toList();
-
-        passageiro.setLinhasFavoritas(linhasCompletas);
-        passageiroService.salvarOuEditar(passageiro);
-
-        return "redirect:/cptm+/adm/painel-administrativo/passageiros/listar";
-    }
-
     @GetMapping("/remover/{id}")
-    public String removerPassageiro(@PathVariable UUID id) {
-        passageiroService.remover(id);
-        return "redirect:/cptm+/adm/painel-administrativo/passageiros/listar";
+    public String exibirTelaRemover(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
+        Passageiro passageiro = passageiroService.buscarPorId(id);
+        if (passageiro == null) {
+            redirectAttributes.addFlashAttribute("erro", "Passageiro não encontrado.");
+            return "redirect:/cptm+/adm/painel-administrativo/passageiros/listar";
+        }
+        model.addAttribute("passageiro", passageiro);
+        return "passageiros/remover";
     }
 
+    @PostMapping("/deletar")
+    public String confirmarRemocao(@ModelAttribute Passageiro passageiro, RedirectAttributes redirectAttributes) {
+        try {
+            Passageiro passageiroExistente = passageiroService.buscarPorId(passageiro.getId());
+            if (passageiroExistente == null) {
+                redirectAttributes.addFlashAttribute("erro", "Passageiro não encontrado.");
+                return "redirect:/cptm+/adm/painel-administrativo/passageiros/listar";
+            }
+
+            // Remove o passageiro e todas as solicitações e feedbacks relacionados
+            passageiroService.remover(passageiro.getId());
+            redirectAttributes.addFlashAttribute("mensagem", "Passageiro '" + passageiroExistente.getNome() + "' e seus dados relacionados (solicitações e feedbacks) excluídos com sucesso.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Erro ao excluir o passageiro: " + e.getMessage());
+        }
+        return "redirect:/cptm+/adm/painel-administrativo/passageiros/listar";
+    }
 }

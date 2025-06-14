@@ -6,222 +6,415 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         body {
-            font-family: 'Roboto Condensed', Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: "Roboto Condensed", Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
         }
-        .navbar-custom {
+
+        /* === CONTAINER PRINCIPAL SEMPRE MOBILE === */
+        .main-container {
+            max-width: 414px;
+            width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* === HEADER FIXO === */
+        .header {
             background-color: #EE3338;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
+
         .navbar-brand {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
+
+        .navbar-brand:hover {
+            color: white;
+            text-decoration: none;
+        }
+
         .logo-img {
-            height: 35px;
+            height: 30px;
             object-fit: contain;
         }
-        .main-content {
-            max-width: 1100px;
-            margin: 30px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+
+        .btn-new {
+            background-color: white;
+            border: 2px solid white;
+            color: #EE3338;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
-        h1 {
+
+        .btn-new:hover, .btn-new:focus {
+            background-color: #f8f9fa;
+            color: #EE3338;
+            text-decoration: none;
+        }
+
+        /* === CONTEÚDO === */
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            text-align: center;
             color: #EE3338;
             font-weight: 700;
             margin-bottom: 25px;
-            font-family: 'Roboto Condensed', Arial, sans-serif;
-            text-align: center;
+            font-size: 1.4rem;
         }
-        table {
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        /* === ALERTAS === */
+        .alert {
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: none;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        /* === CARDS PARA ESTAÇÕES === */
+        .estacoes-cards {
+            display: block;
+        }
+
+        .estacao-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #EE3338;
             width: 100%;
-            border-collapse: collapse;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .estacao-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .estacao-name {
+            font-weight: 600;
+            color: #333;
             font-size: 16px;
         }
-        th, td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
+
+        .estacao-number {
             background-color: #EE3338;
             color: white;
-            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 11px;
         }
-        tr:hover {
-            background-color: #f1f1f1;
+
+        .estacao-info {
+            margin-bottom: 12px;
         }
-        .btn-primary {
-            background-color: #EE3338;
-            border: none;
-            font-weight: 700;
-            padding: 10px 20px;
-            border-radius: 10px;
-            transition: background-color 0.3s ease;
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 13px;
         }
-        .btn-primary:hover {
-            background-color: #bb292d;
-        }
-        .btn-warning, .btn-info, .btn-danger {
+
+        .info-label {
             font-weight: 600;
+            color: #666;
+            min-width: 50px;
+        }
+
+        .info-value {
+            color: #333;
+            text-align: right;
+            flex: 1;
+        }
+
+        .estacao-linha {
+            color: white;
+            padding: 4px 8px;
             border-radius: 8px;
-            padding: 6px 12px;
-            margin-right: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            text-align: center;
+            min-width: 80px;
+            display: inline-block;
         }
-        .btn-warning {
-            background-color: #f0ad4e;
+
+        /* Cores das linhas baseadas no CSS fornecido */
+        .linha-rubi {
+            background-color: #D7515E;
+        }
+
+        .linha-turquesa {
+            background-color: #40E0D0;
+            color: #333 !important; /* Texto escuro para melhor contraste */
+        }
+
+        .linha-coral {
+            background-color: #FFA07A;
+            color: #333 !important; /* Texto escuro para melhor contraste */
+        }
+
+        .linha-safira {
+            background-color: #8A2BE2;
+        }
+
+        .linha-jade {
+            background-color: #00A96B;
+        }
+
+        /* Fallback para linhas sem cor específica */
+        .linha-default {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .coordinates {
+            background-color: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+        }
+
+        .estacao-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-card {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
             border: none;
-            color: black;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
         }
-        .btn-warning:hover {
+
+        .btn-edit-card {
+            background-color: #f0ad4e;
+            color: #333;
+        }
+
+        .btn-edit-card:hover {
             background-color: #ec971f;
             color: white;
-        }
-        .btn-info {
-            background-color: #5bc0de;
-            border: none;
-            color: white;
-        }
-        .btn-info:hover {
-            background-color: #31b0d5;
-        }
-        .btn-danger {
-            background-color: #d9534f;
-            border: none;
-            color: white;
-        }
-        .btn-danger:hover {
-            background-color: #c9302c;
-        }
-        .btn-secondary {
-            font-weight: 600;
-            border-radius: 8px;
-            padding: 8px 15px;
-            margin-top: 15px;
-            display: inline-block;
-            color: #EE3338;
-            background-color: transparent;
-            border: 2px solid #EE3338;
-            text-decoration: none;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .btn-secondary:hover {
-            background-color: #EE3338;
-            color: white;
             text-decoration: none;
         }
+
+        .btn-delete-card {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-delete-card:hover {
+            background-color: #c82333;
+            text-decoration: none;
+        }
+
+        /* === BOTÕES DE NAVEGAÇÃO === */
+        .navigation-buttons {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         .btn-back {
             background-color: transparent;
             border: 2px solid #EE3338;
             color: #EE3338;
-            font-weight: 700;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 8px;
             text-decoration: none;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            display: inline-block;
+            transition: all 0.3s ease;
+            text-align: center;
         }
+
         .btn-back:hover {
             background-color: #EE3338;
             color: white;
+            text-decoration: none;
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .main-content {
-                margin: 15px;
+        .btn-secondary {
+            background-color: #6c757d;
+            border: 2px solid #6c757d;
+            color: white;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* === ESCONDER SCROLLBAR === */
+        .content::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* === RESPONSIVIDADE PARA TELAS MUITO PEQUENAS === */
+        @media (max-width: 360px) {
+            .content {
                 padding: 15px;
             }
-            .navbar-brand {
-                font-size: 1rem;
-            }
-            h1 {
-                font-size: 1.5rem;
-            }
-            .table-responsive {
-                font-size: 0.9rem;
-            }
-            .btn-warning, .btn-info, .btn-danger {
-                font-size: 0.8rem;
-                padding: 4px 8px;
-                margin-bottom: 5px;
-            }
-        }
 
-        @media (max-width: 576px) {
-            .logo-img {
-                height: 30px;
+            .page-title {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
             }
-            .navbar-brand {
-                gap: 10px;
+
+            .estacao-card {
+                padding: 12px;
             }
-            h1 {
-                font-size: 1.3rem;
-            }
-            .table th,
-            .table td {
-                padding: 8px;
-                font-size: 0.85rem;
-            }
-            .btn-warning, .btn-info, .btn-danger {
-                display: block;
-                width: 100%;
-                margin-bottom: 8px;
-                text-align: center;
+
+            .btn-card {
+                font-size: 10px;
+                padding: 6px 10px;
             }
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-    <div class="container-fluid">
+<div class="main-container">
+    <!-- Header -->
+    <header class="header">
         <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">
             <img src="/images/cptm.png" alt="Logo CPTM+" class="logo-img" />
             Painel CPTM+
         </a>
-    </div>
-</nav>
+        <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/novo}" class="btn-new">+ Nova</a>
+    </header>
 
-<div class="main-content">
-    <div class="top-bar">
-        <a th:href="@{/cptm+/adm/painel-administrativo}" class="btn-back">Voltar ao Painel</a>
-    </div>
-    <h1 th:text="${linha != null} ? 'Estações da linha: ' + ${linha.nome} : 'Estações'"></h1>
-    <a class="btn btn-primary mb-3" th:href="@{/cptm+/adm/painel-administrativo/estacoes/novo}">Nova Estação</a>
+    <div class="content">
+        <h1 class="page-title">Estações</h1>
+        <div th:if="${linha != null}" class="subtitle" th:text="'Linha: ' + ${linha.nome}"></div>
 
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Número</th>
-                <th>Linha</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="estacao : ${estacoes}">
-                <td th:text="${estacao.nome}"></td>
-                <td th:text="${estacao.numero}"></td>
-                <td th:text="${estacao.linha != null ? estacao.linha.nome : 'Sem Linha'}"></td>
-                <td th:text="${estacao.latitude}">-</td>
-                <td th:text="${estacao.longitude}">-</td>
-                <td>
-                    <a class="btn btn-warning btn-sm" th:href="@{/cptm+/adm/painel-administrativo/estacoes/editar/{id}(id=${estacao.id})}">Editar</a>
-                    <a class="btn btn-danger btn-sm" th:href="@{/cptm+/adm/painel-administrativo/estacoes/excluir/{id}(id=${estacao.id})}"
-                       onclick="return confirm('Excluir estação?');">Excluir</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <!-- Mensagens de Sucesso ou Erro -->
+        <div th:if="${mensagem}" class="alert alert-success" th:text="${mensagem}"></div>
+        <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
+
+        <!-- Cards de Estações -->
+        <div class="estacoes-cards">
+            <div th:each="estacao : ${estacoes}" class="estacao-card">
+
+                <div class="estacao-card-header">
+                    <div class="estacao-name" th:text="${estacao.nome}">Nome da Estação</div>
+                    <div class="estacao-number" th:text="'Nº ' + ${estacao.numero}">Número</div>
+                </div>
+
+                <div class="estacao-info">
+                    <div class="info-row">
+                        <span class="info-label">Linha:</span>
+                        <span class="info-value">
+                            <span th:if="${estacao.linha != null}"
+                                  th:class="'estacao-linha linha-' + ${estacao.linha.nome.toLowerCase()}"
+                                  th:text="${estacao.linha.nome}">
+                                Linha
+                            </span>
+                            <span th:if="${estacao.linha == null}"
+                                  class="estacao-linha linha-default">
+                                Sem Linha
+                            </span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="coordinates">
+                    📍 <span th:text="${estacao.latitude}">Latitude</span>, <span th:text="${estacao.longitude}">Longitude</span>
+                </div>
+
+                <div class="estacao-actions">
+                    <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/editar/{id}(id=${estacao.id})}"
+                       class="btn-card btn-edit-card">
+                        Editar
+                    </a>
+                    <!-- LINK CORRIGIDO: Removido o onclick com confirm, agora vai direto para a página de confirmação -->
+                    <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/remover/{id}(id=${estacao.id})}"
+                       class="btn-card btn-delete-card">
+                        Excluir
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botões de Navegação -->
+        <div class="navigation-buttons">
+            <a th:href="@{/cptm+/adm/painel-administrativo}" class="btn-back">
+                Voltar ao Painel
+            </a>
+            <a th:href="@{/cptm+/adm/painel-administrativo/linhas}" class="btn-secondary">
+                Voltar às Linhas
+            </a>
+        </div>
     </div>
-    <a th:href="@{/cptm+/adm/painel-administrativo/linhas}" class="btn btn-secondary">Voltar às Linhas</a>
 </div>
 </body>
 </html>

@@ -6,136 +6,347 @@
     <title>Lista de Funcionários da CPTM</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
-        .navbar-custom {
+        body {
+            font-family: "Roboto Condensed", Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* === CONTAINER PRINCIPAL SEMPRE MOBILE === */
+        .main-container {
+            max-width: 414px;
+            width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* === HEADER FIXO === */
+        .header {
             background-color: #EE3338;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        .table thead {
-            background-color: #f8f9fa;
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
-        .table td, .table th {
-            vertical-align: middle;
+
+        .navbar-brand:hover {
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 30px;
+            object-fit: contain;
         }
 
         .btn-new {
-            background-color: #EE3338;
-            border-color: #EE3338;
-            color: white;
+            background-color: white;
+            border: 2px solid white;
+            color: #EE3338;
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
+
         .btn-new:hover, .btn-new:focus {
-            background-color: #bb292d;
-            border-color: #bb292d;
-            color: white;
+            background-color: #f8f9fa;
+            color: #EE3338;
+            text-decoration: none;
         }
 
-        .btn-primary {
-            background-color: #EE3338;
-            border-color: #EE3338;
-            color: white;
+        /* === CONTEÚDO === */
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #EE3338;
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+        }
+
+        /* === ALERTAS === */
+        .alert {
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: none;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        /* === CARDS PARA FUNCIONÁRIOS === */
+        .funcionarios-cards {
+            display: block;
+        }
+
+        .funcionario-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #EE3338;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .funcionario-header {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        .funcionario-name {
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 4px;
         }
-        .btn-primary:hover, .btn-primary:focus {
-            background-color: #bb292d;
-            border-color: #bb292d;
+
+        .funcionario-date {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .funcionario-info {
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #333;
+            min-width: 80px;
+            margin-right: 10px;
+        }
+
+        .info-value {
+            color: #555;
+            flex: 1;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .funcionario-actions {
+            display: flex;
+            gap: 8px;
+            border-top: 1px solid #e9ecef;
+            padding-top: 12px;
+        }
+
+        .btn-card {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-notifications-card {
+            background-color: #007bff;
             color: white;
         }
 
-        /* Responsividade para tabela */
-        @media (max-width: 768px) {
-            table, thead, tbody, th, td, tr {
-                display: block;
-                width: 100%;
+        .btn-notifications-card:hover {
+            background-color: #0056b3;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-edit-card {
+            background-color: #EE3338;
+            color: white;
+        }
+
+        .btn-edit-card:hover {
+            background-color: #bb292d;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-delete-card {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-delete-card:hover {
+            background-color: #c82333;
+            text-decoration: none;
+        }
+
+        /* === BOTÃO DE NAVEGAÇÃO === */
+        .navigation-buttons {
+            margin-top: 20px;
+        }
+
+        .btn-back {
+            background-color: transparent;
+            border: 2px solid #EE3338;
+            color: #EE3338;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: block;
+            width: 100%;
+        }
+
+        .btn-back:hover {
+            background-color: #EE3338;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* === ESCONDER SCROLLBAR === */
+        .content::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* === RESPONSIVIDADE PARA TELAS MUITO PEQUENAS === */
+        @media (max-width: 360px) {
+            .content {
+                padding: 15px;
             }
 
-            thead {
-                display: none;
+            .page-title {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
             }
 
-            tr {
-                margin-bottom: 15px;
-                border: 1px solid #ddd;
-                border-radius: 10px;
-                padding: 10px;
-                background-color: #fff;
+            .funcionario-card {
+                padding: 12px;
             }
 
-            td {
-                position: relative;
-                padding-left: 50%;
-                text-align: right;
-                border: none;
-                border-bottom: 1px solid #eee;
-            }
-
-            td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 15px;
-                top: 12px;
-                font-weight: bold;
-                color: #333;
-                text-align: left;
-                white-space: nowrap;
-            }
-
-            td:last-child {
-                border-bottom: none;
+            .btn-card {
+                font-size: 10px;
+                padding: 6px 8px;
             }
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
-        <div>
-            <a th:href="@{/cptm+/adm/painel-administrativo/notificacoes/novo}" class="btn btn-new">+ Nova Notificação</a>
+<div class="main-container">
+    <!-- Header -->
+    <header class="header">
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">
+            <img src="/images/cptm.png" alt="Logo CPTM+" class="logo-img" />
+            Painel CPTM+
+        </a>
+        <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/novo}" class="btn-new">+ Novo</a>
+    </header>
+
+    <div class="content">
+        <h1 class="page-title">Time CPTM</h1>
+
+        <!-- Mensagens de Sucesso ou Erro -->
+        <div th:if="${mensagem}" class="alert alert-success" th:text="${mensagem}"></div>
+        <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
+
+        <!-- Cards de Funcionários -->
+        <div class="funcionarios-cards">
+            <div th:each="timeCptm : ${times}" class="funcionario-card">
+
+                <div class="funcionario-header">
+                    <div class="funcionario-name" th:text="${timeCptm.nome}">Nome do Funcionário</div>
+                    <div class="funcionario-date">
+                        <strong>Data de Nascimento:</strong>
+                        <span th:text="${#temporals.format(timeCptm.dataNascimento, 'dd/MM/yyyy')}">Data</span>
+                    </div>
+                </div>
+
+                <div class="funcionario-info">
+                    <div class="info-item">
+                        <span class="info-label">CPF:</span>
+                        <span class="info-value" th:text="${timeCptm.cpf}">CPF</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value" th:text="${timeCptm.email}">Email</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Senha:</span>
+                        <span class="info-value" th:text="${timeCptm.senha}">Senha</span>
+                    </div>
+                </div>
+
+                <div class="funcionario-actions">
+                    <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/notificacoes/{id}(id=${timeCptm.id})}"
+                       class="btn-card btn-notifications-card">
+                        Notificações
+                    </a>
+                    <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/editar/{id}(id=${timeCptm.id})}"
+                       class="btn-card btn-edit-card">
+                        Editar
+                    </a>
+                    <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/remover/{id}(id=${timeCptm.id})}"
+                       class="btn-card btn-delete-card">
+                        Remover
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão de Navegação -->
+        <div class="navigation-buttons">
+            <a th:href="@{/cptm+/adm/painel-administrativo}" class="btn-back">
+                Voltar ao Painel
+            </a>
         </div>
     </div>
-</nav>
-
-<main class="container mt-4">
-    <h2>Lista de Funcionários da CPTM</h2>
-
-    <div class="mb-3">
-        <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/novo}" class="btn btn-new">+ Novo Funcionário</a>
-    </div>
-
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Email</th>
-            <th>Data de Nascimento</th>
-            <th>Senha</th>
-            <th>Notificações Enviadas</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="timeCptm : ${times}">
-            <td data-label="Nome" th:text="${timeCptm.nome}">Nome</td>
-            <td data-label="CPF" th:text="${timeCptm.cpf}">CPF</td>
-            <td data-label="Email" th:text="${timeCptm.email}">Email</td>
-            <td data-label="Data de Nascimento" th:text="${#temporals.format(timeCptm.dataNascimento, 'dd/MM/yyyy')}">Data</td>
-            <td data-label="Senha" th:text="${timeCptm.senha}">Senha</td>
-            <td data-label="Notificações Enviadas">
-                <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/notificacoes/{id}(id=${timeCptm.id})}" class="btn btn-primary btn-sm">
-                    Notificações Enviadas
-                </a>
-            </td>
-            <td data-label="Ações">
-                <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/editar/{id}(id=${timeCptm.id})}" class="btn btn-primary btn-sm">Editar</a>
-                <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/remover/{id}(id=${timeCptm.id})}" class="btn btn-danger btn-sm">Remover</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</div>
 </body>
 </html>

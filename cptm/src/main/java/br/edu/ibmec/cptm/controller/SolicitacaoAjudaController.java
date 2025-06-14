@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
@@ -37,31 +38,48 @@ public class SolicitacaoAjudaController {
         return "ajuda/listar";
     }
 
-    @GetMapping("/novo")
-    public String novaSolicitacao(Model model) {
-        model.addAttribute("solicitacaoAjuda", new SolicitacaoAjuda());
-        model.addAttribute("passageiros", passageiroService.listar());
-        model.addAttribute("linhas", linhaService.listar());
-        model.addAttribute("estacoes", estacaoService.listar());
-        return "ajuda/inserir";
+    // === PÁGINA DE CONFIRMAÇÃO DE REMOÇÃO ===
+    @GetMapping("/remover/{id}")
+    public String confirmarRemocaoSolicitacao(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
+        SolicitacaoAjuda ajuda = solicitacaoAjudaService.buscarPorId(id);
+        if (ajuda == null) {
+            redirectAttributes.addFlashAttribute("erro", "Solicitação não encontrada.");
+            return "redirect:/cptm+/adm/painel-administrativo/ajuda/listar";
+        }
+        model.addAttribute("ajuda", ajuda);
+        return "ajuda/remover";
     }
 
-    @PostMapping("/salvar")
-    public String salvarSolicitacao(@ModelAttribute SolicitacaoAjuda solicitacaoAjuda) {
-        solicitacaoAjuda.setStatus(false); // por padrão, não resolvido
-        solicitacaoAjudaService.salvarOuEditar(solicitacaoAjuda);
-        return "redirect:/cptm+/adm/painel-administrativo/ajuda/listar";
-    }
-
-    @PostMapping("/remover/{id}")
-    public String removerSolicitacao(@PathVariable UUID id) {
-        solicitacaoAjudaService.remover(id);
+    // === DELETAR SOLICITAÇÃO (CONFIRMADO) ===
+    @PostMapping("/deletar")
+    public String deletarSolicitacao(@RequestParam("id") UUID id, RedirectAttributes redirectAttributes) {
+        try {
+            SolicitacaoAjuda ajuda = solicitacaoAjudaService.buscarPorId(id);
+            if (ajuda != null) {
+                solicitacaoAjudaService.remover(id);
+                redirectAttributes.addFlashAttribute("mensagem", "Solicitação de '" + ajuda.getPassageiro().getNome() + "' excluída com sucesso.");
+            } else {
+                redirectAttributes.addFlashAttribute("erro", "Solicitação não encontrada.");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Erro ao excluir solicitação: " + e.getMessage());
+        }
         return "redirect:/cptm+/adm/painel-administrativo/ajuda/listar";
     }
 
     @PostMapping("/resolver/{id}")
-    public String marcarComoResolvido(@PathVariable UUID id) {
-        solicitacaoAjudaService.marcarComoResolvido(id);
+    public String marcarComoResolvido(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
+        try {
+            SolicitacaoAjuda ajuda = solicitacaoAjudaService.buscarPorId(id);
+            if (ajuda != null) {
+                solicitacaoAjudaService.marcarComoResolvido(id);
+                redirectAttributes.addFlashAttribute("mensagem", "Solicitação de '" + ajuda.getPassageiro().getNome() + "' marcada como resolvida.");
+            } else {
+                redirectAttributes.addFlashAttribute("erro", "Solicitação não encontrada.");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Erro ao marcar solicitação como resolvida: " + e.getMessage());
+        }
         return "redirect:/cptm+/adm/painel-administrativo/ajuda/listar";
     }
 }

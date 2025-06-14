@@ -48,6 +48,10 @@ public class SolicitacaoAjudaService {
         return solicitacaoAjudaRepository.findAllByPassageiro(passageiro);
     }
 
+    public SolicitacaoAjuda buscarPorId(UUID id) {
+        return solicitacaoAjudaRepository.findById(id).orElse(null);
+    }
+
     public void marcarComoResolvido(UUID id) {
         Optional<SolicitacaoAjuda> optional = solicitacaoAjudaRepository.findById(id);
         if (optional.isPresent()) {

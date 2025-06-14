@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,6 +52,16 @@ public class NotificacaoController {
         return "notificacoes/inserir";
     }
 
+    @GetMapping("/editar/{id}")
+    public String editarNotificacao(@PathVariable UUID id, Model model) {
+        Notificacao notificacao = notificacaoService.buscarPorId(id);
+        model.addAttribute("notificacao", notificacao);
+        model.addAttribute("times", timeCptmService.listar());
+        model.addAttribute("linhas", linhaService.listar());
+        model.addAttribute("estacoes", estacaoService.listar());
+        return "notificacoes/editar";
+    }
+
     @PostMapping("/salvar")
     public String salvarNotificacao(@ModelAttribute Notificacao notificacao, Model model) {
         TimeCptm timeCptm = timeCptmService.buscarPorId(notificacao.getTimeCptm().getId());
@@ -65,9 +76,46 @@ public class NotificacaoController {
         return "redirect:/cptm+/adm/painel-administrativo/notificacoes/listar";
     }
 
+    @PostMapping("/salvar-edicao")
+    public String salvarEdicaoNotificacao(@ModelAttribute Notificacao notificacao, Model model) {
+        // Para edição, mantém a data de envio original
+        Notificacao notificacaoExistente = notificacaoService.buscarPorId(notificacao.getId());
+        notificacao.setDataEnvio(notificacaoExistente.getDataEnvio());
+
+        TimeCptm timeCptm = timeCptmService.buscarPorId(notificacao.getTimeCptm().getId());
+        notificacao.setTimeCptm(timeCptm);
+
+        notificacaoService.salvarOuEditar(notificacao);
+
+        return "redirect:/cptm+/adm/painel-administrativo/notificacoes/listar";
+    }
+
     @GetMapping("/remover/{id}")
-    public String removerNotificacao(@PathVariable UUID id) {
-        notificacaoService.remover(id);
+    public String exibirTelaRemover(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
+        Notificacao notificacao = notificacaoService.buscarPorId(id);
+        if (notificacao == null) {
+            redirectAttributes.addFlashAttribute("erro", "Notificação não encontrada.");
+            return "redirect:/cptm+/adm/painel-administrativo/notificacoes/listar";
+        }
+        model.addAttribute("notificacao", notificacao);
+        return "notificacoes/remover";
+    }
+
+    @PostMapping("/deletar")
+    public String confirmarRemocao(@ModelAttribute Notificacao notificacao, RedirectAttributes redirectAttributes) {
+        try {
+            Notificacao notificacaoExistente = notificacaoService.buscarPorId(notificacao.getId());
+            if (notificacaoExistente == null) {
+                redirectAttributes.addFlashAttribute("erro", "Notificação não encontrada.");
+                return "redirect:/cptm+/adm/painel-administrativo/notificacoes/listar";
+            }
+
+            // Remove apenas a notificação
+            notificacaoService.remover(notificacao.getId());
+            redirectAttributes.addFlashAttribute("mensagem", "Notificação '" + notificacaoExistente.getTitulo() + "' excluída com sucesso.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", "Erro ao excluir a notificação: " + e.getMessage());
+        }
         return "redirect:/cptm+/adm/painel-administrativo/notificacoes/listar";
     }
 
@@ -77,5 +125,4 @@ public class NotificacaoController {
         Linha linha = linhaService.buscarPorId(linhaId);
         return estacaoService.listarPorLinha(linhaId);
     }
-
 }

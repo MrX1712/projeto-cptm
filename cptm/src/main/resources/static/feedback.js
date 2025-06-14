@@ -31,39 +31,34 @@ document.addEventListener('DOMContentLoaded', () => {
     highlightStars(0);
 
     form.addEventListener('submit', (e) => {
-        e.preventDefault(); // Previne o envio padrão
+        // Validações
+        const tipo = document.getElementById('tipo').value;
+        const comentario = document.getElementById('comments').value.trim();
 
         if (!logado) {
+            e.preventDefault();
             alert("Você precisa estar logado para enviar feedback.");
             window.location.href = "/cptm+/login";
             return;
         }
 
-        const tipo = document.getElementById('tipo').value;
-        const comentario = document.getElementById('comments').value.trim();
-
         if (!tipo || !selectedRating || !comentario) {
+            e.preventDefault();
             alert("Preencha todos os campos e selecione uma nota.");
             return;
         }
 
-        // Simula o envio (você pode substituir por uma chamada AJAX real)
-        setTimeout(() => {
-            showFeedbackPopup();
-            // Reset do form
-            form.reset();
-            selectedRating = 0;
-            highlightStars(0);
-        }, 500);
+        // Garante que o campo hidden tenha o valor correto
+        ratingInput.value = selectedRating;
+        // ⚠️ O formulário será enviado normalmente para o Spring
     });
 });
 
-// Funções específicas para o pop-up de feedback
+// Pop-up (mantido para uso futuro via AJAX, mas não será chamado com submit tradicional)
 function showFeedbackPopup() {
     const overlay = document.getElementById('feedback-popup-overlay');
     if (overlay) {
         overlay.style.display = 'flex';
-        // Previne scroll do body quando o popup está aberto
         document.body.style.overflow = 'hidden';
     }
 }
@@ -72,10 +67,8 @@ function closeFeedbackPopup() {
     const overlay = document.getElementById('feedback-popup-overlay');
     if (overlay) {
         overlay.style.display = 'none';
-        // Restaura o scroll do body
         document.body.style.overflow = 'auto';
 
-        // Redireciona para a home após fechar o popup
         setTimeout(() => {
             window.location.href = '/cptm+/home';
         }, 100);

@@ -6,100 +6,403 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        .navbar-custom {
-            background-color: #EE3338;
+        body {
+            font-family: "Roboto Condensed", Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
         }
 
-        .btn-new {
+        /* === CONTAINER PRINCIPAL SEMPRE MOBILE === */
+        .main-container {
+            max-width: 414px;
+            width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* === HEADER FIXO === */
+        .header {
             background-color: #EE3338;
-            border-color: #EE3338;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             color: white;
+            text-decoration: none;
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            font-size: 1.1rem;
         }
 
-        .btn-new:hover, .btn-new:focus {
-            background-color: #bb292d;
-            border-color: #bb292d;
+        .navbar-brand:hover {
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 30px;
+            object-fit: contain;
+        }
+
+        /* === CONTEÚDO === */
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #EE3338;
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+        }
+
+        /* === ALERTAS === */
+        .alert {
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: none;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        /* === CARDS PARA SOLICITAÇÕES === */
+        .ajuda-cards {
+            display: block;
+        }
+
+        .ajuda-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #EE3338;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .ajuda-card.pending {
+            background-color: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .ajuda-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .ajuda-passenger {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .ajuda-status {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #dc3545;
             color: white;
         }
 
-        .btn-mark-resolved {
-            border: 2px solid #0d6efd;
-            color: #0d6efd;
+        .status-resolved {
+            background-color: #198754;
+            color: white;
         }
 
-        .btn-mark-resolved:hover {
+        .ajuda-location {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .location-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .location-label {
+            font-weight: 600;
+            color: #666;
+            min-width: 50px;
+            font-size: 12px;
+        }
+
+        .ajuda-linha {
+            color: white;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 12px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        /* Cores das linhas baseadas no CSS fornecido */
+        .linha-rubi {
+            background-color: #D7515E;
+        }
+
+        .linha-turquesa {
+            background-color: #40E0D0;
+            color: #333 !important; /* Texto escuro para melhor contraste */
+        }
+
+        .linha-coral {
+            background-color: #FFA07A;
+            color: #333 !important; /* Texto escuro para melhor contraste */
+        }
+
+        .linha-safira {
+            background-color: #8A2BE2;
+        }
+
+        .linha-jade {
+            background-color: #00A96B;
+        }
+
+        .ajuda-estacao {
+            font-weight: 500;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+
+        .ajuda-tema-container {
+            margin-bottom: 12px;
+        }
+
+        .tema-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .ajuda-tema {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+            border: 1px solid #bbdefb;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .ajuda-comment {
+            color: #333;
+            font-size: 13px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            hyphens: auto;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #EE3338;
+        }
+
+        .comment-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .ajuda-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-card {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-mark-resolved-card {
             background-color: #0d6efd;
             color: white;
         }
 
-        @media (max-width: 768px) {
-            .btn-sm {
-                width: 100%;
-                margin-bottom: 8px;
+        .btn-mark-resolved-card:disabled {
+            background-color: #6c757d;
+            opacity: 0.6;
+        }
+
+        .btn-mark-resolved-card:hover:not(:disabled) {
+            background-color: #0b5ed7;
+            text-decoration: none;
+        }
+
+        .btn-danger-card {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger-card:hover {
+            background-color: #c82333;
+            text-decoration: none;
+        }
+
+        /* === ESCONDER SCROLLBAR === */
+        .content::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* === RESPONSIVIDADE PARA TELAS MUITO PEQUENAS === */
+        @media (max-width: 360px) {
+            .content {
+                padding: 15px;
+            }
+
+            .page-title {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
+
+            .ajuda-card {
+                padding: 12px;
+            }
+
+            .btn-card {
+                font-size: 10px;
+                padding: 6px 10px;
             }
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">Painel CPTM+</a>
-        <div>
-            <a th:href="@{/cptm+/adm/painel-administrativo/ajuda/novo}" class="btn btn-new">+ Nova Solicitação</a>
-        </div>
-    </div>
-</nav>
+<div class="main-container">
+    <!-- Header -->
+    <header class="header">
+        <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">
+            <img src="/images/cptm.png" alt="Logo CPTM+" class="logo-img" />
+            Painel CPTM+
+        </a>
+    </header>
 
-<div class="container mt-4">
-    <h2 class="mb-3">Lista de Solicitações de Ajuda</h2>
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Passageiro</th>
-                <th>Linha</th>
-                <th>Estação</th>
-                <th>Tema</th>
-                <th>Comentário</th>
-                <th>Status</th>
-                <th>Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="s : ${solicitacoes}" th:classappend="${!s.status} ? 'table-warning'">
-                <td th:text="${s.passageiro.nome}">Passageiro</td>
-                <td th:text="${s.linha.nome}">Linha</td>
-                <td th:text="${s.estacao.nome}">Estação</td>
-                <td th:switch="${s.tema}">
-                    <span th:case="1">Furto</span>
-                    <span th:case="2">Assédio</span>
-                    <span th:case="3">Ajuda com Mobilidade</span>
-                    <span th:case="4">Informações</span>
-                    <span th:case="5">Outros</span>
-                    <span th:case="*">Desconhecido</span>
-                </td>
-                <td th:text="${s.comentario}">Comentário</td>
-                <td>
-                    <span th:if="${s.status}" class="badge bg-success">Resolvido</span>
-                    <span th:unless="${s.status}" class="badge bg-danger">Pendente</span>
-                </td>
-                <td>
-                    <div class="d-grid gap-2 d-md-flex">
-                        <form th:action="@{/cptm+/adm/painel-administrativo/ajuda/resolver/{id}(id=${s.id})}" method="post">
-                            <button type="submit" class="btn btn-sm btn-mark-resolved me-md-2" th:disabled="${s.status}">
-                                Marcar como Resolvido
-                            </button>
-                        </form>
-                        <form th:action="@{/cptm+/adm/painel-administrativo/ajuda/remover/{id}(id=${s.id})}" method="post">
-                            <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
-                        </form>
+    <div class="content">
+        <h2 class="page-title">Solicitações de Ajuda</h2>
+
+        <!-- Mensagens de Sucesso ou Erro -->
+        <div th:if="${mensagem}" class="alert alert-success" th:text="${mensagem}"></div>
+        <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
+
+        <!-- Cards de Solicitações -->
+        <div class="ajuda-cards">
+            <div th:each="s : ${solicitacoes}"
+                 th:class="'ajuda-card' + (${!s.status} ? ' pending' : '')">
+
+                <div class="ajuda-card-header">
+                    <div class="ajuda-passenger" th:text="${s.passageiro.nome}">Passageiro</div>
+                    <div th:class="'ajuda-status ' + (${s.status} ? 'status-resolved' : 'status-pending')"
+                         th:text="${s.status} ? 'Resolvido' : 'Pendente'">Status</div>
+                </div>
+
+                <div class="ajuda-location">
+                    <div class="location-item">
+                        <span class="location-label">Linha:</span>
+                        <span th:class="'ajuda-linha linha-' + ${s.linha.nome.toLowerCase()}"
+                              th:text="${s.linha.nome}">Linha</span>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    <div class="location-item">
+                        <span class="location-label">Estação:</span>
+                        <span class="ajuda-estacao" th:text="${s.estacao.nome}">Estação</span>
+                    </div>
+                </div>
+
+                <div class="ajuda-tema-container">
+                    <span class="tema-label">Tipo de Solicitação:</span>
+                    <div th:switch="${s.tema}">
+                        <span th:case="1" class="ajuda-tema">Furto ou Roubo</span>
+                        <span th:case="2" class="ajuda-tema">Assédio</span>
+                        <span th:case="3" class="ajuda-tema">Ajuda com Mobilidade Reduzida</span>
+                        <span th:case="4" class="ajuda-tema">Confusão ou Desorientação</span>
+                        <span th:case="5" class="ajuda-tema">Pessoa Perdida</span>
+                        <span th:case="6" class="ajuda-tema">Emergência Médica</span>
+                        <span th:case="7" class="ajuda-tema">Problema com Bilhete ou Acesso</span>
+                        <span th:case="8" class="ajuda-tema">Comportamento Agressivo</span>
+                        <span th:case="*" class="ajuda-tema">Outros</span>
+                    </div>
+                </div>
+
+                <div class="comment-label">Comentário:</div>
+                <div class="ajuda-comment" th:text="${s.comentario}">Comentário</div>
+
+                <div class="ajuda-actions">
+                    <form th:action="@{/cptm+/adm/painel-administrativo/ajuda/resolver/{id}(id=${s.id})}"
+                          method="post" style="flex: 1;">
+                        <button type="submit"
+                                th:class="'btn-card btn-mark-resolved-card' + (${s.status} ? ' disabled' : '')"
+                                th:disabled="${s.status}">
+                            Marcar Resolvido
+                        </button>
+                    </form>
+                    <!-- LINK CORRIGIDO: Agora vai para página de confirmação -->
+                    <a th:href="@{/cptm+/adm/painel-administrativo/ajuda/remover/{id}(id=${s.id})}"
+                       class="btn-card btn-danger-card">
+                        Excluir
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

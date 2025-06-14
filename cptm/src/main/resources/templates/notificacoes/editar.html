@@ -2,8 +2,9 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Editar Funcionário</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <title>Editar Notificação</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         body {
             font-family: "Roboto Condensed", Arial, sans-serif;
@@ -94,7 +95,7 @@
             font-size: 14px;
         }
 
-        .form-input {
+        .form-input, .form-select, .form-textarea {
             width: 100%;
             padding: 12px 15px;
             border-radius: 8px;
@@ -106,15 +107,20 @@
             background-color: white;
         }
 
-        .form-input:focus {
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none;
             border-color: #EE3338;
             box-shadow: 0 0 0 3px rgba(238, 51, 56, 0.1);
         }
 
-        .form-input::placeholder {
+        .form-input::placeholder, .form-textarea::placeholder {
             color: #999;
             font-style: italic;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
         }
 
         /* === BOTÕES === */
@@ -178,7 +184,7 @@
                 margin-bottom: 20px;
             }
 
-            .form-input {
+            .form-input, .form-select, .form-textarea {
                 padding: 10px 12px;
                 font-size: 13px;
             }
@@ -186,20 +192,6 @@
             .btn-submit {
                 padding: 12px 15px;
                 font-size: 15px;
-            }
-        }
-
-        /* === GRID PARA CAMPOS RELACIONADOS === */
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        @media (max-width: 360px) {
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 0;
             }
         }
     </style>
@@ -217,40 +209,59 @@
 
     <div class="content">
         <div class="form-container">
-            <h1 class="page-title">Editar Funcionário</h1>
+            <h1 class="page-title">Editar Notificação</h1>
 
-            <form th:action="@{/cptm+/adm/painel-administrativo/time-cptm/salvar}" th:object="${timeCptm}" method="post">
+            <form th:action="@{/cptm+/adm/painel-administrativo/notificacoes/salvar-edicao}"
+                  th:object="${notificacao}" method="post">
+
                 <input type="hidden" th:field="*{id}" />
 
                 <div class="form-group">
-                    <label for="nome" class="form-label">Nome Completo</label>
-                    <input type="text" id="nome" th:field="*{nome}" class="form-input"
-                           placeholder="Digite o nome completo" required />
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="cpf" class="form-label">CPF</label>
-                        <input type="text" id="cpf" th:field="*{cpf}" class="form-input"
-                               placeholder="000.000.000-00" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="dataNascimento" class="form-label">Data de Nascimento</label>
-                        <input type="date" id="dataNascimento" th:field="*{dataNascimento}" class="form-input" required />
-                    </div>
+                    <label for="titulo" class="form-label">Título da Notificação</label>
+                    <input type="text" id="titulo" th:field="*{titulo}" class="form-input"
+                           placeholder="Digite o título da notificação" required />
                 </div>
 
                 <div class="form-group">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" th:field="*{email}" class="form-input"
-                           placeholder="funcionario@cptm.sp.gov.br" required />
+                    <label for="texto" class="form-label">Texto da Notificação</label>
+                    <textarea id="texto" th:field="*{texto}" class="form-textarea"
+                              placeholder="Digite o conteúdo da notificação" required></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="senha" class="form-label">Senha</label>
-                    <input type="text" id="senha" th:field="*{senha}" class="form-input"
-                           placeholder="Digite uma senha segura" required />
+                    <label for="timeCptm" class="form-label">Time CPTM</label>
+                    <select id="timeCptm" th:field="*{timeCptm.id}" class="form-select" required>
+                        <option value="">Selecione o time responsável</option>
+                        <option th:each="time : ${times}"
+                                th:value="${time.id}"
+                                th:text="${time.nome}"
+                                th:selected="${notificacao.timeCptm != null and time.id == notificacao.timeCptm.id}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="linha" class="form-label">Linha (Opcional)</label>
+                    <select id="linha" th:field="*{linha.id}" class="form-select" onchange="carregarEstacoes()">
+                        <option value="">Todas as linhas</option>
+                        <option th:each="linha : ${linhas}"
+                                th:value="${linha.id}"
+                                th:text="${linha.nome}"
+                                th:selected="${notificacao.linha != null and linha.id == notificacao.linha.id}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="estacao" class="form-label">Estação (Opcional)</label>
+                    <select id="estacao" th:field="*{estacao.id}" class="form-select">
+                        <option value="">Todas as estações</option>
+                        <option th:each="estacao : ${estacoes}"
+                                th:value="${estacao.id}"
+                                th:text="${estacao.nome}"
+                                th:selected="${notificacao.estacao != null and estacao.id == notificacao.estacao.id}">
+                        </option>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn-submit">
@@ -258,11 +269,35 @@
                 </button>
             </form>
 
-            <a th:href="@{/cptm+/adm/painel-administrativo/time-cptm/listar}" class="btn-cancel">
+            <a th:href="@{/cptm+/adm/painel-administrativo/notificacoes/listar}" class="btn-cancel">
                 Cancelar
             </a>
         </div>
     </div>
 </div>
+
+<script>
+    function carregarEstacoes() {
+        const linhaId = document.getElementById('linha').value;
+        const estacaoSelect = document.getElementById('estacao');
+
+        // Limpar estações
+        estacaoSelect.innerHTML = '<option value="">Todas as estações</option>';
+
+        if (linhaId) {
+            fetch(`/cptm+/adm/painel-administrativo/notificacoes/estacoes/${linhaId}`)
+                .then(response => response.json())
+                .then(estacoes => {
+                    estacoes.forEach(estacao => {
+                        const option = document.createElement('option');
+                        option.value = estacao.id;
+                        option.textContent = estacao.nome;
+                        estacaoSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar estações:', error));
+        }
+    }
+</script>
 </body>
 </html>

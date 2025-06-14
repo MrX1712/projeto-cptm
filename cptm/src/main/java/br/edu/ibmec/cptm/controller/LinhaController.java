@@ -32,7 +32,7 @@ public class LinhaController {
     @GetMapping("/novo")
     public String novaLinha(Model model) {
         model.addAttribute("linha", new Linha());
-        return "linhas/editar";
+        return "linhas/inserir";
     }
 
     @GetMapping("/editar/{id}")
@@ -57,20 +57,28 @@ public class LinhaController {
     }
 
     @GetMapping("/remover/{id}")
-    public String exibirTelaRemover(@PathVariable UUID id, Model model) {
+    public String exibirTelaRemover(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
         Linha linha = linhaService.buscarPorId(id);
         if (linha == null) {
+            redirectAttributes.addFlashAttribute("erro", "Linha não encontrada.");
             return "redirect:/cptm+/adm/painel-administrativo/linhas";
         }
         model.addAttribute("linha", linha);
         return "linhas/remover";
     }
 
-    @PostMapping("/remover")
-    public String deletarLinha(@ModelAttribute Linha linha, RedirectAttributes redirectAttributes) {
+    @PostMapping("/deletar")
+    public String confirmarRemocao(@RequestParam("id") UUID id, RedirectAttributes redirectAttributes) {
         try {
-            linhaService.remover(linha.getId());
-            redirectAttributes.addFlashAttribute("mensagem", "Linha excluída com sucesso.");
+            Linha linha = linhaService.buscarPorId(id);
+            if (linha == null) {
+                redirectAttributes.addFlashAttribute("erro", "Linha não encontrada.");
+                return "redirect:/cptm+/adm/painel-administrativo/linhas";
+            }
+
+            // Remove a linha e todos os objetos relacionados
+            linhaService.remover(id);
+            redirectAttributes.addFlashAttribute("mensagem", "Linha '" + linha.getNome() + "' excluída com sucesso.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Erro ao excluir a linha: " + e.getMessage());
         }
