@@ -38,7 +38,6 @@ public class SolicitacaoAjudaController {
         return "ajuda/listar";
     }
 
-    // === PÁGINA DE CONFIRMAÇÃO DE REMOÇÃO ===
     @GetMapping("/remover/{id}")
     public String confirmarRemocaoSolicitacao(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
         SolicitacaoAjuda ajuda = solicitacaoAjudaService.buscarPorId(id);
@@ -50,7 +49,6 @@ public class SolicitacaoAjudaController {
         return "ajuda/remover";
     }
 
-    // === DELETAR SOLICITAÇÃO (CONFIRMADO) ===
     @PostMapping("/deletar")
     public String deletarSolicitacao(@RequestParam("id") UUID id, RedirectAttributes redirectAttributes) {
         try {

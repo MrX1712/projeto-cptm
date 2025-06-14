@@ -30,13 +30,10 @@ public class FeedbackController {
     @Autowired
     private FeedbackService feedbackService;
 
-    @Autowired
-    private PassageiroService passageiroService;
-
     @GetMapping("/listar")
     public String listarFeedbacks(Model model) {
         model.addAttribute("feedbacks", feedbackService.listar());
-        return "feedback/listar"; // Certifique-se de que está em /templates/feedbacks/listar.html
+        return "feedback/listar";
     }
 
     @PostMapping("/visto/{id}")
@@ -50,7 +47,6 @@ public class FeedbackController {
         return "redirect:/cptm+/adm/painel-administrativo/feedback/listar";
     }
 
-    // === PÁGINA DE CONFIRMAÇÃO DE REMOÇÃO ===
     @GetMapping("/remover/{id}")
     public String confirmarRemocaoFeedback(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
         Feedback feedback = feedbackService.buscarPorId(id);
@@ -62,7 +58,6 @@ public class FeedbackController {
         return "feedback/remover";
     }
 
-    // === DELETAR FEEDBACK (CONFIRMADO) ===
     @PostMapping("/deletar")
     public String deletarFeedback(@RequestParam("id") UUID id, RedirectAttributes redirectAttributes) {
         try {
@@ -88,7 +83,7 @@ public class FeedbackController {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            mapper.findAndRegisterModules(); // Suporte a LocalDateTime
+            mapper.findAndRegisterModules();
 
             String json = mapper.writeValueAsString(feedbacks);
 

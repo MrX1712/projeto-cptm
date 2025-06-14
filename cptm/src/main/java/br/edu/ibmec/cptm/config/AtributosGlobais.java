@@ -11,7 +11,13 @@ public class AtributosGlobais {
 
     @ModelAttribute("logado")
     public boolean logado(HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = (Usuario) session.getAttribute("passageiroLogado");
         return usuario instanceof Passageiro;
+    }
+
+    @ModelAttribute("passageiroLogado")
+    public Passageiro passageiroLogado(HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("passageiroLogado");
+        return usuario instanceof Passageiro ? (Passageiro) usuario : null;
     }
 }

@@ -19,7 +19,7 @@ public class EstacoesProximasController {
 
     @GetMapping("/mais-proxima")
     public ResponseEntity<Estacao> buscarMaisProxima(
-            @RequestParam("linha") UUID linhaId,  // <- agora é UUID
+            @RequestParam("linha") UUID linhaId,
             @RequestParam double lat,
             @RequestParam double lng) {
 

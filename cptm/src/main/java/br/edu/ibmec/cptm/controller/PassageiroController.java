@@ -1,6 +1,5 @@
 package br.edu.ibmec.cptm.controller;
 
-import br.edu.ibmec.cptm.model.Linha;
 import br.edu.ibmec.cptm.model.Passageiro;
 import br.edu.ibmec.cptm.service.LinhaService;
 import br.edu.ibmec.cptm.service.PassageiroService;
@@ -10,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -50,7 +48,6 @@ public class PassageiroController {
                 return "redirect:/cptm+/adm/painel-administrativo/passageiros/listar";
             }
 
-            // Remove o passageiro e todas as solicitações e feedbacks relacionados
             passageiroService.remover(passageiro.getId());
             redirectAttributes.addFlashAttribute("mensagem", "Passageiro '" + passageiroExistente.getNome() + "' e seus dados relacionados (solicitações e feedbacks) excluídos com sucesso.");
         } catch (Exception e) {

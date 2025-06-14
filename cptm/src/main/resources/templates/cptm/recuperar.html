@@ -1,0 +1,366 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Meta tags para comunicação com JavaScript -->
+    <meta name="senha-alterada" th:content="${senhaAlterada != null and senhaAlterada} ? 'true' : 'false'">
+    <meta name="erro-senha" th:content="${erro != null} ? ${erro} : ''">
+
+    <link rel="stylesheet" href="/recuperar.css" />
+    <style>
+        /* CSS adicional para pop-up de loading */
+        .popup-overlay#loadingPopup .popup-header {
+            background-color: #2196F3 !important;
+        }
+
+        .popup-overlay#loadingPopup .popup-icon {
+            animation: rotate 1s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Garantir que o pop-up de loading não seja fechável */
+        .popup-overlay#loadingPopup {
+            pointer-events: auto;
+        }
+
+        .popup-overlay#loadingPopup .popup-container {
+            pointer-events: none;
+        }
+    </style>
+    <title>CPTM+ - Recuperar Senha</title>
+</head>
+<body>
+<div class="main-container">
+
+    <!-- Header Fixo -->
+    <header class="header">
+        <div class="logo">
+            <img src="/images/cptm.png" alt="Logo CPTM+" />
+        </div>
+        <button th:onclick="${logado} ? 'location.href=\'/cptm+/usuario\'' : 'location.href=\'/cptm+/login\''"
+                class="user-button" aria-label="Usuário">
+            <img src="/images/user.png" alt="user" />
+        </button>
+    </header>
+
+    <div class="content">
+        <!-- Botão Voltar ao Login -->
+        <div class="button-pai">
+            <button onclick="location.href='/cptm+/login'" class="botao-voltar">
+                <div class="texto">
+                    <span>Lembrou da senha?</span>
+                    <span>Voltar ao Login</span>
+                </div>
+                <img class="voltar-icon" src="/images/add-user.png" alt="voltar login">
+            </button>
+        </div>
+
+        <!-- Recuperar Senha Container -->
+        <div class="recuperar-container">
+            <div class="recuperar-header">Recuperar Senha</div>
+            <form class="recuperar-form" th:action="@{/cptm+/recuperar-senha}" method="post" id="recuperarForm">
+                <!-- Campo oculto para ID do usuário (será preenchido via JS) -->
+                <input type="hidden" id="usuarioId" name="usuarioId" th:value="${usuarioId}" />
+
+                <!-- Campo hidden para detectar sucesso -->
+                <input type="hidden" id="senhaAlteradaFlag" th:value="${senhaAlterada} ? 'true' : 'false'" />
+
+                <label for="novaSenha">Nova Senha:</label>
+                <input type="password" id="novaSenha" name="novaSenha" required
+                       minlength="6" placeholder="Digite sua nova senha" />
+
+                <label for="confirmarSenha">Confirmar Nova Senha:</label>
+                <input type="password" id="confirmarSenha" name="confirmarSenha" required
+                       minlength="6" placeholder="Confirme sua nova senha" />
+
+                <div class="senha-info">
+                    <small>A senha deve ter pelo menos 6 caracteres</small>
+                </div>
+
+                <button type="submit">Alterar Senha</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer fixo -->
+    <div class="bottom-nav">
+        <button onclick="location.href='/cptm+/home'" class="icon-button">
+            <img src="/images/homeIcon.png" alt="Home" class="icon" />
+        </button>
+        <button onclick="location.href='/cptm+/estacoes'" class="icon-button">
+            <img src="/images/location-pin.png" alt="Localização" class="icon" />
+        </button>
+        <button onclick="location.href='/cptm+/rastreamento'" class="icon-button">
+            <img src="/images/trem.png" alt="Trem" class="icon" />
+        </button>
+        <button onclick="location.href='/cptm+/ajuda'" class="icon-button">
+            <img src="/images/siren.png" alt="Notificações" class="icon" />
+        </button>
+    </div>
+
+    <!-- Pop-up de Sucesso -->
+    <div class="popup-overlay" id="sucessoPopup">
+        <div class="popup-container">
+            <div class="popup-header sucesso-header">
+                <div class="popup-icon">✅</div>
+                Senha Alterada com Sucesso!
+            </div>
+            <div class="popup-body">
+                <div class="popup-message">
+                    Sua senha foi alterada com sucesso! Agora você pode fazer login com a nova senha.
+                </div>
+                <div class="popup-buttons">
+                    <button class="popup-btn primary" onclick="irParaLogin()">
+                        Ir para Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up de Erro -->
+    <div class="popup-overlay" id="erroPopup">
+        <div class="popup-container">
+            <div class="popup-header">
+                <div class="popup-icon">❌</div>
+                Erro na Alteração
+            </div>
+            <div class="popup-body">
+                <div class="popup-message" id="mensagemErro">
+                    As senhas não coincidem. Tente novamente.
+                </div>
+                <div class="popup-buttons">
+                    <button class="popup-btn primary" onclick="hidePopup('erroPopup')">
+                        Tentar Novamente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up de Loading -->
+    <div class="popup-overlay" id="loadingPopup">
+        <div class="popup-container">
+            <div class="popup-header">
+                <div class="popup-icon">⏳</div>
+                Alterando Senha...
+            </div>
+            <div class="popup-body">
+                <div class="popup-message">
+                    Aguarde enquanto processamos a alteração da sua senha.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Variáveis globais para controle
+    let formEnviado = false;
+
+    // Validação das senhas
+    function validarSenhas() {
+        const novaSenha = document.getElementById('novaSenha').value;
+        const confirmarSenha = document.getElementById('confirmarSenha').value;
+
+        if (novaSenha !== confirmarSenha) {
+            showErroPopup('As senhas não coincidem. Tente novamente.');
+            return false;
+        }
+
+        if (novaSenha.length < 6) {
+            showErroPopup('A senha deve ter pelo menos 6 caracteres.');
+            return false;
+        }
+
+        return true;
+    }
+
+    // Função para mostrar pop-up de erro
+    function showErroPopup(mensagem) {
+        console.log('Mostrando erro:', mensagem);
+        document.getElementById('mensagemErro').textContent = mensagem;
+        document.getElementById('erroPopup').classList.add('active');
+    }
+
+    // Função para mostrar pop-up de loading
+    function showLoadingPopup() {
+        console.log('Mostrando loading...');
+        document.getElementById('loadingPopup').classList.add('active');
+    }
+
+    // Função para esconder pop-up de loading
+    function hideLoadingPopup() {
+        console.log('Escondendo loading...');
+        document.getElementById('loadingPopup').classList.remove('active');
+    }
+
+    // Função para mostrar pop-up de sucesso
+    function showSucessoPopup() {
+        console.log('=== MOSTRANDO POP-UP DE SUCESSO ===');
+        hideLoadingPopup(); // Esconder loading se estiver ativo
+        const popup = document.getElementById('sucessoPopup');
+        popup.classList.add('active');
+        console.log('Pop-up adicionado classe active:', popup.classList.contains('active'));
+
+        // Desabilitar o formulário para evitar múltiplas submissões
+        const form = document.getElementById('recuperarForm');
+        const inputs = form.querySelectorAll('input, button');
+        inputs.forEach(input => input.disabled = true);
+    }
+
+    // Função para esconder pop-up
+    function hidePopup(popupId) {
+        document.getElementById(popupId).classList.remove('active');
+    }
+
+    // Função para ir para login
+    function irParaLogin() {
+        console.log('Redirecionando para login...');
+        window.location.href = '/cptm+/login';
+    }
+
+    // Fechar pop-up clicando no overlay (exceto loading)
+    document.querySelectorAll('.popup-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this && this.id !== 'loadingPopup') {
+                this.classList.remove('active');
+            }
+        });
+    });
+
+    // Fechar pop-up com tecla ESC (exceto loading)
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.popup-overlay.active').forEach(popup => {
+                if (popup.id !== 'loadingPopup') {
+                    popup.classList.remove('active');
+                }
+            });
+        }
+    });
+
+    // Validação e envio do formulário
+    document.getElementById('recuperarForm').addEventListener('submit', function(e) {
+        console.log('=== FORMULÁRIO SENDO ENVIADO ===');
+
+        // Prevenir múltiplas submissões
+        if (formEnviado) {
+            console.log('Formulário já foi enviado, prevenindo reenvio');
+            e.preventDefault();
+            return;
+        }
+
+        // Validar senhas antes de enviar
+        if (!validarSenhas()) {
+            console.log('Validação falhou');
+            e.preventDefault();
+            return;
+        }
+
+        // Marcar como enviado e mostrar loading
+        formEnviado = true;
+        showLoadingPopup();
+
+        // Desabilitar botão de submit temporariamente
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Processando...';
+
+        console.log('Formulário validado, enviando para servidor...');
+        // Se chegou até aqui, o formulário será enviado normalmente
+        // O servidor irá processar e retornar com o atributo senhaAlterada
+    });
+
+    // Verificar resultados do servidor quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('=== DOM CARREGADO ===');
+
+        const sucessoElement = document.querySelector('meta[name="senha-alterada"]');
+        const sucesso1 = sucessoElement ? sucessoElement.getAttribute('content') === 'true' : false;
+        console.log('Sucesso via meta tag:', sucesso1);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const sucesso2 = urlParams.get('sucesso') === 'true';
+        console.log('Sucesso via URL param:', sucesso2);
+
+        const hiddenElement = document.getElementById('senhaAlteradaFlag');
+        const sucesso3 = hiddenElement ? hiddenElement.value === 'true' : false;
+        console.log('Sucesso via hidden element:', sucesso3);
+
+        const sucesso = sucesso1 || sucesso2 || sucesso3;
+
+        console.log('SUCESSO FINAL:', sucesso);
+
+        if (sucesso) {
+            console.log('=== SUCESSO DETECTADO, MOSTRANDO POP-UP ===');
+            setTimeout(() => {
+                showSucessoPopup();
+            }, 100); // Pequeno delay para garantir que a página carregou
+
+            // Auto-redirecionamento após 3 segundos
+            setTimeout(() => {
+                irParaLogin();
+            }, 3000);
+        }
+
+        // Verificar se houve erro
+        const erroElement = document.querySelector('meta[name="erro-senha"]');
+        const erro = erroElement ? erroElement.getAttribute('content') : '';
+
+        console.log('Erro detectado:', erro);
+
+        if (erro && erro.trim() !== '') {
+            console.log('Mostrando erro do servidor:', erro);
+            hideLoadingPopup();
+            showErroPopup(erro);
+            formEnviado = false; // Resetar para permitir nova tentativa
+
+            // Reabilitar o botão
+            const submitBtn = document.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Alterar Senha';
+            }
+        }
+
+        // Debug: Testar pop-up manualmente (remover depois)
+        console.log('Para testar o pop-up manualmente, execute: showSucessoPopup()');
+    });
+
+    // Feedback visual durante digitação
+    document.getElementById('confirmarSenha').addEventListener('input', function() {
+        const novaSenha = document.getElementById('novaSenha').value;
+        const confirmarSenha = this.value;
+
+        if (confirmarSenha.length > 0) {
+            if (novaSenha === confirmarSenha) {
+                this.style.borderColor = '#4CAF50';
+            } else {
+                this.style.borderColor = '#f44336';
+            }
+        } else {
+            this.style.borderColor = '#f44336';
+        }
+    });
+
+    // Reset da cor da borda quando digitar nova senha
+    document.getElementById('novaSenha').addEventListener('input', function() {
+        const confirmarSenha = document.getElementById('confirmarSenha');
+        if (confirmarSenha.value.length > 0) {
+            confirmarSenha.style.borderColor = '#f44336';
+        }
+        confirmarSenha.dispatchEvent(new Event('input')); // Revalidar
+    });
+</script>
+
+</body>
+</html>

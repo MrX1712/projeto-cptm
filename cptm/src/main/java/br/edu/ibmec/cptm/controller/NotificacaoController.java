@@ -78,7 +78,6 @@ public class NotificacaoController {
 
     @PostMapping("/salvar-edicao")
     public String salvarEdicaoNotificacao(@ModelAttribute Notificacao notificacao, Model model) {
-        // Para edição, mantém a data de envio original
         Notificacao notificacaoExistente = notificacaoService.buscarPorId(notificacao.getId());
         notificacao.setDataEnvio(notificacaoExistente.getDataEnvio());
 
@@ -110,7 +109,6 @@ public class NotificacaoController {
                 return "redirect:/cptm+/adm/painel-administrativo/notificacoes/listar";
             }
 
-            // Remove apenas a notificação
             notificacaoService.remover(notificacao.getId());
             redirectAttributes.addFlashAttribute("mensagem", "Notificação '" + notificacaoExistente.getTitulo() + "' excluída com sucesso.");
         } catch (Exception e) {

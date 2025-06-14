@@ -63,7 +63,6 @@ public class TimeCptmController {
                 return "redirect:/cptm+/adm/painel-administrativo/time-cptm/listar";
             }
 
-            // Remove o time e todas as notificações relacionadas
             timeCptmService.remover(timeCptm.getId());
             redirectAttributes.addFlashAttribute("mensagem", "Funcionário '" + timeCptmExistente.getNome() + "' e suas notificações excluídos com sucesso.");
         } catch (Exception e) {

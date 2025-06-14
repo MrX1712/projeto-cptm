@@ -277,7 +277,6 @@ select#sentidoSelect:focus {
     max-width: 450px;
     height: 70px;
     background: #f5f5f5;
-    border-top: 1px solid #ddd;
     display: flex;
     justify-content: space-around;
     align-items: center;

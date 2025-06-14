@@ -44,5 +44,4 @@ public class LoginController {
         model.addAttribute("loginInvalido", true);
         return "cptm/login";
     }
-
 }

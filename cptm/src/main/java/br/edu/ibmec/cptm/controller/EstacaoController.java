@@ -2,8 +2,8 @@ package br.edu.ibmec.cptm.controller;
 
 import br.edu.ibmec.cptm.model.Estacao;
 import br.edu.ibmec.cptm.model.Linha;
-import br.edu.ibmec.cptm.repository.EstacaoRepository;
-import br.edu.ibmec.cptm.repository.LinhaRepository;
+import br.edu.ibmec.cptm.service.EstacaoService;
+import br.edu.ibmec.cptm.service.LinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,19 +18,19 @@ import java.util.UUID;
 public class EstacaoController {
 
     @Autowired
-    private EstacaoRepository estacaoRepository;
+    private EstacaoService estacaoService;
 
     @Autowired
-    private LinhaRepository linhaRepository;
+    private LinhaService linhaService;
 
     @GetMapping("/listar")
     public String listarEstacoes(@RequestParam(required = false) UUID linhaId, Model model) {
         List<Estacao> estacoes;
         if (linhaId != null) {
-            estacoes = estacaoRepository.findAllByLinhaId(linhaId);
-            model.addAttribute("linha", linhaRepository.findById(linhaId).orElse(null));
+            estacoes = estacaoService.listarPorLinha(linhaId);
+            model.addAttribute("linha", linhaService.buscarPorId(linhaId));
         } else {
-            estacoes = estacaoRepository.findAll();
+            estacoes = estacaoService.listar();
         }
         model.addAttribute("estacoes", estacoes);
         return "estacoes/listar";
@@ -39,7 +39,7 @@ public class EstacaoController {
     @GetMapping("/json/{linhaId}")
     @ResponseBody
     public List<Estacao> listarEstacoesPorLinhaJson(@PathVariable UUID linhaId) {
-        List<Estacao> estacoes = estacaoRepository.findAllByLinhaId(linhaId);
+        List<Estacao> estacoes = estacaoService.listarPorLinha(linhaId);
         System.out.println("Retornando " + estacoes.size() + " estações da linha " + linhaId);
         return estacoes;
     }
@@ -47,17 +47,19 @@ public class EstacaoController {
     @GetMapping("/novo")
     public String novaEstacao(Model model) {
         model.addAttribute("estacao", new Estacao());
-        model.addAttribute("linhas", linhaRepository.findAll());
+        model.addAttribute("linhas", linhaService.listar());
         return "estacoes/inserir";
     }
 
     @PostMapping("/salvar")
     public String salvarEstacao(@ModelAttribute Estacao estacao, @RequestParam("linhaId") UUID linhaId, RedirectAttributes redirectAttributes) {
         try {
-            Linha linha = linhaRepository.findById(linhaId)
-                    .orElseThrow(() -> new IllegalArgumentException("Linha inválida"));
+            Linha linha = linhaService.buscarPorId(linhaId);
+            if (linha == null) {
+                throw new IllegalArgumentException("Linha inválida");
+            }
             estacao.setLinha(linha);
-            estacaoRepository.save(estacao);
+            estacaoService.salvarOuEditar(estacao);
             redirectAttributes.addFlashAttribute("mensagem", "Estação '" + estacao.getNome() + "' salva com sucesso.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Erro ao salvar estação: " + e.getMessage());
@@ -67,27 +69,29 @@ public class EstacaoController {
 
     @GetMapping("/editar/{id}")
     public String editarEstacao(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
-        Estacao estacao = estacaoRepository.findById(id).orElse(null);
+        Estacao estacao = estacaoService.buscarPorId(id);
         if (estacao == null) {
             redirectAttributes.addFlashAttribute("erro", "Estação não encontrada.");
             return "redirect:/cptm+/adm/painel-administrativo/estacoes/listar";
         }
         model.addAttribute("estacao", estacao);
-        model.addAttribute("linhas", linhaRepository.findAll());
+        model.addAttribute("linhas", linhaService.listar());
         return "estacoes/editar";
     }
 
     @PostMapping("/salvar-edicao")
     public String salvarEditarEstacao(@ModelAttribute Estacao estacao, RedirectAttributes redirectAttributes) {
         try {
-            Estacao estacaoExistente = estacaoRepository.findById(estacao.getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Estação não encontrada"));
+            Estacao estacaoExistente = estacaoService.buscarPorId(estacao.getId());
+            if (estacaoExistente == null) {
+                throw new IllegalArgumentException("Estação não encontrada");
+            }
 
             estacaoExistente.setNome(estacao.getNome());
             estacaoExistente.setNumero(estacao.getNumero());
             estacaoExistente.setLatitude(estacao.getLatitude());
             estacaoExistente.setLongitude(estacao.getLongitude());
-            estacaoRepository.save(estacaoExistente);
+            estacaoService.salvarOuEditar(estacaoExistente);
 
             redirectAttributes.addFlashAttribute("mensagem", "Estação '" + estacao.getNome() + "' editada com sucesso.");
         } catch (Exception e) {
@@ -97,10 +101,9 @@ public class EstacaoController {
         return "redirect:/cptm+/adm/painel-administrativo/estacoes/listar";
     }
 
-    // === PÁGINA DE CONFIRMAÇÃO DE REMOÇÃO ===
     @GetMapping("/remover/{id}")
     public String confirmarRemocaoEstacao(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
-        Estacao estacao = estacaoRepository.findById(id).orElse(null);
+        Estacao estacao = estacaoService.buscarPorId(id);
         if (estacao == null) {
             redirectAttributes.addFlashAttribute("erro", "Estação não encontrada.");
             return "redirect:/cptm+/adm/painel-administrativo/estacoes/listar";
@@ -109,13 +112,12 @@ public class EstacaoController {
         return "estacoes/remover";
     }
 
-    // === DELETAR ESTAÇÃO (CONFIRMADO) ===
     @PostMapping("/deletar")
     public String deletarEstacao(@RequestParam("id") UUID id, RedirectAttributes redirectAttributes) {
         try {
-            Estacao estacao = estacaoRepository.findById(id).orElse(null);
+            Estacao estacao = estacaoService.buscarPorId(id);
             if (estacao != null) {
-                estacaoRepository.deleteById(id);
+                estacaoService.remover(estacao);
                 redirectAttributes.addFlashAttribute("mensagem", "Estação '" + estacao.getNome() + "' excluída com sucesso.");
             } else {
                 redirectAttributes.addFlashAttribute("erro", "Estação não encontrada.");

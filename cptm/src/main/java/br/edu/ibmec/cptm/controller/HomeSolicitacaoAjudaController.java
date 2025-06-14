@@ -37,14 +37,12 @@ public class HomeSolicitacaoAjudaController {
             model.addAttribute("passageiroNome", passageiro.getNome());
         }
 
-        // outros atributos que você já estiver adicionando
         model.addAttribute("solicitacao", new SolicitacaoAjuda());
         model.addAttribute("linhas", linhaService.listar());
         model.addAttribute("estacoes", estacaoService.listar());
 
         return "cptm/ajuda";
     }
-
 
     @PostMapping("/enviar")
     public String enviarSolicitacaoAjuda(@ModelAttribute SolicitacaoAjuda solicitacaoAjuda,

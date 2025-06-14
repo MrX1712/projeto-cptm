@@ -1,7 +1,6 @@
 package br.edu.ibmec.cptm.controller;
 
 import br.edu.ibmec.cptm.model.Linha;
-import br.edu.ibmec.cptm.repository.LinhaRepository;
 import br.edu.ibmec.cptm.service.LinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,14 +16,11 @@ import java.util.UUID;
 public class LinhaController {
 
     @Autowired
-    private LinhaRepository linhaRepository;
-
-    @Autowired
     private LinhaService linhaService;
 
     @GetMapping
     public String listarLinhas(Model model) {
-        List<Linha> linhas = linhaRepository.findAll();
+        List<Linha> linhas = linhaService.listar();
         model.addAttribute("linhas", linhas);
         return "linhas/listar";
     }
@@ -37,7 +33,10 @@ public class LinhaController {
 
     @GetMapping("/editar/{id}")
     public String editarLinha(@PathVariable UUID id, Model model) {
-        Linha linha = linhaRepository.findById(id).orElse(new Linha());
+        Linha linha = linhaService.buscarPorId(id);
+        if (linha == null) {
+            linha = new Linha();
+        }
         model.addAttribute("linha", linha);
         return "linhas/editar";
     }
@@ -76,7 +75,6 @@ public class LinhaController {
                 return "redirect:/cptm+/adm/painel-administrativo/linhas";
             }
 
-            // Remove a linha e todos os objetos relacionados
             linhaService.remover(id);
             redirectAttributes.addFlashAttribute("mensagem", "Linha '" + linha.getNome() + "' excluída com sucesso.");
         } catch (Exception e) {

@@ -45,7 +45,7 @@
                 <label for="password">Senha:</label>
                 <input type="password" id="password" name="password" required />
 
-                <a href="#" onclick="esqueceuSenha()">Esqueceu a senha?</a>
+                <a href="#" onclick="mostrarVerificacaoRecuperacao()">Esqueceu a senha?</a>
 
                 <button type="submit">Entrar</button>
             </form>
@@ -110,20 +110,50 @@
         </div>
     </div>
 
-    <!-- Pop-up de Esqueceu Senha -->
-    <div class="popup-overlay" id="esqueceuSenhaPopup">
+    <!-- Pop-up de Verificação de Dados para Recuperação -->
+    <div class="popup-overlay" id="verificacaoRecuperacaoPopup">
         <div class="popup-container">
             <div class="popup-header">
-                <div class="popup-icon">🔑</div>
-                Esqueceu a Senha?
+                <div class="popup-icon">🔍</div>
+                Recuperar Senha
             </div>
             <div class="popup-body">
                 <div class="popup-message">
-                    Entre em contato com o suporte para recuperar sua senha ou cadastre-se novamente.
+                    Para recuperar sua senha, precisamos verificar alguns dados:
+                </div>
+                <div class="verificacao-form">
+                    <label for="emailRecuperacao">E-mail:</label>
+                    <input type="email" id="emailRecuperacao" placeholder="Digite seu e-mail" required />
+
+                    <label for="cpfRecuperacao">CPF:</label>
+                    <input type="text" id="cpfRecuperacao" placeholder="Digite seu CPF" maxlength="14" required />
                 </div>
                 <div class="popup-buttons">
-                    <button class="popup-btn primary" onclick="hidePopup('esqueceuSenhaPopup')">
-                        Fechar
+                    <button class="popup-btn primary" onclick="processarVerificacao()">
+                        Verificar
+                    </button>
+                    <button class="popup-btn secondary" onclick="hidePopup('verificacaoRecuperacaoPopup')">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up de Erro na Verificação -->
+    <div class="popup-overlay" id="erroVerificacaoPopup">
+        <div class="popup-container">
+            <div class="popup-header">
+                <div class="popup-icon">❌</div>
+                Erro na Verificação
+            </div>
+            <div class="popup-body">
+                <div class="popup-message" id="mensagemErroVerificacao">
+                    Dados não encontrados.
+                </div>
+                <div class="popup-buttons">
+                    <button class="popup-btn primary" onclick="hidePopup('erroVerificacaoPopup')">
+                        Tentar Novamente
                     </button>
                     <button class="popup-btn secondary" onclick="location.href='/cptm+/login/novo'">
                         Cadastrar
@@ -140,14 +170,102 @@
         document.getElementById('loginInvalidoPopup').classList.add('active');
     }
 
-    // Função para mostrar pop-up de esqueceu senha
-    function esqueceuSenha() {
-        document.getElementById('esqueceuSenhaPopup').classList.add('active');
+    // NOVA FUNÇÃO: Mostrar pop-up de verificação de dados
+    function mostrarVerificacaoRecuperacao() {
+        document.getElementById('verificacaoRecuperacaoPopup').classList.add('active');
+    }
+
+    // NOVA FUNÇÃO: Processar verificação de email e CPF
+    function processarVerificacao() {
+        const email = document.getElementById('emailRecuperacao').value;
+        const cpf = document.getElementById('cpfRecuperacao').value;
+
+        // Validações básicas
+        if (!email || !cpf) {
+            showErroVerificacao('Por favor, preencha todos os campos.');
+            return;
+        }
+
+        if (!validarEmail(email)) {
+            showErroVerificacao('Por favor, insira um email válido.');
+            return;
+        }
+
+        if (!validarCPF(cpf)) {
+            showErroVerificacao('Por favor, insira um CPF válido.');
+            return;
+        }
+
+        // Enviar dados para verificação no backend
+        fetch('/cptm+/verificar-dados-recuperacao', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                cpf: cpf
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.sucesso) {
+                    // Redirecionar para página de recuperação com ID do usuário
+                    window.location.href = `/cptm+/recuperar-senha?id=${data.usuarioId}`;
+                } else {
+                    showErroVerificacao('Não foi encontrada uma conta com estes dados.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                showErroVerificacao('Erro interno. Tente novamente mais tarde.');
+            });
+    }
+
+    // NOVA FUNÇÃO: Validar email
+    function validarEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    // NOVA FUNÇÃO: Validar CPF (básico)
+    function validarCPF(cpf) {
+        // Remove pontos e hífens
+        cpf = cpf.replace(/[^\d]/g, '');
+
+        // Verifica se tem 11 dígitos
+        if (cpf.length !== 11) {
+            return false;
+        }
+
+        // Verifica se não são todos números iguais
+        if (/^(\d)\1{10}$/.test(cpf)) {
+            return false;
+        }
+
+        return true; // Validação básica - pode ser melhorada
+    }
+
+    // NOVA FUNÇÃO: Mostrar erro na verificação
+    function showErroVerificacao(mensagem) {
+        document.getElementById('mensagemErroVerificacao').textContent = mensagem;
+        document.getElementById('erroVerificacaoPopup').classList.add('active');
+    }
+
+    // NOVA FUNÇÃO: Limpar campos de verificação
+    function limparCamposVerificacao() {
+        document.getElementById('emailRecuperacao').value = '';
+        document.getElementById('cpfRecuperacao').value = '';
     }
 
     // Função para esconder pop-up
     function hidePopup(popupId) {
         document.getElementById(popupId).classList.remove('active');
+
+        // Se for o popup de verificação, limpar campos
+        if (popupId === 'verificacaoRecuperacaoPopup') {
+            limparCamposVerificacao();
+        }
     }
 
     // Fechar pop-up clicando no overlay
@@ -155,6 +273,10 @@
         overlay.addEventListener('click', function(e) {
             if (e.target === this) {
                 this.classList.remove('active');
+                // Limpar campos se for o popup de verificação
+                if (this.id === 'verificacaoRecuperacaoPopup') {
+                    limparCamposVerificacao();
+                }
             }
         });
     });
@@ -164,6 +286,10 @@
         if (e.key === 'Escape') {
             document.querySelectorAll('.popup-overlay.active').forEach(popup => {
                 popup.classList.remove('active');
+                // Limpar campos se for o popup de verificação
+                if (popup.id === 'verificacaoRecuperacaoPopup') {
+                    limparCamposVerificacao();
+                }
             });
         }
     });
@@ -175,6 +301,20 @@
         if (loginModal) {
             // Se o modal original existe, mostrar o pop-up estilizado
             showLoginInvalidoPopup();
+        }
+    });
+
+    // NOVA FUNÇÃO: Formatação automática do CPF
+    document.addEventListener('DOMContentLoaded', function() {
+        const cpfInput = document.getElementById('cpfRecuperacao');
+        if (cpfInput) {
+            cpfInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                e.target.value = value;
+            });
         }
     });
 </script>

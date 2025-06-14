@@ -1,9 +1,11 @@
 package br.edu.ibmec.cptm.controller;
 
 import br.edu.ibmec.cptm.model.Linha;
+import br.edu.ibmec.cptm.model.Notificacao;
 import br.edu.ibmec.cptm.model.Passageiro;
 import br.edu.ibmec.cptm.model.Usuario;
 import br.edu.ibmec.cptm.service.LinhaService;
+import br.edu.ibmec.cptm.service.NotificacaoService;
 import br.edu.ibmec.cptm.service.PassageiroService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,9 @@ public class CptmController {
     @Autowired
     private LinhaService linhaService;
 
-    // Método auxiliar para injetar status logado
+    @Autowired
+    private NotificacaoService notificacaoService;
+
     private void adicionarStatusLogado(HttpSession session, Model model) {
         Passageiro passageiro = (Passageiro) session.getAttribute("passageiroLogado");
         boolean logado = passageiro != null;
@@ -39,7 +43,31 @@ public class CptmController {
 
     @RequestMapping("/home")
     public String home(HttpSession session, Model model) {
-        adicionarStatusLogado(session, model);
+        Usuario usuario = (Usuario) session.getAttribute("passageiroLogado");
+
+        List<Notificacao> notificacoes;
+
+        if (usuario instanceof Passageiro passageiro) {
+            Passageiro passageiroCompleto = passageiroService.buscarComLinhasFavoritas(passageiro.getId());
+
+            if (passageiroCompleto != null && passageiroCompleto.getLinhasFavoritas() != null && !passageiroCompleto.getLinhasFavoritas().isEmpty()) {
+                List<UUID> idsLinhas = passageiroCompleto.getLinhasFavoritas().stream()
+                        .map(Linha::getId)
+                        .toList();
+                notificacoes = notificacaoService.buscarLinhas(idsLinhas);
+            } else {
+                notificacoes = notificacaoService.listar();
+            }
+
+            model.addAttribute("logado", true);
+            model.addAttribute("passageiroNome", passageiro.getNome());
+            model.addAttribute("passageiroId", passageiro.getId());
+        } else {
+            notificacoes = notificacaoService.listar();
+            model.addAttribute("logado", false);
+        }
+
+        model.addAttribute("notificacoes", notificacoes);
         return "cptm/home";
     }
 
@@ -49,17 +77,15 @@ public class CptmController {
         return "cptm/login";
     }
 
-
     @RequestMapping("/estacoes")
     public String estacoes(HttpSession session, Model model) {
         adicionarStatusLogado(session, model);
 
-        List<Linha> linhas = linhaService.listar(); // busca as linhas
-        model.addAttribute("linhas", linhas); // adiciona ao model para a view
+        List<Linha> linhas = linhaService.listar();
+        model.addAttribute("linhas", linhas);
 
         return "cptm/estacoes";
     }
-
 
     @RequestMapping("/feedback")
     public String feedback(HttpSession session, Model model) {
@@ -76,7 +102,7 @@ public class CptmController {
             return "redirect:/cptm+/home?from=cadastro";
         }
 
-        model.addAttribute("passageiro", new Passageiro()); // <-- ISSO resolve o erro!
+        model.addAttribute("passageiro", new Passageiro());
         adicionarStatusLogado(session, model);
         return "cptm/cadastro";
     }
@@ -139,7 +165,7 @@ public class CptmController {
 
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate(); // encerra a sessão
-        return "redirect:/cptm+/home"; // redireciona para a página inicial
+        session.invalidate();
+        return "redirect:/cptm+/home";
     }
 }

@@ -26,7 +26,7 @@ public class CadastroController {
     public String salvarPassageiro(@ModelAttribute Passageiro passageiro, Model model) {
         Passageiro salvo = passageiroService.salvarOuEditar(passageiro);
         model.addAttribute("passageiro", salvo);
-        return "cptm/usuario"; // carrega diretamente a tela com o objeto no Model
+        return "cptm/usuario";
     }
 
     @GetMapping("/usuario")
