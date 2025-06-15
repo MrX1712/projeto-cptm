@@ -2,6 +2,7 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Listar Estações</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
@@ -191,19 +192,19 @@
             display: inline-block;
         }
 
-        /* Cores das linhas baseadas no CSS fornecido */
+        /* Cores das linhas */
         .linha-rubi {
             background-color: #D7515E;
         }
 
         .linha-turquesa {
             background-color: #40E0D0;
-            color: #333 !important; /* Texto escuro para melhor contraste */
+            color: #333 !important;
         }
 
         .linha-coral {
             background-color: #FFA07A;
-            color: #333 !important; /* Texto escuro para melhor contraste */
+            color: #333 !important;
         }
 
         .linha-safira {
@@ -214,7 +215,6 @@
             background-color: #00A96B;
         }
 
-        /* Fallback para linhas sem cor específica */
         .linha-default {
             background-color: #6c757d;
             color: white;
@@ -396,7 +396,6 @@
                        class="btn-card btn-edit-card">
                         Editar
                     </a>
-                    <!-- LINK CORRIGIDO: Removido o onclick com confirm, agora vai direto para a página de confirmação -->
                     <a th:href="@{/cptm+/adm/painel-administrativo/estacoes/remover/{id}(id=${estacao.id})}"
                        class="btn-card btn-delete-card">
                         Excluir

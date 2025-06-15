@@ -1,16 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;600;700&display=swap');
 
-/* Base styles */
-body {
+/* === BASE STYLES === */
+* {
     margin: 0;
-    height: 100vh;
-    background: #f0f0f0;
-    font-family: "Roboto Condensed", Arial, sans-serif;
-    padding-top: 90px;
-    overflow: hidden; /* Remove scroll da página */
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Container Principal */
+body {
+    font-family: "Roboto Condensed", Arial, sans-serif;
+    background: #f0f0f0;
+    margin: 0;
+    padding-top: 90px;
+    overflow: hidden; /* Remove scroll da página */
+    line-height: 1.6;
+}
+
+/* === CONTAINER PRINCIPAL === */
 .main-container {
     max-width: 450px;
     width: 100%;
@@ -25,7 +31,7 @@ body {
     overflow: hidden; /* Remove qualquer scroll */
 }
 
-/* Header FIXO */
+/* === HEADER FIXO === */
 .header {
     display: flex;
     justify-content: center;
@@ -50,7 +56,7 @@ body {
     align-items: center;
 }
 
-.header .logo-img {
+.header .logo img {
     height: 70px;
     object-fit: contain;
     background-color: transparent;
@@ -79,25 +85,29 @@ body {
     transform: scale(1.15);
 }
 
-/* Content Area */
+/* === CONTENT AREA === */
 .content {
     flex: 1;
     padding: 15px 15px 75px;
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden; /* Remove scroll */
+    overflow-y: auto; /* CORRIGIDO: Permite scroll */
+    background: #f5f5f5;
 }
 
-/* Rastreamento Container */
+/* === ESCONDER SCROLLBAR === */
+.content::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+/* === RASTREAMENTO CONTAINER === */
 .rastreamento-container {
     background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    margin-bottom: 25px;
-    width: 100%;
-    padding: 0 0 20px 0;
-    box-sizing: border-box;
+    margin-bottom: 20px;
 }
 
 .rastreamento-header {
@@ -122,152 +132,265 @@ body {
     background-color: rgba(255, 255, 255, 0.7);
 }
 
-/* Linha Buttons */
-.linha-btn {
-    border-radius: 10px;
-    color: white;
-    margin: 8px 20px;
-    padding: 10px 15px;
+/* === SECTIONS === */
+.section {
+    padding: 25px 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.section:last-child {
+    border-bottom: none;
+}
+
+.section-title {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.section-icon {
+    font-size: 20px;
+}
+
+/* === LINHA CARDS === */
+.linhas-grid {
+    margin-bottom: 15px;
+}
+
+.linha-card {
+    width: 100%;
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    font-family: "Roboto Condensed", Arial, sans-serif;
     transition: all 0.3s ease;
-    border: none;
-    width: calc(100% - 40px);
-    box-sizing: border-box;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
 }
 
-.linha-btn:hover {
-    transform: scale(1.03);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+.linha-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: #ccc;
+    transition: all 0.3s ease;
 }
 
-.linha-btn .ponto {
-    width: 10px;
-    height: 10px;
+.linha-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: transparent;
+}
+
+.linha-card.selecionada {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-color: transparent;
+}
+
+.linha-number {
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
-    display: inline-block;
+    background: #666;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
     flex-shrink: 0;
 }
 
-/* Line Colors - CORES CORRETAS ATUALIZADAS */
-.rubi {
-    background: #9b101f;
-}
-.rubi .ponto {
-    background: #ffffff;
+.linha-info {
+    flex: 1;
 }
 
-.turquesa {
-    background: #41e1d0;
-}
-.turquesa .ponto {
-    background: #ffffff;
-}
-
-.coral {
-    background: #fe7f51;
-}
-.coral .ponto {
-    background: #ffffff;
-}
-
-.safira {
-    background: #810081;
-}
-.safira .ponto {
-    background: #ffffff;
-}
-
-.jade {
-    background: #01a86a;
-}
-.jade .ponto {
-    background: #ffffff;
-}
-
-/* Labels */
-.linha-selecionada-label,
-.estacao-selecionada-label,
-.sentido-selecionado-label {
-    text-align: center;
+.linha-name {
     font-size: 16px;
-    font-family: "Roboto Condensed", Arial, sans-serif;
+    font-weight: 600;
     color: #333;
-    margin: 15px 0 5px 0;
+    margin-bottom: 4px;
 }
 
-.linha-selecionada-label {
-    margin: 20px 0 10px 0;
-}
-
-.linha-selecionada-label .texto-cor,
-.estacao-selecionada-label .texto-cor,
-.sentido-selecionado-label .texto-cor {
-    font-weight: bold;
-}
-
-/* Select Dropdowns */
-select#estacoesSelect,
-select#sentidoSelect {
-    width: calc(100% - 40px);
-    padding: 12px 40px 12px 15px;
-    border-radius: 10px;
-    border: 1px solid transparent;
-    margin: 0 20px 15px 20px;
-    display: block;
-    font-family: 'Roboto Condensed', Arial, sans-serif;
-    color: white;
-    font-size: 16px;
+.linha-status {
+    font-size: 13px;
+    color: #28a745;
     font-weight: 500;
-    box-sizing: border-box;
+}
+
+.linha-arrow {
+    font-size: 18px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.linha-card:hover .linha-arrow {
+    transform: translateX(5px);
+}
+
+/* === CORES DAS LINHAS === */
+.rubi::before { background: #9b101f; }
+.rubi .linha-number { background: #9b101f; }
+.rubi.selecionada { border-color: #9b101f; }
+
+.turquesa::before { background: #41e1d0; }
+.turquesa .linha-number { background: #41e1d0; }
+.turquesa.selecionada { border-color: #41e1d0; }
+
+.coral::before { background: #fe7f51; }
+.coral .linha-number { background: #fe7f51; }
+.coral.selecionada { border-color: #fe7f51; }
+
+.safira::before { background: #810081; }
+.safira .linha-number { background: #810081; }
+.safira.selecionada { border-color: #810081; }
+
+.jade::before { background: #01a86a; }
+.jade .linha-number { background: #01a86a; }
+.jade.selecionada { border-color: #01a86a; }
+
+/* === SELECTION STATUS === */
+.selection-status {
+    margin-top: 15px;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #EE3338;
+}
+
+.status-label {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.status-value {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+/* === SELECT MODERNO === */
+.select-container {
+    position: relative;
+}
+
+.modern-select {
+    width: 100%;
+    padding: 15px 45px 15px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    background: white;
+    font-size: 16px;
+    font-family: inherit;
+    color: #333;
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    transition: all 0.3s ease;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
     background-repeat: no-repeat;
     background-position: right 15px center;
     background-size: 12px auto;
+}
+
+.modern-select:focus {
     outline: none;
-    background-color: #666;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-color: #EE3338;
+    box-shadow: 0 0 0 3px rgba(238, 51, 56, 0.1);
 }
 
-select#estacoesSelect:focus,
-select#sentidoSelect:focus {
-    transform: scale(1.02);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+.modern-select:hover {
+    border-color: #EE3338;
 }
 
-/* Train Box */
-.train-box {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 15px 20px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    display: none; /* Inicialmente escondido */
+/* === TRAIN INFO CARD === */
+.train-info-card {
+    background: linear-gradient(135deg, #EE3338 0%, #ff4757 100%);
+    border-radius: 20px;
+    padding: 25px;
+    margin: 25px 20px 20px;
+    color: white;
+    display: none;
+    box-shadow: 0 8px 25px rgba(238, 51, 56, 0.3);
+}
+
+.train-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .train-icon {
-    font-size: 48px;
-    margin-bottom: 10px;
+    font-size: 32px;
 }
 
-.train-info {
-    font-size: 16px;
-    font-family: "Roboto Condensed", Arial, sans-serif;
-    color: #333;
+.train-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.train-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.arrival-time {
+    text-align: left;
+}
+
+.time-label {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.time-value {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.train-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
     font-weight: 500;
 }
 
-/* Bottom Navigation */
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #28a745;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* === BOTTOM NAVIGATION === */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -325,14 +448,7 @@ select#sentidoSelect:focus {
     outline: none;
 }
 
-.linha-btn.selecionada {
-    transform: scale(1.03);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
 /* === RESPONSIVIDADE === */
-
-/* Mobile Grande / Tablet Pequeno */
 @media (min-width: 600px) {
     .main-container {
         max-width: 100%;
@@ -341,7 +457,7 @@ select#sentidoSelect:focus {
     }
 
     .content{
-        padding-right: 45px;
+        padding: 15px 45px 75px 15px;
     }
 
     .header {
@@ -350,7 +466,7 @@ select#sentidoSelect:focus {
         border-radius: 0;
     }
 
-    .header .logo-img {
+    .header .logo img {
         height: 80px;
     }
 
@@ -368,23 +484,27 @@ select#sentidoSelect:focus {
     .rastreamento-header {
         font-size: 24px;
     }
-    .linha-btn {
-        font-size: 17px;
-        padding: 12px 18px;
+
+    .linha-card {
+        padding: 18px;
     }
-    .linha-selecionada-label,
-    .estacao-selecionada-label,
-    .sentido-selecionado-label {
-        font-size: 17px;
+
+    .linha-number {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
     }
-    select#estacoesSelect,
-    select#sentidoSelect {
+
+    .linha-name {
+        font-size: 18px;
+    }
+
+    .modern-select {
         font-size: 17px;
-        padding: 14px 45px 14px 18px;
+        padding: 18px 50px 18px 18px;
     }
 }
 
-/* Desktop Grande */
 @media (min-width: 992px) {
     .main-container {
         max-width: 450px;
@@ -393,7 +513,7 @@ select#sentidoSelect:focus {
     }
 
     .content{
-        padding-right: 15px;
+        padding: 15px 15px 75px;
     }
 
     .header {
@@ -411,25 +531,5 @@ select#sentidoSelect:focus {
     }
     .rastreamento-header {
         font-size: 26px;
-        padding: 12px 0;
-    }
-    .linha-btn {
-        font-size: 18px;
-        margin: 10px 30px;
-        width: calc(100% - 60px);
-        padding: 12px 18px;
-    }
-    .linha-selecionada-label,
-    .estacao-selecionada-label,
-    .sentido-selecionado-label {
-        font-size: 18px;
-    }
-    select#estacoesSelect,
-    select#sentidoSelect {
-        font-size: 18px;
-        width: calc(100% - 60px);
-        margin-left: 30px;
-        margin-right: 30px;
-        padding: 14px 45px 14px 18px;
     }
 }

@@ -9,77 +9,133 @@
 </head>
 <body th:attr="data-logado=${logado ? 'true' : 'false'}">
 <div class="main-container">
+    <!-- Header Fixo -->
     <header class="header">
-        <div class="logo">
-            <img class="logo-img" src="/images/cptm.png" alt="Logo CPTM+" />
-        </div>
+        <a th:href="@{/cptm+/home}">
+            <div class="logo">
+                <img src="/images/cptm.png" alt="Logo CPTM+" />
+            </div>
+        </a>
         <button th:onclick="${logado} ? 'location.href=\'/cptm+/usuario\'' : 'location.href=\'/cptm+/login\''"
                 class="user-button" aria-label="Usuário">
             <img src="/images/user.png" alt="user" />
         </button>
     </header>
 
+    <!-- Content -->
     <div class="content">
         <div class="rastreamento-container">
             <div class="rastreamento-header">Rastreamento de Trens</div>
 
-            <!-- Botões de linha com IDs reais -->
-            <div th:each="linha : ${linhas}">
-                <button class="linha-btn"
-                        th:classappend="${linha.nome.toLowerCase()}"
-                        th:attr="data-linha=${linha.nome.toLowerCase()},
-                     data-nome=${linha.nome},
-                     data-id=${linha.id}"
-                        onclick="manusearClique(this)">
-                    <span class="ponto"></span>
-                    <span th:switch="${linha.nome}">
-                        <span th:case="'Rubi'" th:text="'Linha 7 - ' + ${linha.nome}">Linha 7 - Rubi</span>
-                        <span th:case="'Turquesa'" th:text="'Linha 10 - ' + ${linha.nome}">Linha 10 - Turquesa</span>
-                        <span th:case="'Coral'" th:text="'Linha 11 - ' + ${linha.nome}">Linha 11 - Coral</span>
-                        <span th:case="'Safira'" th:text="'Linha 12 - ' + ${linha.nome}">Linha 12 - Safira</span>
-                        <span th:case="'Jade'" th:text="'Linha 13 - ' + ${linha.nome}">Linha 13 - Jade</span>
-                        <span th:case="*" th:text="'Linha - ' + ${linha.nome}">Linha - ?</span>
-                    </span>
-                </button>
+            <div class="section">
+                <div class="section-title">
+                    Selecione a Linha
+                </div>
+
+                <div class="linhas-grid" th:each="linha : ${linhas}">
+                    <button class="linha-card"
+                            th:classappend="${linha.nome.toLowerCase()}"
+                            th:attr="data-linha=${linha.nome.toLowerCase()},
+                         data-nome=${linha.nome},
+                         data-id=${linha.id}"
+                            onclick="manusearClique(this)">
+                        <div class="linha-number" th:switch="${linha.nome}">
+                            <span th:case="'Rubi'">7</span>
+                            <span th:case="'Turquesa'">10</span>
+                            <span th:case="'Coral'">11</span>
+                            <span th:case="'Safira'">12</span>
+                            <span th:case="'Jade'">13</span>
+                            <span th:case="*">?</span>
+                        </div>
+                        <div class="linha-info">
+                            <div class="linha-name" th:switch="${linha.nome}">
+                                <span th:case="'Rubi'" th:text="'Linha 7 - ' + ${linha.nome}">Linha 7 - Rubi</span>
+                                <span th:case="'Turquesa'" th:text="'Linha 10 - ' + ${linha.nome}">Linha 10 - Turquesa</span>
+                                <span th:case="'Coral'" th:text="'Linha 11 - ' + ${linha.nome}">Linha 11 - Coral</span>
+                                <span th:case="'Safira'" th:text="'Linha 12 - ' + ${linha.nome}">Linha 12 - Safira</span>
+                                <span th:case="'Jade'" th:text="'Linha 13 - ' + ${linha.nome}">Linha 13 - Jade</span>
+                                <span th:case="*" th:text="'Linha - ' + ${linha.nome}">Linha - ?</span>
+                            </div>
+                            <div class="linha-status">Operação Normal</div>
+                        </div>
+                        <div class="linha-arrow">→</div>
+                    </button>
+                </div>
+
+                <div class="selection-status">
+                    <span class="status-label">Linha selecionada:</span>
+                    <span class="status-value" id="linhaSelecionadaTexto">Nenhuma linha selecionada</span>
+                </div>
             </div>
 
+            <div class="section">
+                <div class="section-title">
+                    Escolha a Estação
+                </div>
 
-            <div class="linha-selecionada-label">
-                Linha selecionada: <span class="texto-cor" id="linhaSelecionadaTexto">Nenhuma linha selecionada</span>
+                <div class="select-container">
+                    <select id="estacoesSelect" class="modern-select">
+                        <option value="">Selecione uma linha primeiro</option>
+                    </select>
+                </div>
+
+                <div class="selection-status">
+                    <span class="status-label">Estação selecionada:</span>
+                    <span class="status-value" id="estacaoSelecionadaTexto">Nenhuma estação selecionada</span>
+                </div>
             </div>
 
-            <!-- Dropdown de Estações -->
-            <select id="estacoesSelect">
-                <option value="">Selecione uma linha primeiro</option>
-            </select>
+            <div class="section">
+                <div class="section-title">
+                    Direção do Trem
+                </div>
 
-            <div class="estacao-selecionada-label">
-                Estação selecionada: <span class="texto-cor" id="estacaoSelecionadaTexto">Nenhuma estação selecionada</span>
+                <div class="select-container">
+                    <select id="sentidoSelect" class="modern-select">
+                        <option value="">Selecionar sentido</option>
+                    </select>
+                </div>
+
+                <div class="selection-status">
+                    <span class="status-label">Sentido selecionado:</span>
+                    <span class="status-value" id="sentidoSelecionadoTexto">Nenhum sentido selecionado</span>
+                </div>
             </div>
 
-            <!-- Dropdown de Sentido -->
-            <select id="sentidoSelect">
-                <option value="">Selecionar sentido</option>
-            </select>
-
-            <div class="sentido-selecionado-label">
-                Sentido selecionado: <span class="texto-cor" id="sentidoSelecionadoTexto">Nenhum sentido selecionado</span>
-            </div>
-
-            <div class="train-box" id="trainBox">
-                <div class="train-icon">🚊</div>
-                <div class="train-info" id="trainInfo">
-                    Próximo trem: Chegando em <span id="tempoChegada" style="font-weight: bold;">3 min</span>
+            <!-- Train Info Card -->
+            <div class="train-info-card" id="trainBox">
+                <div class="train-card-header">
+                    <div class="train-icon">🚊</div>
+                    <div class="train-title">Próximo Trem</div>
+                </div>
+                <div class="train-details">
+                    <div class="arrival-time">
+                        <div class="time-label">Chegada em</div>
+                        <div class="time-value" id="tempoChegada">3 min</div>
+                    </div>
+                    <div class="train-status">
+                        <div class="status-indicator"></div>
+                        <span>No horário</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer fixo -->
     <div class="bottom-nav">
-        <button onclick="location.href='/cptm+/home'" class="icon-button"><img src="/images/homeIcon.png" alt="Home" class="icon" /></button>
-        <button onclick="location.href='/cptm+/estacoes'" class="icon-button"><img src="/images/location-pin.png" alt="Localização" class="icon" /></button>
-        <button onclick="location.href='/cptm+/rastreamento'" class="icon-button"><img src="/images/trem.png" alt="Trem" class="icon" /></button>
-        <button onclick="location.href='/cptm+/ajuda'" class="icon-button"><img src="/images/siren.png" alt="Notificações" class="icon" /></button>
+        <button onclick="location.href='/cptm+/home'" class="icon-button">
+            <img src="/images/homeIcon.png" alt="Home" class="icon" />
+        </button>
+        <button onclick="location.href='/cptm+/estacoes'" class="icon-button">
+            <img src="/images/location-pin.png" alt="Localização" class="icon" />
+        </button>
+        <button onclick="location.href='/cptm+/rastreamento'" class="icon-button">
+            <img src="/images/trem.png" alt="Trem" class="icon" />
+        </button>
+        <button onclick="location.href='/cptm+/ajuda'" class="icon-button">
+            <img src="/images/siren.png" alt="Notificações" class="icon" />
+        </button>
     </div>
 </div>
 <script src="/rastreamento.js"></script>

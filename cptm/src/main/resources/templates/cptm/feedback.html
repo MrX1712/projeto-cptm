@@ -7,14 +7,16 @@
     <link rel="stylesheet" href="/feedback.css">
     <title>CPTM+</title>
 </head>
-<body th:attr="data-logado=${logado ? 'true' : 'false'}">
+<body th:attr="data-logado=${logado ? 'true' : 'false'}" th:attrappend="data-feedback-enviado=${feedbackEnviado != null and feedbackEnviado ? 'true' : ''}">
 <div class="main-container">
 
     <!-- Header Fixo -->
     <header class="header">
-        <div class="logo">
-            <img src="/images/cptm.png" alt="Logo CPTM+" />
-        </div>
+        <a th:href="@{/cptm+/home}">
+            <div class="logo">
+                <img src="/images/cptm.png" alt="Logo CPTM+" />
+            </div>
+        </a>
         <button th:onclick="${logado} ? 'location.href=\'/cptm+/usuario\'' : 'location.href=\'/cptm+/login\''"
                 class="user-button" aria-label="Usuário">
             <img src="/images/user.png" alt="user" />
@@ -22,6 +24,11 @@
     </header>
 
     <div class="content">
+        <!-- Mensagem de sucesso (opcional, pode ser removida se usar apenas o pop-up) -->
+        <div th:if="${mensagem}" class="success-message" style="background: #d4edda; color: #155724; padding: 12px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+            <span th:text="${mensagem}"></span>
+        </div>
+
         <div class="feedback-container">
             <div class="feedback-header">Feedback</div>
             <form class="form-container"

@@ -19,7 +19,7 @@ let linhaSelecionada = null;
 
 function manusearClique(botao) {
     // Remove classe 'selecionada' de todos os botões
-    document.querySelectorAll('.linha-btn').forEach(b => b.classList.remove('selecionada'));
+    document.querySelectorAll('.linha-card').forEach(b => b.classList.remove('selecionada'));
 
     // Adiciona a classe ao botão clicado
     botao.classList.add('selecionada');
@@ -42,6 +42,7 @@ function selecionarLinha(linhaClass, nomeCompleto, idLinha) {
     const sentidoSelect = document.getElementById('sentidoSelect');
 
     select.innerHTML = '<option value="">Carregando estações...</option>';
+    select.style.borderColor = colorMap[linhaClass];
 
     fetch('/cptm+/rastreamento/estacoes?idLinha=' + idLinha)
         .then(res => res.json())
@@ -55,31 +56,41 @@ function selecionarLinha(linhaClass, nomeCompleto, idLinha) {
             });
 
             // Aplicar cor nos DOIS selects quando seleciona a linha
-            select.style.backgroundColor = colorMap[linhaClass];
             select.style.borderColor = colorMap[linhaClass];
-            select.style.color = 'white';
-
-            sentidoSelect.style.backgroundColor = colorMap[linhaClass];
             sentidoSelect.style.borderColor = colorMap[linhaClass];
-            sentidoSelect.style.color = 'white';
         })
         .catch(error => {
             console.error('Erro ao carregar estações:', error);
             select.innerHTML = '<option value="">Erro ao carregar estações</option>';
         });
 
-    // Reset dos textos E das cores
+    // Reset dos textos e das cores
+    resetarSelecoes();
+}
+
+function resetarSelecoes() {
     const estacaoTexto = document.getElementById('estacaoSelecionadaTexto');
     const sentidoTexto = document.getElementById('sentidoSelecionadoTexto');
+    const sentidoSelect = document.getElementById('sentidoSelect');
 
     estacaoTexto.textContent = 'Nenhuma estação selecionada';
-    estacaoTexto.style.color = '#333'; // Cor padrão
+    estacaoTexto.style.color = '#333';
 
     sentidoTexto.textContent = 'Nenhum sentido selecionado';
-    sentidoTexto.style.color = '#333'; // Cor padrão
+    sentidoTexto.style.color = '#333';
 
     sentidoSelect.innerHTML = '<option value="">Selecionar sentido</option>';
     document.getElementById('trainBox').style.display = 'none';
+}
+
+function atualizarTempoTrem() {
+    const tempoElement = document.getElementById('tempoChegada');
+    if (tempoElement && linhaSelecionada) {
+        // Simula tempo aleatório entre 1-8 minutos
+        const tempo = Math.floor(Math.random() * 8) + 1;
+        tempoElement.textContent = tempo + ' min';
+        tempoElement.style.color = 'white';
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -105,11 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Reset do texto do sentido COM COR PADRÃO
             const sentidoTextoElement = document.getElementById('sentidoSelecionadoTexto');
             sentidoTextoElement.textContent = 'Nenhum sentido selecionado';
-            sentidoTextoElement.style.color = '#333'; // Cor padrão
+            sentidoTextoElement.style.color = '#333';
         }
     });
 
-    // Event listener para sentido - VERSÃO SIMPLES
+    // Event listener para sentido
     const sentidoSelect = document.getElementById('sentidoSelect');
     sentidoSelect.addEventListener('change', function(event) {
         const valorSelecionado = event.target.value;
@@ -123,18 +134,27 @@ document.addEventListener('DOMContentLoaded', () => {
             elementoTexto.textContent = textoSentido;
             elementoTexto.style.color = colorMap[linhaSelecionada];
 
-            // Mostra o box do trem
+            // Mostra o box do trem com animação
             const trainBox = document.getElementById('trainBox');
-            const trainInfo = document.getElementById('trainInfo');
-
             trainBox.style.display = 'block';
-            trainInfo.innerHTML = 'Próximo trem: Chegando em <span id="tempoChegada" style="font-weight: bold;">3 min</span>';
 
-            // Aplica cor no tempo
-            const tempoChegada = document.getElementById('tempoChegada');
-            if (tempoChegada) {
-                tempoChegada.style.color = colorMap[linhaSelecionada];
-            }
+            // Pequeno delay para animação suave
+            setTimeout(() => {
+                trainBox.style.opacity = '1';
+                trainBox.style.transform = 'translateY(0)';
+            }, 100);
+
+            // Atualiza o tempo inicial
+            atualizarTempoTrem();
+
+            // Atualiza o tempo a cada 30 segundos para simular tempo real
+            setInterval(atualizarTempoTrem, 30000);
         }
     });
+
+    // Adiciona estilo inicial para animação do train box
+    const trainBox = document.getElementById('trainBox');
+    trainBox.style.opacity = '0';
+    trainBox.style.transform = 'translateY(20px)';
+    trainBox.style.transition = 'all 0.5s ease';
 });

@@ -44,11 +44,14 @@ public class HomeFeedbackController {
             System.out.println("Passageiro: " + passageiro.getNome());
 
             feedbackService.salvarOuEditar(feedback);
-            model.addAttribute("mensagem", "Feedback enviado com sucesso!");
+
+            model.addAttribute("feedbackEnviado", true);
             model.addAttribute("logado", true);
+            model.addAttribute("feedback", new Feedback()); // Novo formulário limpo
+
+            return "cptm/feedback"; // Retorna para a mesma página
         } else {
             return "redirect:/cptm+/login";
         }
-        return "redirect:/cptm+/home?from=feedback";
     }
 }

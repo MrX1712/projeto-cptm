@@ -16,9 +16,11 @@
 
     <!-- Header Fixo -->
     <header class="header">
-        <div class="logo">
-            <img src="/images/cptm.png" alt="Logo CPTM+" />
-        </div>
+        <a th:href="@{/cptm+/home}">
+            <div class="logo">
+                <img src="/images/cptm.png" alt="Logo CPTM+" />
+            </div>
+        </a>
         <button th:onclick="${logado} ? 'location.href=\'/cptm+/usuario\'' : 'location.href=\'/cptm+/login\''"
                 class="user-button" aria-label="Usuário">
             <img src="/images/user.png" alt="user" />

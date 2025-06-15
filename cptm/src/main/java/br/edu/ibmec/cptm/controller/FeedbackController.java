@@ -4,6 +4,7 @@ import br.edu.ibmec.cptm.model.Feedback;
 import br.edu.ibmec.cptm.model.Passageiro;
 import br.edu.ibmec.cptm.service.FeedbackService;
 import br.edu.ibmec.cptm.service.PassageiroService;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,51 +89,54 @@ public class FeedbackController {
             String json = mapper.writeValueAsString(feedbacks);
 
             String prompt = """
-            Analise os feedbacks em JSON e gere um relatório HTML limpo e estruturado seguindo estas diretrizes:
+        Analise os feedbacks em JSON e gere um relatório HTML limpo e estruturado seguindo estas diretrizes:
 
-            ESTRUTURA OBRIGATÓRIA:
-            <h3>📊 Resumo Geral</h3>
-            <p><strong>Total de feedbacks:</strong> [número]</p>
-            
-            <h3>⭐ Notas Médias por Setor</h3>
-            <ul>
-            <li><strong>Atendimento:</strong> [nota]</li>
-            <li><strong>Estrutura:</strong> [nota]</li>
-            <li><strong>Segurança:</strong> [nota]</li>
-            <li><strong>Aplicativo:</strong> [nota]</li>
-            </ul>
-            
-            <h3>💡 Principais Comentários</h3>
-            <ul>
-            <li>[resumo do comentário mais relevante]</li>
-            <li>[outro comentário importante]</li>
-            </ul>
-            
-            <h3>🎯 Recomendações</h3>
-            <ul>
-            <li>[sugestão específica de melhoria]</li>
-            <li>[outra recomendação prática]</li>
-            </ul>
+        ESTRUTURA OBRIGATÓRIA:
+        <h3>📊 Resumo Geral</h3>
+        <p><strong>Total de feedbacks:</strong> [número]</p>
+        
+        <h3>⭐ Notas Médias por Setor</h3>
+        <ul>
+        <li><strong>Atendimento:</strong> [nota]</li>
+        <li><strong>Estrutura:</strong> [nota]</li>
+        <li><strong>Segurança:</strong> [nota]</li>
+        <li><strong>Aplicativo:</strong> [nota]</li>
+        </ul>
+        
+        <h3>💡 Principais Comentários</h3>
+        <ul>
+        <li>[resumo do comentário mais relevante]</li>
+        <li>[outro comentário importante]</li>
+        </ul>
+        
+        <h3>🎯 Recomendações</h3>
+        <ul>
+        <li>[sugestão específica de melhoria]</li>
+        <li>[outra recomendação prática]</li>
+        </ul>
 
-            REGRAS:
-            - Use apenas as tags HTML mostradas acima
-            - NÃO use h1, h2, ou outras tags não especificadas
-            - Mantenha os textos concisos e diretos
-            - Use emojis apenas nos títulos principais
-            - Calcule médias reais dos dados fornecidos
-            - NÃO inclua código HTML extra ou formatação complexa
+        REGRAS:
+        - Use apenas as tags HTML mostradas acima
+        - NÃO use h1, h2, ou outras tags não especificadas
+        - Mantenha os textos concisos e diretos
+        - Use emojis apenas nos títulos principais
+        - Calcule médias reais dos dados fornecidos
+        - NÃO inclua código HTML extra ou formatação complexa
 
-            Dados dos feedbacks:
-            """ + json;
+        Dados dos feedbacks:
+        """ + json;
 
+            // Primeiro, teste com modelo mais comum
             String requestBody = """
-            {
-              "model": "gpt-4o",
-              "messages": [
-                {"role": "user", "content": %s}
-              ]
-            }
-            """.formatted(mapper.writeValueAsString(prompt));
+        {
+          "model": "gpt-3.5-turbo",
+          "messages": [
+            {"role": "user", "content": %s}
+          ],
+          "max_tokens": 1000,
+          "temperature": 0.7
+        }
+        """.formatted(mapper.writeValueAsString(prompt));
 
             HttpClient client = HttpClient.newHttpClient();
 
@@ -145,21 +149,61 @@ public class FeedbackController {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+            // Debug: Log da resposta completa
+            System.out.println("Status Code: " + response.statusCode());
+            System.out.println("Response Body: " + response.body());
+
+            // Verificar se a requisição foi bem-sucedida
+            if (response.statusCode() != 200) {
+                throw new RuntimeException("API retornou status " + response.statusCode() + ": " + response.body());
+            }
+
             String respostaIA = response.body();
 
-            String conteudo = mapper
-                    .readTree(respostaIA)
-                    .get("choices").get(0).get("message").get("content").asText()
+            // Parse seguro da resposta JSON
+            JsonNode rootNode = mapper.readTree(respostaIA);
+
+            // Verificar se existe o campo "choices"
+            if (!rootNode.has("choices")) {
+                throw new RuntimeException("Resposta da API não contém o campo 'choices'. Resposta: " + respostaIA);
+            }
+
+            JsonNode choicesNode = rootNode.get("choices");
+
+            // Verificar se choices é um array e não está vazio
+            if (!choicesNode.isArray() || choicesNode.size() == 0) {
+                throw new RuntimeException("Campo 'choices' está vazio ou não é um array. Resposta: " + respostaIA);
+            }
+
+            JsonNode firstChoice = choicesNode.get(0);
+
+            // Verificar se existe message
+            if (!firstChoice.has("message")) {
+                throw new RuntimeException("Primeira escolha não contém 'message'. Resposta: " + respostaIA);
+            }
+
+            JsonNode messageNode = firstChoice.get("message");
+
+            // Verificar se existe content
+            if (!messageNode.has("content")) {
+                throw new RuntimeException("Message não contém 'content'. Resposta: " + respostaIA);
+            }
+
+            String conteudo = messageNode.get("content").asText()
                     .replace("```html", "")
                     .replace("```", "")
                     .trim();
 
-
             model.addAttribute("relatorioIA", conteudo);
 
         } catch (Exception e) {
+            // Log do erro completo para debug
+            e.printStackTrace();
+
             model.addAttribute("relatorioIA",
-                    "<h3>❌ Erro na Análise</h3><p>Não foi possível gerar o relatório: " + e.getMessage() + "</p>");
+                    "<h3>❌ Erro na Análise</h3>" +
+                            "<p>Não foi possível gerar o relatório.</p>" +
+                            "<p><strong>Detalhes:</strong> " + e.getMessage() + "</p>");
         }
 
         model.addAttribute("feedbacks", feedbackService.listar());
