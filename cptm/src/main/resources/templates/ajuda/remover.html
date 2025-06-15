@@ -2,6 +2,7 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Remover Solicitação</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
@@ -103,7 +104,7 @@
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 20px;
-            border-left: 4px solid #EE3338;
+            border-left: 4px solid #dc3545;
         }
 
         .detail-row {
@@ -174,7 +175,7 @@
             background-color: #f8f9fa;
             padding: 12px;
             border-radius: 8px;
-            border-left: 3px solid #EE3338;
+            border-left: 3px solid #dc3545;
             font-size: 14px;
             line-height: 1.4;
             color: #333;
@@ -260,6 +261,10 @@
             .detail-label {
                 min-width: auto;
                 margin-right: 0;
+            }
+
+            .action-buttons {
+                flex-direction: column;
             }
         }
     </style>
