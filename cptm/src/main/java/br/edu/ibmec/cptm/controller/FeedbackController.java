@@ -69,7 +69,7 @@ public class FeedbackController {
         return "redirect:/cptm+/adm/painel-administrativo/feedback/listar";
     }
 
-    @Value("${openai.key}")
+    @Value("${openai.api.key}")
     private String openaiKey;
 
     @GetMapping("/relatorio-inteligente")

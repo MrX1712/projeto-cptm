@@ -15,9 +15,8 @@ public class Feedback implements Serializable {
     private UUID id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "PASSAGEIRO_ID", referencedColumnName = "ID_USUARIO", nullable = false)
+    @JoinColumn(name = "PASSAGEIRO_ID", nullable = false)
     private Passageiro passageiro;
-
 
     @Column(name = "TIPO", nullable = false)
     private String tipo;
