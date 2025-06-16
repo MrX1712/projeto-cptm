@@ -10,7 +10,6 @@ function gerarAnos() {
     }
 }
 
-// Função para gerar meses
 function gerarMeses() {
     const meses = [
         'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -26,17 +25,14 @@ function gerarMeses() {
     });
 }
 
-// Função para gerar dias (depende do mês e ano selecionados)
 function gerarDias() {
     const selectDia = document.getElementById('dia');
     const mes = parseInt(document.getElementById('mes').value);
     const ano = parseInt(document.getElementById('ano').value);
 
-    // Limpar dias existentes
     selectDia.innerHTML = '<option value="">Dia</option>';
 
     if (mes && ano) {
-        // Calcular quantos dias tem o mês
         const diasNoMes = new Date(ano, mes, 0).getDate();
 
         for (let dia = 1; dia <= diasNoMes; dia++) {
@@ -46,7 +42,6 @@ function gerarDias() {
             selectDia.appendChild(option);
         }
     } else {
-        // Gerar 31 dias por padrão
         for (let dia = 1; dia <= 31; dia++) {
             const option = document.createElement('option');
             option.value = dia;
@@ -56,7 +51,6 @@ function gerarDias() {
     }
 }
 
-// Máscara para CPF
 function aplicarMascaraCPF(input) {
     let value = input.value.replace(/\D/g, '');
     if (value.length <= 11) {
@@ -67,15 +61,12 @@ function aplicarMascaraCPF(input) {
     input.value = value;
 }
 
-// Validar CPF (algoritmo básico)
 function validarCPF(cpf) {
     cpf = cpf.replace(/[^\d]/g, '');
     if (cpf.length !== 11) return false;
 
-    // Verifica se todos os dígitos são iguais
     if (/^(\d)\1{10}$/.test(cpf)) return false;
 
-    // Validação dos dígitos verificadores
     let soma = 0;
     for (let i = 0; i < 9; i++) {
         soma += parseInt(cpf.charAt(i)) * (10 - i);
@@ -93,23 +84,19 @@ function validarCPF(cpf) {
     return dv1 === parseInt(cpf.charAt(9)) && dv2 === parseInt(cpf.charAt(10));
 }
 
-// Quando a página carregar
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     gerarAnos();
     gerarMeses();
     gerarDias();
 
-    // Event listeners para atualizar dias quando mês/ano mudar
     document.getElementById('mes').addEventListener('change', gerarDias);
     document.getElementById('ano').addEventListener('change', gerarDias);
 
-    // Aplicar máscara no CPF
-    document.getElementById('cpf').addEventListener('input', function() {
+    document.getElementById('cpf').addEventListener('input', function () {
         aplicarMascaraCPF(this);
     });
 
-    // Validação do formulário
-    document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+    document.getElementById('cadastroForm').addEventListener('submit', function (e) {
         e.preventDefault();
 
         const nome = document.getElementById('nomeCompleto').value.trim();
@@ -120,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const cpf = document.getElementById('cpf').value;
         const senha = document.getElementById('senha').value;
 
-        // Validações
         if (!nome || nome.length < 2) {
             alert('Por favor, insira um nome válido.');
             return;
@@ -131,10 +117,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Verificar se é maior de idade
         const dataNascimento = new Date(ano, mes - 1, dia);
         const hoje = new Date();
-        const idade = hoje.getFullYear() - dataNascimento.getFullYear();
+        let idade = hoje.getFullYear() - dataNascimento.getFullYear();
         const m = hoje.getMonth() - dataNascimento.getMonth();
         if (m < 0 || (m === 0 && hoje.getDate() < dataNascimento.getDate())) {
             idade--;
@@ -145,26 +130,22 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Validar e-mail
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             alert('Por favor, insira um e-mail válido.');
             return;
         }
 
-        // Validar CPF
         if (!validarCPF(cpf)) {
             alert('Por favor, insira um CPF válido.');
             return;
         }
 
-        // Validar senha
         if (senha.length < 6) {
             alert('A senha deve ter pelo menos 6 caracteres.');
             return;
         }
 
-        // Simular cadastro
         const botaoCadastrar = document.querySelector('.btn-submit');
         const textoOriginal = botaoCadastrar.textContent;
 
@@ -174,15 +155,12 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             alert(`Cadastro realizado com sucesso!\n\nBem-vindo(a), ${nome}!`);
 
-            // Reset do formulário
             document.getElementById('cadastroForm').reset();
-            gerarDias(); // Resetar dias para o padrão
+            gerarDias();
 
             botaoCadastrar.textContent = textoOriginal;
             botaoCadastrar.disabled = false;
 
-            // Redirecionar para login
-            // window.location.href = '/cptm+/login';
         }, 2000);
     });
 });

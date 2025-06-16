@@ -91,5 +91,4 @@ public class Estacao implements Serializable {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
-
 }

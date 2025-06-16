@@ -6,7 +6,6 @@ const sentidoPorLinha = {
     jade: ["Eng. Goulart", "Aeroporto Guarulhos"]
 };
 
-// CORES ATUALIZADAS
 const colorMap = {
     rubi: '#9b101f',
     turquesa: '#41e1d0',
@@ -18,10 +17,8 @@ const colorMap = {
 let linhaSelecionada = null;
 
 function manusearClique(botao) {
-    // Remove classe 'selecionada' de todos os botões
     document.querySelectorAll('.linha-card').forEach(b => b.classList.remove('selecionada'));
 
-    // Adiciona a classe ao botão clicado
     botao.classList.add('selecionada');
 
     const linhaClass = botao.getAttribute('data-linha');
@@ -55,7 +52,6 @@ function selecionarLinha(linhaClass, nomeCompleto, idLinha) {
                 select.appendChild(option);
             });
 
-            // Aplicar cor nos DOIS selects quando seleciona a linha
             select.style.borderColor = colorMap[linhaClass];
             sentidoSelect.style.borderColor = colorMap[linhaClass];
         })
@@ -64,7 +60,6 @@ function selecionarLinha(linhaClass, nomeCompleto, idLinha) {
             select.innerHTML = '<option value="">Erro ao carregar estações</option>';
         });
 
-    // Reset dos textos e das cores
     resetarSelecoes();
 }
 
@@ -86,7 +81,6 @@ function resetarSelecoes() {
 function atualizarTempoTrem() {
     const tempoElement = document.getElementById('tempoChegada');
     if (tempoElement && linhaSelecionada) {
-        // Simula tempo aleatório entre 1-8 minutos
         const tempo = Math.floor(Math.random() * 8) + 1;
         tempoElement.textContent = tempo + ' min';
         tempoElement.style.color = 'white';
@@ -94,7 +88,6 @@ function atualizarTempoTrem() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Event listener para estações
     document.getElementById('estacoesSelect').addEventListener('change', function () {
         if (this.value !== "") {
             const estacaoTexto = this.options[this.selectedIndex].text;
@@ -113,46 +106,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 sentidoSelect.appendChild(opt);
             });
 
-            // Reset do texto do sentido COM COR PADRÃO
             const sentidoTextoElement = document.getElementById('sentidoSelecionadoTexto');
             sentidoTextoElement.textContent = 'Nenhum sentido selecionado';
             sentidoTextoElement.style.color = '#333';
         }
     });
 
-    // Event listener para sentido
     const sentidoSelect = document.getElementById('sentidoSelect');
-    sentidoSelect.addEventListener('change', function(event) {
+    sentidoSelect.addEventListener('change', function (event) {
         const valorSelecionado = event.target.value;
 
         if (valorSelecionado && valorSelecionado !== '') {
-            // Pega o texto da opção selecionada
             const textoSentido = event.target.options[event.target.selectedIndex].text;
 
-            // Atualiza o elemento de texto
             const elementoTexto = document.getElementById('sentidoSelecionadoTexto');
             elementoTexto.textContent = textoSentido;
             elementoTexto.style.color = colorMap[linhaSelecionada];
 
-            // Mostra o box do trem com animação
             const trainBox = document.getElementById('trainBox');
             trainBox.style.display = 'block';
 
-            // Pequeno delay para animação suave
             setTimeout(() => {
                 trainBox.style.opacity = '1';
                 trainBox.style.transform = 'translateY(0)';
             }, 100);
 
-            // Atualiza o tempo inicial
             atualizarTempoTrem();
 
-            // Atualiza o tempo a cada 30 segundos para simular tempo real
             setInterval(atualizarTempoTrem, 30000);
         }
     });
 
-    // Adiciona estilo inicial para animação do train box
     const trainBox = document.getElementById('trainBox');
     trainBox.style.opacity = '0';
     trainBox.style.transform = 'translateY(20px)';

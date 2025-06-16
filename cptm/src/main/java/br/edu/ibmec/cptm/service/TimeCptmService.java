@@ -28,14 +28,6 @@ public class TimeCptmService {
         timeCptmRepository.deleteById(id);
     }
 
-    public TimeCptm buscarPorEmail(String email) {
-        return timeCptmRepository.findByEmail(email).orElse(null);
-    }
-
-    public TimeCptm buscarPorCpf(String cpf) {
-        return timeCptmRepository.findByCpf(cpf).orElse(null);
-    }
-
     public TimeCptm buscarPorId(UUID id) {
         return timeCptmRepository.findById(id).orElse(null);
     }

@@ -28,10 +28,6 @@ public class LinhaService {
         linhaRepository.deleteById(linhaId);
     }
 
-    public Linha buscarPorNome(String nome) {
-        return linhaRepository.findByNome(nome).orElse(null);
-    }
-
     public Linha buscarPorId(UUID id) {
         return linhaRepository.findById(id).orElse(null);
     }

@@ -45,7 +45,6 @@ public class Feedback implements Serializable {
         this.visto = false;
     }
 
-    // Getters e Setters
     public UUID getId() {
         return id;
     }

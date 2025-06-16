@@ -5,7 +5,7 @@ let directionsRenderer;
 window.initMap = function () {
     map = new google.maps.Map(document.getElementById("google-map"), {
         zoom: 14,
-        center: { lat: -23.533773, lng: -46.625290 } // Centro de SP
+        center: {lat: -23.533773, lng: -46.625290} // Centro de SP
     });
 
     directionsService = new google.maps.DirectionsService();
@@ -13,15 +13,13 @@ window.initMap = function () {
     directionsRenderer.setMap(map);
 };
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('estacaoForm');
     const buscarButton = document.getElementById('buscar-estacao');
 
-    // Adicionar listener ao botão
     buscarButton.addEventListener('click', buscarEstacao);
 
-    // Adicionar listener ao form para prevenir submit padrão
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
         buscarEstacao();
     });
@@ -32,20 +30,16 @@ async function buscarEstacao() {
     const linha = document.getElementById("linha").value;
     const infoDiv = document.getElementById("info-estacao");
 
-    // Limpar resultado anterior
     infoDiv.innerHTML = "";
 
-    // Validação
     if (!endereco || !linha) {
         mostrarErro("Preencha todos os campos.");
         return;
     }
 
-    // Mostrar loading
     mostrarLoading();
 
     try {
-        // 1. Geocodifica o endereço
         const geoRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(endereco)}&key=AIzaSyB-tgvCbmlPEYQuEj_Chai_FmI-Ege3eMQ`);
         const geoData = await geoRes.json();
 
@@ -56,7 +50,6 @@ async function buscarEstacao() {
 
         const origem = geoData.results[0].geometry.location;
 
-        // 2. Chama o backend para pegar a estação mais próxima da linha
         const res = await fetch(`/cptm+/estacoes/mais-proxima?linha=${linha}&lat=${origem.lat}&lng=${origem.lng}`);
 
         if (!res.ok) {
@@ -70,11 +63,9 @@ async function buscarEstacao() {
             return;
         }
 
-        // 3. Atualiza o texto com nome da estação
         mostrarResultado(linha, estacao.nome);
 
-        // 4. Traça a rota até a estação
-        const destino = { lat: estacao.latitude, lng: estacao.longitude };
+        const destino = {lat: estacao.latitude, lng: estacao.longitude};
 
         const rota = {
             origin: origem,
@@ -139,6 +130,5 @@ function formatarNomeLinha(linhaId) {
         'Safira': 'Linha 12 - Safira',
         'Jade': 'Linha 13 - Jade'
     };
-    // como linha agora é um UUID, essa função é só pra fallback
     return mapeamento[linhaId] || `Linha`;
 }

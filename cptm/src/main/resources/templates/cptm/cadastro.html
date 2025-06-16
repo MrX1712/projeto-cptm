@@ -6,12 +6,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="/cadastro.css" />
+    <link rel="stylesheet" href="/css/cadastro.css" />
     <title>CPTM+</title>
 </head>
 <body>
 <div class="main-container">
-    <!-- Header Fixo -->
     <header class="header">
         <a th:href="@{/cptm+/home}">
             <div class="logo">
@@ -25,7 +24,6 @@
     </header>
 
     <div class="content">
-        <!-- Cadastro Container -->
         <div class="cadastro-container">
             <div class="cadastro-header">Cadastro</div>
             <form th:action="@{/cptm+/login/salvar}" th:object="${passageiro}" method="post" class="form-container" id="cadastroForm">
@@ -45,7 +43,6 @@
 
         </div>
 
-        <!-- Card Promocional -->
         <div class="card">
             <img src="/images/cptm2.png" alt="CPTM Trens" />
             <h2>Conecte-se com a CPTM do Futuro</h2>
@@ -55,7 +52,6 @@
         </div>
     </div>
 
-    <!-- Footer fixo -->
     <div class="bottom-nav">
         <button onclick="location.href='/cptm+/home'" class="icon-button">
             <img src="/images/homeIcon.png" alt="Home" class="icon" />
@@ -72,6 +68,6 @@
     </div>
 </div>
 
-<script src="/cadastro.js"></script>
+<script src="/js/cadastro.js"></script>
 </body>
 </html>

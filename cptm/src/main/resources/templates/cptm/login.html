@@ -6,27 +6,25 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="/login.css" />
+    <link rel="stylesheet" href="/css/login.css"/>
     <title>CPTM+</title>
 </head>
 <body>
 <div class="main-container">
 
-    <!-- Header Fixo -->
     <header class="header">
         <a th:href="@{/cptm+/home}">
             <div class="logo">
-                <img src="/images/cptm.png" alt="Logo CPTM+" />
+                <img src="/images/cptm.png" alt="Logo CPTM+"/>
             </div>
         </a>
         <button th:onclick="${logado} ? 'location.href=\'/cptm+/usuario\'' : 'location.href=\'/cptm+/login\''"
                 class="user-button" aria-label="Usuário">
-            <img src="/images/user.png" alt="user" />
+            <img src="/images/user.png" alt="user"/>
         </button>
     </header>
 
     <div class="content">
-        <!-- Botão Cadastro Superior -->
         <div class="button-pai">
             <button onclick="location.href='/cptm+/login/novo'" class="botao-cadastro">
                 <div class="texto">
@@ -37,15 +35,14 @@
             </button>
         </div>
 
-        <!-- Login Container -->
         <div class="login-container">
             <div class="login-header">Login</div>
             <form class="login-form" th:action="@{/login}" method="post" id="loginForm">
                 <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" required />
+                <input type="email" id="email" name="email" required/>
 
                 <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required />
+                <input type="password" id="password" name="password" required/>
 
                 <a href="#" onclick="mostrarVerificacaoRecuperacao()">Esqueceu a senha?</a>
 
@@ -53,33 +50,31 @@
             </form>
         </div>
 
-        <!-- Card Promocional -->
         <div class="card">
-            <img src="/images/cptm2.png" alt="CPTM Trens" />
+            <img src="/images/cptm2.png" alt="CPTM Trens"/>
             <h2>Conecte-se com a CPTM do Futuro</h2>
             <div class="divider_2"></div>
-            <p>Faça login e salve suas preferências, receba alertas sobre suas rotas e aproveite uma experiência mais personalizada!</p>
+            <p>Faça login e salve suas preferências, receba alertas sobre suas rotas e aproveite uma experiência mais
+                personalizada!</p>
             <button onclick="location.href='/cptm+/login/novo'" class="botao-cadastro2">Cadastre-se</button>
         </div>
     </div>
 
-    <!-- Footer fixo -->
     <div class="bottom-nav">
         <button onclick="location.href='/cptm+/home'" class="icon-button">
-            <img src="/images/homeIcon.png" alt="Home" class="icon" />
+            <img src="/images/homeIcon.png" alt="Home" class="icon"/>
         </button>
         <button onclick="location.href='/cptm+/estacoes'" class="icon-button">
-            <img src="/images/location-pin.png" alt="Localização" class="icon" />
+            <img src="/images/location-pin.png" alt="Localização" class="icon"/>
         </button>
         <button onclick="location.href='/cptm+/rastreamento'" class="icon-button">
-            <img src="/images/trem.png" alt="Trem" class="icon" />
+            <img src="/images/trem.png" alt="Trem" class="icon"/>
         </button>
         <button onclick="location.href='/cptm+/ajuda'" class="icon-button">
-            <img src="/images/siren.png" alt="Notificações" class="icon" />
+            <img src="/images/siren.png" alt="Notificações" class="icon"/>
         </button>
     </div>
 
-    <!-- Modal original (mantido mas oculto) -->
     <div id="loginModal" th:if="${loginInvalido}" class="modal" style="display:none;">
         <div class="modal-content">
             <h2>Login inválido</h2>
@@ -89,7 +84,6 @@
         </div>
     </div>
 
-    <!-- Pop-up de Login Inválido -->
     <div class="popup-overlay" id="loginInvalidoPopup">
         <div class="popup-container">
             <div class="popup-header">
@@ -112,7 +106,6 @@
         </div>
     </div>
 
-    <!-- Pop-up de Verificação de Dados para Recuperação -->
     <div class="popup-overlay" id="verificacaoRecuperacaoPopup">
         <div class="popup-container">
             <div class="popup-header">
@@ -121,20 +114,22 @@
             </div>
             <div class="popup-body">
                 <div class="popup-message">
-                    Para recuperar sua senha, precisamos verificar alguns dados:
+                    Para recuperar a sua senha, precisamos verificar alguns dados:
                 </div>
                 <div class="verificacao-form">
                     <label for="emailRecuperacao">E-mail:</label>
-                    <input type="email" id="emailRecuperacao" placeholder="Digite seu e-mail" required />
+                    <input type="email" id="emailRecuperacao" placeholder="Digite seu e-mail" required/>
 
                     <label for="cpfRecuperacao">CPF:</label>
-                    <input type="text" id="cpfRecuperacao" placeholder="Digite seu CPF" maxlength="14" required />
+                    <input type="text" id="cpfRecuperacao" placeholder="Digite seu CPF" maxlength="14" required/>
                 </div>
                 <div class="popup-buttons">
-                    <button class="popup-btn primary" onclick="processarVerificacao()">
+                    <button class="popup-btn primary" onclick="processarVerificacao()"
+                            style="background-color: #28a745;">
                         Verificar
                     </button>
-                    <button class="popup-btn secondary" onclick="hidePopup('verificacaoRecuperacaoPopup')">
+                    <button class="popup-btn secondary" onclick="hidePopup('verificacaoRecuperacaoPopup')"
+                            style="background-color: #dc3545;">
                         Cancelar
                     </button>
                 </div>
@@ -142,7 +137,6 @@
         </div>
     </div>
 
-    <!-- Pop-up de Erro na Verificação -->
     <div class="popup-overlay" id="erroVerificacaoPopup">
         <div class="popup-container">
             <div class="popup-header">
@@ -166,160 +160,6 @@
     </div>
 </div>
 
-<script>
-    // Função para mostrar pop-up de login inválido
-    function showLoginInvalidoPopup() {
-        document.getElementById('loginInvalidoPopup').classList.add('active');
-    }
-
-    // NOVA FUNÇÃO: Mostrar pop-up de verificação de dados
-    function mostrarVerificacaoRecuperacao() {
-        document.getElementById('verificacaoRecuperacaoPopup').classList.add('active');
-    }
-
-    // NOVA FUNÇÃO: Processar verificação de email e CPF
-    function processarVerificacao() {
-        const email = document.getElementById('emailRecuperacao').value;
-        const cpf = document.getElementById('cpfRecuperacao').value;
-
-        // Validações básicas
-        if (!email || !cpf) {
-            showErroVerificacao('Por favor, preencha todos os campos.');
-            return;
-        }
-
-        if (!validarEmail(email)) {
-            showErroVerificacao('Por favor, insira um email válido.');
-            return;
-        }
-
-        if (!validarCPF(cpf)) {
-            showErroVerificacao('Por favor, insira um CPF válido.');
-            return;
-        }
-
-        // Enviar dados para verificação no backend
-        fetch('/cptm+/verificar-dados-recuperacao', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                cpf: cpf
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.sucesso) {
-                    // Redirecionar para página de recuperação com ID do usuário
-                    window.location.href = `/cptm+/recuperar-senha?id=${data.usuarioId}`;
-                } else {
-                    showErroVerificacao('Não foi encontrada uma conta com estes dados.');
-                }
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                showErroVerificacao('Erro interno. Tente novamente mais tarde.');
-            });
-    }
-
-    // NOVA FUNÇÃO: Validar email
-    function validarEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
-
-    // NOVA FUNÇÃO: Validar CPF (básico)
-    function validarCPF(cpf) {
-        // Remove pontos e hífens
-        cpf = cpf.replace(/[^\d]/g, '');
-
-        // Verifica se tem 11 dígitos
-        if (cpf.length !== 11) {
-            return false;
-        }
-
-        // Verifica se não são todos números iguais
-        if (/^(\d)\1{10}$/.test(cpf)) {
-            return false;
-        }
-
-        return true; // Validação básica - pode ser melhorada
-    }
-
-    // NOVA FUNÇÃO: Mostrar erro na verificação
-    function showErroVerificacao(mensagem) {
-        document.getElementById('mensagemErroVerificacao').textContent = mensagem;
-        document.getElementById('erroVerificacaoPopup').classList.add('active');
-    }
-
-    // NOVA FUNÇÃO: Limpar campos de verificação
-    function limparCamposVerificacao() {
-        document.getElementById('emailRecuperacao').value = '';
-        document.getElementById('cpfRecuperacao').value = '';
-    }
-
-    // Função para esconder pop-up
-    function hidePopup(popupId) {
-        document.getElementById(popupId).classList.remove('active');
-
-        // Se for o popup de verificação, limpar campos
-        if (popupId === 'verificacaoRecuperacaoPopup') {
-            limparCamposVerificacao();
-        }
-    }
-
-    // Fechar pop-up clicando no overlay
-    document.querySelectorAll('.popup-overlay').forEach(overlay => {
-        overlay.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
-                // Limpar campos se for o popup de verificação
-                if (this.id === 'verificacaoRecuperacaoPopup') {
-                    limparCamposVerificacao();
-                }
-            }
-        });
-    });
-
-    // Fechar pop-up com tecla ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('.popup-overlay.active').forEach(popup => {
-                popup.classList.remove('active');
-                // Limpar campos se for o popup de verificação
-                if (popup.id === 'verificacaoRecuperacaoPopup') {
-                    limparCamposVerificacao();
-                }
-            });
-        }
-    });
-
-    // Verificar se há erro de login na página carregada
-    document.addEventListener('DOMContentLoaded', function() {
-        // Verificar se existe a condição loginInvalido do Thymeleaf
-        const loginModal = document.getElementById('loginModal');
-        if (loginModal) {
-            // Se o modal original existe, mostrar o pop-up estilizado
-            showLoginInvalidoPopup();
-        }
-    });
-
-    // NOVA FUNÇÃO: Formatação automática do CPF
-    document.addEventListener('DOMContentLoaded', function() {
-        const cpfInput = document.getElementById('cpfRecuperacao');
-        if (cpfInput) {
-            cpfInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-                e.target.value = value;
-            });
-        }
-    });
-</script>
-
+<script src="/js/login.js"></script>
 </body>
 </html>

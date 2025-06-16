@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CPTM+ | Estações Próximas</title>
-    <link rel="stylesheet" href="/estacoes.css">
+    <link rel="stylesheet" href="/css/estacoes.css">
 </head>
 <body th:attr="data-logado=${logado ? 'true' : 'false'}">
 <div class="main-container">
-    <!-- Header -->
     <header class="header">
         <a th:href="@{/cptm+/home}">
             <div class="logo">
@@ -22,7 +21,6 @@
         </button>
     </header>
 
-    <!-- Conteúdo principal -->
     <div class="content">
         <div class="estacoes-container">
             <div class="estacoes-header">Estações Próximas</div>
@@ -47,18 +45,13 @@
                                      linha.nome == 'Jade' ? 'Linha 13 - Jade' :
                                      'Linha ? - ' + linha.nome}">
                             </option>
-
                         </select>
-
-
-
                     </div>
                 </div>
 
                 <button type="button" id="buscar-estacao" class="send-button">Buscar Estação Mais Próxima</button>
             </form>
 
-            <!-- Mapa -->
             <div class="map-container">
                 <div id="google-map"></div>
             </div>
@@ -67,7 +60,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <div class="bottom-nav">
         <button onclick="location.href='/cptm+/home'" class="icon-button">
             <img src="/images/homeIcon.png" alt="Home" class="icon" />
@@ -84,7 +76,7 @@
     </div>
 </div>
 
-<script src="/estacoes.js"></script>
+<script src="/js/estacoes.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-tgvCbmlPEYQuEj_Chai_FmI-Ege3eMQ&callback=initMap" async defer></script>
 </body>
 </html>

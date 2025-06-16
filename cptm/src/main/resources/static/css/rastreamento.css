@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;600;700&display=swap');
 
-/* === BASE STYLES === */
 * {
     margin: 0;
     padding: 0;
@@ -12,11 +11,10 @@ body {
     background: #f0f0f0;
     margin: 0;
     padding-top: 90px;
-    overflow: hidden; /* Remove scroll da página */
+    overflow: hidden;
     line-height: 1.6;
 }
 
-/* === CONTAINER PRINCIPAL === */
 .main-container {
     max-width: 450px;
     width: 100%;
@@ -28,10 +26,9 @@ body {
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     height: calc(100vh - 90px);
     border-radius: 0;
-    overflow: hidden; /* Remove qualquer scroll */
+    overflow: hidden;
 }
 
-/* === HEADER FIXO === */
 .header {
     display: flex;
     justify-content: center;
@@ -62,7 +59,6 @@ body {
     background-color: transparent;
 }
 
-/* Botão de usuário */
 .user-button {
     position: absolute;
     right: 20px;
@@ -85,23 +81,20 @@ body {
     transform: scale(1.15);
 }
 
-/* === CONTENT AREA === */
 .content {
     flex: 1;
     padding: 15px 15px 75px;
     width: 100%;
     box-sizing: border-box;
-    overflow-y: auto; /* CORRIGIDO: Permite scroll */
+    overflow-y: auto;
     background: #f5f5f5;
 }
 
-/* === ESCONDER SCROLLBAR === */
 .content::-webkit-scrollbar {
     width: 0px;
     background: transparent;
 }
 
-/* === RASTREAMENTO CONTAINER === */
 .rastreamento-container {
     background-color: white;
     border-radius: 20px;
@@ -132,7 +125,6 @@ body {
     background-color: rgba(255, 255, 255, 0.7);
 }
 
-/* === SECTIONS === */
 .section {
     padding: 25px 20px;
     border-bottom: 1px solid #f0f0f0;
@@ -156,7 +148,6 @@ body {
     font-size: 20px;
 }
 
-/* === LINHA CARDS === */
 .linhas-grid {
     margin-bottom: 15px;
 }
@@ -242,7 +233,6 @@ body {
     transform: translateX(5px);
 }
 
-/* === CORES DAS LINHAS === */
 .rubi::before { background: #9b101f; }
 .rubi .linha-number { background: #9b101f; }
 .rubi.selecionada { border-color: #9b101f; }
@@ -263,7 +253,6 @@ body {
 .jade .linha-number { background: #01a86a; }
 .jade.selecionada { border-color: #01a86a; }
 
-/* === SELECTION STATUS === */
 .selection-status {
     margin-top: 15px;
     padding: 12px 15px;
@@ -285,7 +274,6 @@ body {
     margin-left: 5px;
 }
 
-/* === SELECT MODERNO === */
 .select-container {
     position: relative;
 }
@@ -320,7 +308,6 @@ body {
     border-color: #EE3338;
 }
 
-/* === TRAIN INFO CARD === */
 .train-info-card {
     background: linear-gradient(135deg, #EE3338 0%, #ff4757 100%);
     border-radius: 20px;
@@ -390,7 +377,6 @@ body {
     100% { opacity: 1; }
 }
 
-/* === BOTTOM NAVIGATION === */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -448,7 +434,6 @@ body {
     outline: none;
 }
 
-/* === RESPONSIVIDADE === */
 @media (min-width: 600px) {
     .main-container {
         max-width: 100%;

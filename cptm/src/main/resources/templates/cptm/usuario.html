@@ -5,22 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="/usuario.css">
+    <link rel="stylesheet" href="/css/usuario.css">
     <title>CPTM+</title>
 </head>
 <body>
 <div class="main-container">
 
-    <!-- Header -->
     <header class="header">
         <a th:href="@{/cptm+/home}">
             <div class="logo">
-                <img src="/images/cptm.png" alt="Logo CPTM+" />
+                <img src="/images/cptm.png" alt="Logo CPTM+"/>
             </div>
         </a>
         <button th:onclick="${logado} ? 'location.href=\'/cptm+/usuario\'' : 'location.href=\'/cptm+/login\''"
                 class="user-button" aria-label="Usuário">
-            <img src="/images/user.png" alt="user" />
+            <img src="/images/user.png" alt="user"/>
         </button>
     </header>
 
@@ -36,8 +35,7 @@
                   th:object="${passageiro}"
                   method="post">
 
-                <!-- Campo oculto para manter o ID -->
-                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{id}"/>
 
                 <label>Nome:</label>
                 <div class="input-row">
@@ -63,7 +61,6 @@
                 <label>CPF:</label>
                 <input type="text" id="cpf" th:field="*{cpf}" readonly>
 
-                <!-- Atualize a área de "Linhas Favoritas" -->
                 <label style="margin-top: 20px;">Linhas Favoritas:</label>
                 <div class="checkbox-container">
                     <div th:each="linha : ${todasAsLinhas}" class="checkbox-item">
@@ -72,7 +69,7 @@
                                name="linhasFavoritas"
                                th:value="${linha.id}"
                                class="custom-checkbox"
-                               th:checked="${#lists.contains(passageiro.linhasFavoritas, linha)}" />
+                               th:checked="${#lists.contains(passageiro.linhasFavoritas, linha)}"/>
 
                         <label th:for="'linha-' + ${linha.id}" class="checkbox-label">
                             <span class="checkbox-custom"></span>
@@ -94,39 +91,41 @@
                     </div>
                 </div>
 
+                <div style="display: flex; gap: 10px; margin-top: 20px; max-width: 100%;">
+                    <button type="submit" class="send-button" onclick="return handleFormSubmit()"
+                            style="background-color: #28a745; flex: 1; padding: 12px 16px; font-size: 14px; min-height: 45px;">
+                        Salvar Alterações
+                    </button>
 
-                <button type="submit" class="send-button" onclick="return handleFormSubmit()">Salvar Alterações</button>
-
-                <button type="button"
-                        onclick="showLogoutPopup()"
-                        class="send-button"
-                        style="margin-top: 10px; background-color: #ee3338;"
-                        title="    Sair da conta   ">
-                    Sair da Conta
-                </button>
+                    <button type="button"
+                            onclick="showLogoutPopup()"
+                            class="send-button"
+                            style="background-color: #ee3338; flex: 1; padding: 12px 16px; font-size: 14px; min-height: 45px;"
+                            title="Sair da conta">
+                        Sair da Conta
+                    </button>
+                </div>
             </form>
 
         </div>
     </div>
 
-    <!-- Footer fixo -->
     <div class="bottom-nav">
         <button onclick="location.href='/cptm+/home'" class="icon-button">
-            <img src="/images/homeIcon.png" alt="Home" class="icon" />
+            <img src="/images/homeIcon.png" alt="Home" class="icon"/>
         </button>
         <button onclick="location.href='/cptm+/estacoes'" class="icon-button">
-            <img src="/images/location-pin.png" alt="Localização" class="icon" />
+            <img src="/images/location-pin.png" alt="Localização" class="icon"/>
         </button>
         <button onclick="location.href='/cptm+/rastreamento'" class="icon-button">
-            <img src="/images/trem.png" alt="Trem" class="icon" />
+            <img src="/images/trem.png" alt="Trem" class="icon"/>
         </button>
         <button onclick="location.href='/cptm+/ajuda'" class="icon-button">
-            <img src="/images/siren.png" alt="Notificações" class="icon" />
+            <img src="/images/siren.png" alt="Notificações" class="icon"/>
         </button>
     </div>
 </div>
 
-<!-- Pop-up de Confirmação de Logout -->
 <div class="popup-overlay" id="logoutPopup">
     <div class="popup-container">
         <div class="popup-header">
@@ -150,7 +149,6 @@
     </div>
 </div>
 
-<!-- Pop-up de Sucesso -->
 <div class="popup-overlay" id="successPopup">
     <div class="popup-container">
         <div class="popup-header success">
@@ -170,80 +168,6 @@
     </div>
 </div>
 
-<script>
-    function toggleEdit(id) {
-        const input = document.getElementById(id);
-        if (input.hasAttribute('readonly')) {
-            input.removeAttribute('readonly');
-            input.focus();
-        } else {
-            input.setAttribute('readonly', true);
-        }
-    }
-
-    // Função para mostrar pop-up de logout
-    function showLogoutPopup() {
-        document.getElementById('logoutPopup').classList.add('active');
-    }
-
-    // Função para mostrar pop-up de sucesso
-    function showSuccessPopup() {
-        document.getElementById('successPopup').classList.add('active');
-    }
-
-    // Função para esconder pop-up
-    function hidePopup(popupId) {
-        document.getElementById(popupId).classList.remove('active');
-    }
-
-    // Função para confirmar logout
-    function confirmLogout() {
-        hidePopup('logoutPopup');
-        location.href = '/cptm+/logout';
-    }
-
-    // Função para lidar com o submit do formulário
-    function handleFormSubmit() {
-        // Após o submit ser bem-sucedido, mostrar o pop-up de sucesso
-        // Esta função será executada quando o formulário for enviado
-        setTimeout(function() {
-            // Verifica se há mensagem de sucesso do Thymeleaf
-            const mensagemElement = document.querySelector('.alert-success');
-            if (mensagemElement && mensagemElement.textContent.trim()) {
-                showSuccessPopup();
-                // Remove a mensagem padrão do Thymeleaf
-                mensagemElement.style.display = 'none';
-            }
-        }, 100);
-        return true; // Permite que o formulário seja enviado normalmente
-    }
-
-    // Fechar pop-up clicando no overlay
-    document.querySelectorAll('.popup-overlay').forEach(overlay => {
-        overlay.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
-            }
-        });
-    });
-
-    // Fechar pop-up com tecla ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('.popup-overlay.active').forEach(popup => {
-                popup.classList.remove('active');
-            });
-        }
-    });
-
-    // Verificar se há mensagem de sucesso na página carregada
-    document.addEventListener('DOMContentLoaded', function() {
-        const mensagemElement = document.querySelector('.alert-success');
-        if (mensagemElement && mensagemElement.textContent.trim()) {
-            showSuccessPopup();
-            mensagemElement.style.display = 'none';
-        }
-    });
-</script>
+<script src="/js/usuario.js"></script>
 </body>
 </html>

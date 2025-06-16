@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap');
 
-/* Base styles - Idênticos ao login.css */
 body {
     margin: 0;
     min-height: 100vh;
@@ -9,7 +8,6 @@ body {
     padding-top: 90px;
 }
 
-/* Container Principal */
 .main-container {
     max-width: 450px;
     width: 100%;
@@ -18,13 +16,12 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     overflow-x: hidden;
     min-height: calc(100vh - 90px);
     border-radius: 0;
 }
 
-/* Header FIXO - Idêntico ao login */
 .header {
     display: flex;
     justify-content: center;
@@ -55,7 +52,6 @@ body {
     background-color: transparent;
 }
 
-/* Botão de usuário */
 .user-button {
     position: absolute;
     right: 20px;
@@ -78,7 +74,6 @@ body {
     transform: scale(1.15);
 }
 
-/* Content Area */
 .content {
     flex: 1;
     padding: 15px 15px 75px;
@@ -88,9 +83,11 @@ body {
     width: 100%;
     box-sizing: border-box;
 }
-.content::-webkit-scrollbar { display: none; }
 
-/* Button Pai */
+.content::-webkit-scrollbar {
+    display: none;
+}
+
 .button-pai {
     display: flex;
     justify-content: center;
@@ -98,7 +95,6 @@ body {
     margin-bottom: 10px;
 }
 
-/* Botão Voltar - Adaptado do botão cadastro */
 .botao-voltar {
     display: flex;
     align-items: center;
@@ -111,7 +107,7 @@ body {
     width: 100%;
     max-width: 100%;
     height: 60px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 0 20px;
     box-sizing: border-box;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
@@ -150,7 +146,6 @@ body {
     flex-shrink: 0;
 }
 
-/* Recuperar Container - Baseado no login-container */
 .recuperar-container {
     background-color: white;
     border-radius: 20px;
@@ -183,7 +178,6 @@ body {
     background-color: rgba(255, 255, 255, 0.7);
 }
 
-/* Recuperar Form - Idêntico ao login-form */
 .recuperar-form {
     padding: 20px 25px;
 }
@@ -256,7 +250,6 @@ body {
     box-shadow: none;
 }
 
-/* Card - Idêntico ao login */
 .card {
     background-color: #fff;
     border-radius: 20px;
@@ -323,7 +316,6 @@ body {
     background-color: #1976D2;
 }
 
-/* Bottom Navigation - Idêntico ao login */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -381,7 +373,6 @@ body {
     outline: none;
 }
 
-/* Pop-ups - Idênticos ao login */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -513,9 +504,6 @@ body {
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
-/* === RESPONSIVIDADE === */
-
-/* Mobile Grande / Tablet Pequeno */
 @media (min-width: 600px) {
     .main-container {
         max-width: 100%;
@@ -523,7 +511,7 @@ body {
         padding: 0 16px;
     }
 
-    .content{
+    .content {
         padding-right: 45px;
     }
 
@@ -551,25 +539,29 @@ body {
     .recuperar-header {
         font-size: 24px;
     }
+
     .recuperar-form label {
         font-size: 17px;
     }
+
     .recuperar-form input[type="password"] {
         font-size: 17px;
     }
+
     .recuperar-form button,
     .botao-voltar-card {
         font-size: 17px;
     }
+
     .card h2 {
         font-size: 1.1rem;
     }
+
     .card p {
         font-size: 0.9rem;
     }
 }
 
-/* Desktop Grande */
 @media (min-width: 992px) {
     .main-container {
         max-width: 450px;
@@ -577,7 +569,7 @@ body {
         padding: 0;
     }
 
-    .content{
+    .content {
         padding-right: 15px;
     }
 
@@ -585,44 +577,53 @@ body {
         max-width: 450px;
         margin: 0 auto;
     }
+
     .bottom-nav {
         max-width: 450px;
         height: 75px;
         margin: 0 auto;
     }
+
     .bottom-nav .icon {
         height: 30px;
         width: 30px;
     }
+
     .recuperar-header {
         font-size: 26px;
     }
+
     .recuperar-form {
         padding: 25px 30px;
     }
+
     .recuperar-form label {
         font-size: 18px;
     }
+
     .recuperar-form input[type="password"] {
         font-size: 18px;
         padding: 14px 0;
     }
+
     .recuperar-form button {
         font-size: 18px;
         padding: 16px;
     }
+
     .card h2 {
         font-size: 1.2rem;
     }
+
     .card p {
         font-size: 0.95rem;
     }
+
     .botao-voltar-card {
         font-size: 1rem;
     }
 }
 
-/* Responsividade para o pop-up */
 @media (max-width: 480px) {
     .popup-container {
         max-width: 320px;
@@ -644,8 +645,6 @@ body {
     }
 }
 
-/* CSS adicional para pop-up de sucesso - Adicionar no final do recuperar.css */
-
 .popup-header.sucesso-header {
     background-color: #4CAF50 !important;
 }
@@ -654,7 +653,6 @@ body {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Animação especial para o pop-up de sucesso */
 .popup-overlay#sucessoPopup .popup-container {
     animation: sucessoSlideIn 0.5s ease-out;
 }
@@ -674,7 +672,6 @@ body {
     }
 }
 
-/* Botão de sucesso com destaque */
 .popup-overlay#sucessoPopup .popup-btn.primary {
     background-color: #4CAF50;
     font-size: 18px;
@@ -686,4 +683,29 @@ body {
     background-color: #45a049;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.popup-overlay#loadingPopup .popup-header {
+    background-color: #2196F3 !important;
+}
+
+.popup-overlay#loadingPopup .popup-icon {
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.popup-overlay#loadingPopup {
+    pointer-events: auto;
+}
+
+.popup-overlay#loadingPopup .popup-container {
+    pointer-events: none;
 }

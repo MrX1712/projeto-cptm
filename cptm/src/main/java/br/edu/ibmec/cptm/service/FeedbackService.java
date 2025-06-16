@@ -28,14 +28,6 @@ public class FeedbackService {
         feedbackRepository.deleteById(id);
     }
 
-    public List<Feedback> listarPorTipo(String tipo) {
-        return feedbackRepository.findFeedbackByTipo(tipo);
-    }
-
-    public List<Feedback> listarPorNota(int nota) {
-        return feedbackRepository.findFeedbackByNota(nota);
-    }
-
     public void marcarComoVisto(UUID id) {
         Feedback feedback = feedbackRepository.findById(id).orElseThrow();
         feedback.setVisto(true);

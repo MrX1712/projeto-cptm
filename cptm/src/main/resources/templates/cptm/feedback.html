@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/feedback.css">
+    <link rel="stylesheet" href="/css/feedback.css">
     <title>CPTM+</title>
 </head>
 <body th:attr="data-logado=${logado ? 'true' : 'false'}" th:attrappend="data-feedback-enviado=${feedbackEnviado != null and feedbackEnviado ? 'true' : ''}">
 <div class="main-container">
 
-    <!-- Header Fixo -->
     <header class="header">
         <a th:href="@{/cptm+/home}">
             <div class="logo">
@@ -24,7 +23,6 @@
     </header>
 
     <div class="content">
-        <!-- Mensagem de sucesso (opcional, pode ser removida se usar apenas o pop-up) -->
         <div th:if="${mensagem}" class="success-message" style="background: #d4edda; color: #155724; padding: 12px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
             <span th:text="${mensagem}"></span>
         </div>
@@ -68,7 +66,6 @@
         </div>
     </div>
 
-    <!-- Footer fixo -->
     <div class="bottom-nav">
         <button onclick="location.href='/cptm+/home'" class="icon-button">
             <img src="/images/homeIcon.png" alt="Home" class="icon" />
@@ -85,13 +82,12 @@
     </div>
 </div>
 
-<!-- Pop-up de confirmação de feedback -->
 <div id="feedback-popup-overlay" class="feedback-popup-overlay">
     <div class="feedback-popup-container">
         <div class="feedback-popup-icon"></div>
         <h3 class="feedback-popup-title">Feedback Enviado!</h3>
         <p class="feedback-popup-message">
-            Obrigado por compartilhar sua opinião conosco. Seu feedback é muito importante para melhorarmos nossos serviços.
+            Obrigado por compartilhar a sua opinião conosco. Seu feedback é muito importante para melhorarmos os nossos serviços.
         </p>
         <button class="feedback-popup-button" onclick="closeFeedbackPopup()">
             Continuar
@@ -99,6 +95,6 @@
     </div>
 </div>
 
-<script src="/feedback.js"></script>
+<script src="/js/feedback.js"></script>
 </body>
 </html>

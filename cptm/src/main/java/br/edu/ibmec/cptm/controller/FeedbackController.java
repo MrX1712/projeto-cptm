@@ -1,9 +1,7 @@
 package br.edu.ibmec.cptm.controller;
 
 import br.edu.ibmec.cptm.model.Feedback;
-import br.edu.ibmec.cptm.model.Passageiro;
 import br.edu.ibmec.cptm.service.FeedbackService;
-import br.edu.ibmec.cptm.service.PassageiroService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +15,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -149,42 +143,35 @@ public class FeedbackController {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            // Debug: Log da resposta completa
             System.out.println("Status Code: " + response.statusCode());
             System.out.println("Response Body: " + response.body());
 
-            // Verificar se a requisição foi bem-sucedida
             if (response.statusCode() != 200) {
                 throw new RuntimeException("API retornou status " + response.statusCode() + ": " + response.body());
             }
 
             String respostaIA = response.body();
 
-            // Parse seguro da resposta JSON
             JsonNode rootNode = mapper.readTree(respostaIA);
 
-            // Verificar se existe o campo "choices"
             if (!rootNode.has("choices")) {
                 throw new RuntimeException("Resposta da API não contém o campo 'choices'. Resposta: " + respostaIA);
             }
 
             JsonNode choicesNode = rootNode.get("choices");
 
-            // Verificar se choices é um array e não está vazio
             if (!choicesNode.isArray() || choicesNode.size() == 0) {
                 throw new RuntimeException("Campo 'choices' está vazio ou não é um array. Resposta: " + respostaIA);
             }
 
             JsonNode firstChoice = choicesNode.get(0);
 
-            // Verificar se existe message
             if (!firstChoice.has("message")) {
                 throw new RuntimeException("Primeira escolha não contém 'message'. Resposta: " + respostaIA);
             }
 
             JsonNode messageNode = firstChoice.get("message");
 
-            // Verificar se existe content
             if (!messageNode.has("content")) {
                 throw new RuntimeException("Message não contém 'content'. Resposta: " + respostaIA);
             }
@@ -197,7 +184,6 @@ public class FeedbackController {
             model.addAttribute("relatorioIA", conteudo);
 
         } catch (Exception e) {
-            // Log do erro completo para debug
             e.printStackTrace();
 
             model.addAttribute("relatorioIA",

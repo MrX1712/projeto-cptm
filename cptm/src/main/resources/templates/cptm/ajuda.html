@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/ajuda.css" />
+    <link rel="stylesheet" href="/css/ajuda.css" />
     <title>CPTM+</title>
 </head>
 <body th:attr="data-logado=${logado ? 'true' : 'false'}">
 <div class="main-container">
 
-    <!-- Header -->
     <header class="header">
         <a th:href="@{/cptm+/home}">
             <div class="logo">
@@ -25,7 +24,6 @@
 
     <div class="content">
 
-        <!-- Mensagem de feedback (escondida) -->
         <div th:if="${mensagem}" class="mensagem">
             <span th:text="${mensagem}"></span>
         </div>
@@ -39,7 +37,6 @@
                   method="post"
                   id="formAjuda">
 
-                <!-- LINHA -->
                 <label for="linha">Linha:</label>
                 <div class="select-wrapper">
                     <select th:field="*{linha.id}" id="linha" required onchange="filtrarEstacoes()">
@@ -57,7 +54,6 @@
                     </select>
                 </div>
 
-                <!-- ESTAÇÃO -->
                 <label for="estacaoSelect">Estação:</label>
                 <div class="select-wrapper">
                     <select id="estacaoSelect" th:field="*{estacao.id}" required>
@@ -72,7 +68,6 @@
 
                 <div class="info">*Caso esteja em movimento, coloque a próxima estação</div>
 
-                <!-- CAMPO DE TEMA -->
                 <div class="custom-select-container">
                     <select class="form-select" id="temaId" th:field="*{tema}" required>
                         <option value="">Tipo de problema</option>
@@ -95,7 +90,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <div class="bottom-nav">
         <button onclick="location.href='/cptm+/home'" class="icon-button">
             <img src="/images/homeIcon.png" alt="Home" class="icon" />
@@ -112,7 +106,6 @@
     </div>
 </div>
 
-<!-- Pop-up de Sucesso -->
 <div class="popup-overlay" id="successPopup">
     <div class="popup-container">
         <div class="popup-header success">
@@ -132,7 +125,6 @@
     </div>
 </div>
 
-<!-- Pop-up de Login Necessário -->
 <div class="popup-overlay" id="loginRequiredPopup">
     <div class="popup-container">
         <div class="popup-header warning">
@@ -155,10 +147,6 @@
     </div>
 </div>
 
-<script src="/ajuda.js"> </script>
-
-
-
-
+<script src="/js/ajuda.js"> </script>
 </body>
 </html>

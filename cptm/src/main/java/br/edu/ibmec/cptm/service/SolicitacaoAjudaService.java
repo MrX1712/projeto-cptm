@@ -1,8 +1,5 @@
 package br.edu.ibmec.cptm.service;
 
-import br.edu.ibmec.cptm.model.Estacao;
-import br.edu.ibmec.cptm.model.Linha;
-import br.edu.ibmec.cptm.model.Passageiro;
 import br.edu.ibmec.cptm.model.SolicitacaoAjuda;
 import br.edu.ibmec.cptm.repository.SolicitacaoAjudaRepository;
 import jakarta.transaction.Transactional;
@@ -30,22 +27,6 @@ public class SolicitacaoAjudaService {
 
     public void remover(UUID id) {
         solicitacaoAjudaRepository.deleteById(id);
-    }
-
-    public List<SolicitacaoAjuda> listarPorStatus(boolean status) {
-        return solicitacaoAjudaRepository.findAllByStatus(status);
-    }
-
-    public List<SolicitacaoAjuda> listarPorLinha(Linha linha) {
-        return solicitacaoAjudaRepository.findAllByLinha(linha);
-    }
-
-    public List<SolicitacaoAjuda> listarPorEstacao(Estacao estacao) {
-        return solicitacaoAjudaRepository.findAllByEstacao(estacao);
-    }
-
-    public List<SolicitacaoAjuda> listarPorPassageiro(Passageiro passageiro) {
-        return solicitacaoAjudaRepository.findAllByPassageiro(passageiro);
     }
 
     public SolicitacaoAjuda buscarPorId(UUID id) {

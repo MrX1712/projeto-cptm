@@ -1,12 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap');
 
-/* Base styles */
 body {
     margin: 0;
     min-height: 100vh;
     background: #f0f0f0;
     font-family: "Roboto Condensed", Arial, sans-serif;
-    padding-top: 90px; /* Espaço para o header fixo */
+    padding-top: 90px;
 }
 
 .modal {
@@ -27,8 +26,6 @@ body {
     text-align: center;
 }
 
-
-/* Container Principal */
 .main-container {
     max-width: 450px;
     width: 100%;
@@ -40,10 +37,9 @@ body {
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     overflow-x: hidden;
     min-height: calc(100vh - 90px);
-    border-radius: 0; /* SEM BORDAS */
+    border-radius: 0;
 }
 
-/* Header FIXO */
 .header {
     display: flex;
     justify-content: center;
@@ -59,7 +55,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1001;
-    border-radius: 0; /* SEM BORDAS */
+    border-radius: 0;
 }
 
 .header .logo {
@@ -74,7 +70,6 @@ body {
     background-color: transparent;
 }
 
-/* Botão de usuário */
 .user-button {
     position: absolute;
     right: 20px;
@@ -97,10 +92,9 @@ body {
     transform: scale(1.15);
 }
 
-/* Content Area */
 .content {
     flex: 1;
-    padding: 15px 15px 75px; /* PADDING AJUSTADO */
+    padding: 15px 15px 75px;
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -109,7 +103,6 @@ body {
 }
 .content::-webkit-scrollbar { display: none; }
 
-/* Button Pai */
 .button-pai {
     display: flex;
     justify-content: center;
@@ -118,7 +111,6 @@ body {
 
 }
 
-/* Botão Cadastro Superior */
 .botao-cadastro {
     display: flex;
     align-items: center;
@@ -170,7 +162,6 @@ body {
     flex-shrink: 0;
 }
 
-/* Login Container */
 .login-container {
     background-color: white;
     border-radius: 20px;
@@ -203,7 +194,6 @@ body {
     background-color: rgba(255, 255, 255, 0.7);
 }
 
-/* Login Form */
 .login-form {
     padding: 20px 25px;
 }
@@ -277,7 +267,6 @@ body {
     box-shadow: none;
 }
 
-/* Card */
 .card {
     background-color: #fff;
     border-radius: 20px;
@@ -345,7 +334,6 @@ body {
     background-color: #d62d30;
 }
 
-/* Bottom Navigation */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -360,7 +348,7 @@ body {
     align-items: center;
     z-index: 1000;
     box-sizing: border-box;
-    border-radius: 0; /* SEM BORDAS */
+    border-radius: 0;
 }
 
 .bottom-nav .icon-button {
@@ -538,14 +526,10 @@ body {
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
-/* Esconder modal original */
 .modal {
     display: none !important;
 }
 
-/* === RESPONSIVIDADE === */
-
-/* Mobile Grande / Tablet Pequeno */
 @media (min-width: 600px) {
     .main-container {
         max-width: 100%;
@@ -600,7 +584,6 @@ body {
     }
 }
 
-/* Desktop Grande */
 @media (min-width: 992px) {
     .main-container {
         max-width: 450px;
@@ -654,7 +637,6 @@ body {
     }
 }
 
-/* Responsividade para o pop-up */
 @media (max-width: 480px) {
     .popup-container {
         max-width: 320px;
@@ -675,8 +657,6 @@ body {
         min-width: 100px;
     }
 }
-/* CSS adicional para os novos pop-ups de verificação */
-/* ADICIONAR ESTE CSS NO FINAL DO login.css */
 
 .verificacao-form {
     margin: 20px 0;
@@ -722,7 +702,6 @@ body {
     font-style: italic;
 }
 
-/* Responsividade para os novos elementos */
 @media (min-width: 600px) {
     .verificacao-form label {
         font-size: 17px;

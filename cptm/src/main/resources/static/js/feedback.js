@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
     highlightStars(0);
 
     form.addEventListener('submit', (e) => {
-        // Validações
         const tipo = document.getElementById('tipo').value;
         const comentario = document.getElementById('comments').value.trim();
 
@@ -48,17 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Garante que o campo hidden tenha o valor correto
         ratingInput.value = selectedRating;
-        // O formulário será enviado normalmente para o Spring
     });
 
-    // Verifica se deve mostrar o pop-up após envio (baseado em parâmetro da URL ou atributo)
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('success') === 'true' || document.body.hasAttribute('data-feedback-enviado')) {
         setTimeout(() => {
             showFeedbackPopup();
-            // Limpa a URL
             if (urlParams.get('success')) {
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
@@ -66,33 +61,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Função para mostrar o pop-up
 function showFeedbackPopup() {
     const overlay = document.getElementById('feedback-popup-overlay');
     if (overlay) {
         overlay.style.display = 'flex';
         document.body.style.overflow = 'hidden';
 
-        // Limpa o formulário após mostrar o pop-up
         resetForm();
     }
 }
 
-// Função para fechar o pop-up
 function closeFeedbackPopup() {
     const overlay = document.getElementById('feedback-popup-overlay');
     if (overlay) {
         overlay.style.display = 'none';
         document.body.style.overflow = 'auto';
 
-        // Redireciona para home
         setTimeout(() => {
             window.location.href = '/cptm+/home';
         }, 100);
     }
 }
 
-// Função para resetar o formulário
 function resetForm() {
     const form = document.getElementById('feedbackForm');
     const stars = document.querySelectorAll('.star');
@@ -102,7 +92,6 @@ function resetForm() {
         form.reset();
     }
 
-    // Reseta as estrelas
     stars.forEach(star => {
         star.textContent = '☆';
         star.style.color = '#ccc';
@@ -112,14 +101,12 @@ function resetForm() {
         ratingInput.value = '';
     }
 
-    // Reseta a variável global
     if (typeof selectedRating !== 'undefined') {
         selectedRating = 0;
     }
 }
 
-// Event listeners para fechar o pop-up
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     const overlay = document.getElementById('feedback-popup-overlay');
     const container = document.querySelector('.feedback-popup-container');
 
@@ -129,7 +116,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         const overlay = document.getElementById('feedback-popup-overlay');
         if (overlay && overlay.style.display === 'flex') {

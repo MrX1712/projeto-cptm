@@ -5,511 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Feedbacks</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <style>
-        body {
-            font-family: "Roboto Condensed", Arial, sans-serif;
-            background: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* === CONTAINER PRINCIPAL SEMPRE MOBILE === */
-        .main-container {
-            max-width: 414px;
-            width: 100%;
-            margin: 0 auto;
-            background-color: white;
-            min-height: 100vh;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* === HEADER FIXO === */
-        .header {
-            background-color: #EE3338;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .navbar-brand:hover {
-            color: white;
-            text-decoration: none;
-        }
-
-        .logo-img {
-            height: 30px;
-            object-fit: contain;
-        }
-
-        /* === CONTEÚDO === */
-        .content {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .btn-mark-seen {
-            border: 2px solid #198754;
-            color: #198754;
-            background: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-        }
-
-        .btn-mark-seen:hover {
-            background-color: #198754;
-            color: white;
-        }
-
-        /* === ALERTAS === */
-        .alert {
-            border-radius: 8px;
-            padding: 12px 15px;
-            margin-bottom: 20px;
-            border: none;
-            font-weight: 500;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
-        }
-
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #dc3545;
-        }
-
-        /* === SEÇÃO RELATÓRIOS IA REFORMULADA === */
-        .ai-reports-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 25px;
-            overflow: hidden;
-            border: none;
-        }
-
-        .ai-reports-header {
-            background: linear-gradient(135deg, #EE3338 0%, #ff4757 100%);
-            padding: 20px;
-            text-align: center;
-            color: white;
-            position: relative;
-        }
-
-        .ai-reports-header::after {
-            content: "";
-            position: absolute;
-            bottom: 8px;
-            left: 20%;
-            right: 20%;
-            height: 1px;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-
-        .ai-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .ai-icon {
-            font-size: 20px;
-        }
-
-        .ai-subtitle {
-            font-size: 13px;
-            opacity: 0.9;
-            margin: 8px 0 0 0;
-            font-weight: 400;
-        }
-
-        .ai-content {
-            padding: 20px;
-        }
-
-        .ai-empty-state {
-            text-align: center;
-            padding: 30px 15px;
-            color: #666;
-        }
-
-        .ai-empty-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            opacity: 0.6;
-        }
-
-        .ai-empty-text {
-            font-size: 14px;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .btn-generate-ai {
-            background-color: #EE3338;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(238, 51, 56, 0.3);
-        }
-
-        .btn-generate-ai:hover {
-            background-color: #bb292d;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(238, 51, 56, 0.4);
-            text-decoration: none;
-        }
-
-        /* === RESULTADO DA IA === */
-        .ai-result {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            border-left: 4px solid #EE3338;
-            position: relative;
-        }
-
-        .ai-result-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            color: #EE3338;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .ai-result-content {
-            color: #333;
-            line-height: 1.6;
-            font-size: 13px;
-        }
-
-        /* Títulos principais */
-        .ai-result-content h1,
-        .ai-result-content h2,
-        .ai-result-content h3 {
-            color: #EE3338;
-            font-size: 14px;
-            font-weight: 600;
-            margin: 12px 0 6px 0;
-            border-bottom: 2px solid #EE3338;
-            padding-bottom: 3px;
-        }
-
-        /* Subtítulos */
-        .ai-result-content h4,
-        .ai-result-content h5,
-        .ai-result-content h6 {
-            color: #666;
-            font-size: 13px;
-            font-weight: 500;
-            margin: 10px 0 5px 0;
-        }
-
-        /* Parágrafos */
-        .ai-result-content p {
-            margin: 6px 0;
-            color: #555;
-            font-size: 12px;
-            line-height: 1.5;
-        }
-
-        /* Listas */
-        .ai-result-content ul,
-        .ai-result-content ol {
-            margin: 6px 0;
-            padding-left: 18px;
-        }
-
-        .ai-result-content li {
-            margin: 3px 0;
-            color: #555;
-            font-size: 12px;
-            line-height: 1.4;
-        }
-
-        /* Destaque para números/valores importantes */
-        .ai-result-content strong,
-        .ai-result-content b {
-            color: #EE3338;
-            font-weight: 600;
-        }
-
-        /* Remover formatação estranha que pode vir do ChatGPT */
-        .ai-result-content code {
-            background: none;
-            color: #333;
-            font-family: inherit;
-            font-size: inherit;
-            padding: 0;
-        }
-
-        .ai-result-content pre {
-            background: none;
-            border: none;
-            color: #333;
-            font-family: inherit;
-            font-size: inherit;
-            margin: 0;
-            padding: 0;
-            white-space: pre-wrap;
-        }
-
-        /* Loading state */
-        .ai-loading {
-            text-align: center;
-            padding: 25px;
-            color: #666;
-        }
-
-        .ai-loading-spinner {
-            width: 30px;
-            height: 30px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #EE3338;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 12px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* === TABELA === */
-        .table-container {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .table-header {
-            background-color: #EE3338;
-            padding: 15px 20px;
-            text-align: center;
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
-            position: relative;
-            margin: 0;
-        }
-
-        .table-header::after {
-            content: "";
-            position: absolute;
-            bottom: 8px;
-            left: 20%;
-            right: 20%;
-            height: 1px;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* Cards para feedbacks em mobile */
-        .feedback-cards {
-            display: block;
-        }
-
-        .feedback-card {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid #EE3338;
-            width: 100%;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-
-        .feedback-card.new {
-            background-color: #fff3cd;
-            border-left-color: #ffc107;
-        }
-
-        .feedback-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .feedback-passenger {
-            font-weight: 600;
-            color: #333;
-            font-size: 14px;
-        }
-
-        .feedback-status {
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-weight: 500;
-        }
-
-        .status-new {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .status-seen {
-            background-color: #198754;
-            color: white;
-        }
-
-        .feedback-info {
-            margin-bottom: 12px;
-        }
-
-        .feedback-type {
-            color: #666;
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
-
-        .feedback-comment {
-            color: #333;
-            font-size: 13px;
-            line-height: 1.4;
-            margin-bottom: 6px;
-            word-wrap: break-word;
-            word-break: break-word;
-            overflow-wrap: break-word;
-            white-space: normal;
-            hyphens: auto;
-        }
-
-        .feedback-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .feedback-note {
-            background-color: #EE3338;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 12px;
-        }
-
-        .feedback-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-card {
-            flex: 1;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: none;
-            font-size: 11px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-align: center;
-        }
-
-        .btn-mark-seen-card {
-            background-color: #198754;
-            color: white;
-        }
-
-        .btn-mark-seen-card:disabled {
-            background-color: #6c757d;
-            opacity: 0.6;
-        }
-
-        .btn-mark-seen-card:hover:not(:disabled) {
-            background-color: #157347;
-            text-decoration: none;
-        }
-
-        .btn-danger-card {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-danger-card:hover {
-            background-color: #c82333;
-            text-decoration: none;
-        }
-
-        /* === ESCONDER SCROLLBAR === */
-        .content::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-
-        /* === RESPONSIVIDADE PARA TELAS MUITO PEQUENAS === */
-        @media (max-width: 360px) {
-            .content {
-                padding: 15px;
-            }
-
-            .ai-content {
-                padding: 15px;
-            }
-
-            .ai-title {
-                font-size: 16px;
-            }
-
-            .feedback-card {
-                padding: 12px;
-            }
-
-            .btn-card {
-                font-size: 10px;
-                padding: 6px 10px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/feedback-listar.css">
 </head>
 <body>
 <div class="main-container">
-    <!-- Header -->
     <header class="header">
         <a class="navbar-brand" th:href="@{/cptm+/adm/painel-administrativo}">
             <img src="/images/cptm.png" alt="Logo CPTM+" class="logo-img" />
@@ -518,11 +17,9 @@
     </header>
 
     <div class="content">
-        <!-- Mensagens de Sucesso ou Erro -->
         <div th:if="${mensagem}" class="alert alert-success" th:text="${mensagem}"></div>
         <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
 
-        <!-- === SEÇÃO DE RELATÓRIOS IA REFORMULADA === -->
         <div class="ai-reports-container">
             <div class="ai-reports-header">
                 <h3 class="ai-title">
@@ -534,7 +31,6 @@
             </div>
 
             <div class="ai-content">
-                <!-- Estado vazio (sem relatório) -->
                 <div th:if="${relatorioIA == null}" class="ai-empty-state">
                     <div class="ai-empty-icon">📊</div>
                     <div class="ai-empty-text">
@@ -546,26 +42,22 @@
                     </a>
                 </div>
 
-                <!-- Resultado da IA -->
                 <div th:if="${relatorioIA != null}" class="ai-result">
                     <div class="ai-result-header">
                         <span>🎯</span>
                         Análise Gerada por IA
                     </div>
                     <div class="ai-result-content" th:utext="${relatorioIA}">
-                        <!-- Conteúdo da resposta da IA será inserido aqui -->
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- === TABELA DE FEEDBACKS === -->
         <div class="table-container">
             <div class="table-header">
                 📋 Lista de Feedbacks
             </div>
 
-            <!-- Versão Cards para Mobile -->
             <div class="feedback-cards">
                 <div class="content" style="padding: 15px;">
                     <div th:each="feedback : ${feedbacks}"
@@ -600,7 +92,6 @@
                                     Marcar Visto
                                 </button>
                             </form>
-                            <!-- LINK CORRIGIDO: Agora vai para página de confirmação -->
                             <a th:href="@{/cptm+/adm/painel-administrativo/feedback/remover/{id}(id=${feedback.id})}"
                                class="btn-card btn-danger-card">
                                 Excluir

@@ -32,20 +32,16 @@ public class PassageiroService {
     @Transactional
     public void remover(UUID id) {
         try {
-            // Primeiro, remove todos os feedbacks relacionados ao passageiro
             entityManager.createQuery("DELETE FROM Feedback f WHERE f.passageiro.id = :passageiroId")
                     .setParameter("passageiroId", id)
                     .executeUpdate();
 
-            // Remove todas as solicitações de ajuda relacionadas ao passageiro
             entityManager.createNativeQuery("DELETE FROM cptm.tb_solicitacao_ajuda WHERE id_passageiro = ?")
                     .setParameter(1, id)
                     .executeUpdate();
 
-            // Por último, remove o passageiro (que automaticamente remove as associações com linhas favoritas)
             passageiroRepository.deleteById(id);
 
-            // Força a sincronização com o banco
             entityManager.flush();
 
         } catch (Exception e) {
@@ -55,18 +51,6 @@ public class PassageiroService {
 
     public Passageiro buscarPorId(UUID id){
         return passageiroRepository.findById(id).orElse(null);
-    }
-
-    public Passageiro buscarPorCpf(String cpf) {
-        return passageiroRepository.findByCpf(cpf).orElse(null);
-    }
-
-    public Passageiro buscarPorEmail(String email) {
-        return passageiroRepository.findByEmail(email).orElse(null);
-    }
-
-    public List<Passageiro> listarPorDataDeNascimento() {
-        return passageiroRepository.findAllByOrderByDataNascimentoAsc();
     }
 
     public Passageiro buscarComLinhasFavoritas(UUID id) {

@@ -1,16 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap');
 
-/* Teste */
-/* Base styles */
 body {
     margin: 0;
     min-height: 100vh;
     background: #f0f0f0;
     font-family: "Roboto Condensed", Arial, sans-serif;
-    padding-top: 90px; /* Espaço para o header fixo */
+    padding-top: 90px;
 }
 
-/* Container Principal */
 .main-container {
     max-width: 450px;
     width: 100%;
@@ -22,10 +19,10 @@ body {
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     overflow-x: hidden;
     min-height: calc(100vh - 90px);
-    border-radius: 0; /* SEM BORDAS */
+    border-radius: 0;
+    padding-top: -20px;
 }
 
-/* Header FIXO */
 .header {
     display: flex;
     justify-content: center;
@@ -41,7 +38,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1001;
-    border-radius: 0; /* SEM BORDAS */
+    border-radius: 0;
 }
 
 .header .logo {
@@ -56,7 +53,6 @@ body {
     background-color: transparent;
 }
 
-/* Botão de usuário */
 .user-button {
     position: absolute;
     right: 20px;
@@ -79,10 +75,9 @@ body {
     transform: scale(1.15);
 }
 
-/* Content Area */
 .content {
     flex: 1;
-    padding: 15px 15px 75px; /* PADDING AJUSTADO */
+    padding: 15px 15px 75px;
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -91,8 +86,7 @@ body {
 }
 .content::-webkit-scrollbar { display: none; }
 
-/* Cadastro Container */
-.cadastro-container {
+.feedback-container {
     background-color: white;
     border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -103,7 +97,7 @@ body {
     box-sizing: border-box;
 }
 
-.cadastro-header {
+.feedback-header {
     background-color: #f44336;
     padding: 12px 0;
     text-align: center;
@@ -114,7 +108,7 @@ body {
     margin-bottom: 15px;
 }
 
-.cadastro-header::after {
+.feedback-header::after {
     content: "";
     position: absolute;
     bottom: 8px;
@@ -124,187 +118,127 @@ body {
     background-color: rgba(255, 255, 255, 0.7);
 }
 
-/* Form Container */
 .form-container {
-    padding: 20px 25px;
+    padding: 15px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: #333;
 }
 
 .form-container label {
-    display: block;
-    margin: 15px 0 8px 0;
-    font-weight: 500;
-    color: #333;
     font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 8px;
 }
 
-/* Inputs */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select {
-    width: 100%;
+.input-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.input-row label {
+    font-size: 16px;
+    min-width: 90px;
+    margin-bottom: 0;
+}
+
+.input-row select {
+    flex: 1;
     padding: 12px 15px;
     font-size: 16px;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
+    background-color: white;
     font-family: 'Roboto Condensed', Arial, sans-serif;
     outline: none;
+    cursor: pointer;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    background-color: white;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-select:focus {
+.input-row select:focus {
     border-color: #f44336;
     box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
 }
 
-input::placeholder {
+.stars {
+    display: flex;
+    gap: 8px;
+    font-size: 32px;
+    color: #ccc;
+    user-select: none;
+    margin-bottom: 20px;
+    justify-content: flex-start;
+    margin-left: 0;
+}
+
+.star {
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.star:hover {
+    transform: scale(1.1);
+}
+
+textarea {
+    resize: none;
+    padding: 12px 15px;
+    font-size: 16px;
+    height: 120px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f8f8f8;
+    color: #333;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #f44336;
+    box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+    background-color: #fff;
+}
+
+textarea::placeholder {
     color: #999;
     font-style: italic;
 }
 
-/* Date Selectors */
-.date-selectors {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.date-selectors select {
-    flex: 1;
-    margin-bottom: 0;
-    cursor: pointer;
-    appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    background-size: 12px auto;
-}
-
-input[type="date"] {
-    width: 100%;
-    padding: 12px 15px;
-    font-size: 16px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-family: 'Roboto Condensed', Arial, sans-serif;
-    outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    background-color: white;
-    color: #333;
-}
-
-input[type="date"]:focus {
-    border-color: #f44336;
-    box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
-}
-
-/* Submit Button */
-.btn-submit {
+.send-button {
+    margin: 0 auto;
+    padding: 16px 80px;
     background-color: #f44336;
     color: white;
     border: none;
-    width: 100%;
-    padding: 16px;
+    border-radius: 8px;
     font-size: 18px;
     font-weight: 500;
-    font-family: 'Roboto Condensed', Arial, sans-serif;
-    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 20px;
+    font-family: 'Roboto Condensed', sans-serif;
+    min-width: 260px;
 }
-
-.btn-submit:hover:not(:disabled) {
+.send-button:hover:not(:disabled) {
     background-color: #d32f2f;
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
 }
 
-.btn-submit:disabled {
+.send-button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
 }
 
-/* Card */
-.card {
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    max-width: 100%; /* MESMO TAMANHO DO CADASTRO-CONTAINER */
-    width: 100%;
-    margin: 0 auto 20px auto;
-    overflow: hidden;
-    text-align: center;
-    padding-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-}
-
-.card img {
-    width: 100%;
-    height: auto;
-    max-height: 120px;
-    object-fit: cover;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-}
-
-.card h2 {
-    font-size: 1rem;
-    color: #111;
-    font-weight: 500;
-    line-height: 1.2;
-    margin: 15px 15px 5px 15px;
-}
-
-.divider_2 {
-    width: 60%;
-    height: 2px;
-    background-color: #ddd;
-    margin: 10px auto 15px;
-    border-radius: 2px;
-}
-
-.card p {
-    font-size: 0.85rem;
-    margin: 0 20px 20px;
-    color: #333;
-    line-height: 1.4;
-}
-
-.botao-cadastro2 {
-    display: inline-block;
-    background-color: #ee3338;
-    color: #fff;
-    border: none;
-    width: auto;
-    max-width: 70%;
-    margin: 0 auto;
-    border-radius: 8px;
-    padding: 10px 25px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-family: 'Roboto Condensed', Arial, sans-serif;
-}
-
-.botao-cadastro2:hover {
-    background-color: #d62d30;
-}
-
-/* Bottom Navigation */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -319,7 +253,7 @@ input[type="date"]:focus {
     align-items: center;
     z-index: 1000;
     box-sizing: border-box;
-    border-radius: 0; /* SEM BORDAS */
+    border-radius: 0;
 }
 
 .bottom-nav .icon-button {
@@ -362,9 +296,114 @@ input[type="date"]:focus {
     outline: none;
 }
 
-/* === RESPONSIVIDADE === */
+.feedback-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(3px);
+}
 
-/* Mobile Grande / Tablet Pequeno */
+.feedback-popup-container {
+    background: white;
+    border-radius: 15px;
+    padding: 30px 25px;
+    max-width: 350px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: feedbackPopupSlideIn 0.3s ease-out;
+    position: relative;
+}
+
+@keyframes feedbackPopupSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.feedback-popup-icon {
+    width: 60px;
+    height: 60px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: feedbackCheckmark 0.6s ease-in-out 0.3s both;
+}
+
+@keyframes feedbackCheckmark {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.feedback-popup-icon::after {
+    content: '✓';
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.feedback-popup-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+}
+
+.feedback-popup-message {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.4;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+}
+
+.feedback-popup-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    min-width: 120px;
+}
+
+.feedback-popup-button:hover {
+    background-color: #d32f2f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+}
+
+.feedback-popup-button:active {
+    transform: translateY(0);
+}
+
 @media (min-width: 600px) {
     .main-container {
         max-width: 100%;
@@ -397,31 +436,22 @@ input[type="date"]:focus {
         width: 28px;
     }
 
-    .cadastro-header {
+    .feedback-header {
         font-size: 24px;
     }
     .form-container label {
         font-size: 17px;
     }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    select {
+    .input-row select,
+    textarea {
         font-size: 17px;
     }
-    .btn-submit,
-    .botao-cadastro2 {
+    .send-button {
         font-size: 17px;
-    }
-    .card h2 {
-        font-size: 1.1rem;
-    }
-    .card p {
-        font-size: 0.9rem;
+        padding: 15px 45px;
     }
 }
 
-/* Desktop Grande */
 @media (min-width: 992px) {
     .main-container {
         max-width: 450px;
@@ -446,37 +476,44 @@ input[type="date"]:focus {
         height: 30px;
         width: 30px;
     }
-    .cadastro-header {
+    .feedback-header {
         font-size: 26px;
     }
     .form-container {
-        padding: 25px 30px;
+        padding: 20px 30px;
     }
     .form-container label {
         font-size: 18px;
     }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    select {
+    .input-row select,
+    textarea {
         font-size: 18px;
-        padding: 14px 18px;
     }
-    .btn-submit {
+    .send-button {
         font-size: 18px;
-        padding: 18px;
+        padding: 16px 50px;
     }
-    .card h2 {
-        font-size: 1.2rem;
+    textarea {
+        height: 140px;
     }
-    .card p {
-        font-size: 0.95rem;
+}
+
+@media (max-width: 480px) {
+    .feedback-popup-container {
+        max-width: 320px;
+        padding: 25px 20px;
     }
 
-    .card{
-        width: 90%;
+    .feedback-popup-title {
+        font-size: 20px;
     }
-    .botao-cadastro2 {
-        font-size: 1rem;
+
+    .feedback-popup-message {
+        font-size: 15px;
+    }
+
+    .feedback-popup-button {
+        font-size: 15px;
+        padding: 10px 30px;
     }
 }

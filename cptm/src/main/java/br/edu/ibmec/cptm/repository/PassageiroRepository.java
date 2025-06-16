@@ -12,10 +12,8 @@ import java.util.UUID;
 
 @Repository
 public interface PassageiroRepository extends JpaRepository<Passageiro, UUID> {
+
     List<Passageiro> findAllByOrderByNomeAsc();
-    List<Passageiro> findAllByOrderByDataNascimentoAsc();
-    Optional<Passageiro> findByCpf(String cpf);
-    Optional<Passageiro> findByEmail(String email);
 
     @Query("SELECT p FROM Passageiro p LEFT JOIN FETCH p.linhasFavoritas WHERE p.id = :id")
     Optional<Passageiro> buscarComLinhasFavoritas(@Param("id") UUID id);

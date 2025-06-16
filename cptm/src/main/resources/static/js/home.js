@@ -10,7 +10,7 @@ function scrollToIndex(index) {
     if (index >= slides.length) index = 0;
     currentIndex = index;
     const slideHeight = slides[0].offsetHeight + 15;
-    track.scrollTo({ top: slideHeight * index, behavior: 'smooth' });
+    track.scrollTo({top: slideHeight * index, behavior: 'smooth'});
 }
 
 function autoScroll() {
@@ -36,14 +36,10 @@ track.addEventListener('scroll', () => {
 
 autoScroll();
 
-// === FUNÇÕES DOS POP-UPS ===
-
-// Função para verificar se o usuário está logado
 function isUserLoggedIn() {
     return document.body.getAttribute('data-logado') === 'true';
 }
 
-// Função para verificar login e redirecionar para Ajuda
 function verificarLoginERedirecionarAjuda() {
     if (isUserLoggedIn()) {
         location.href = '/cptm+/ajuda';
@@ -52,7 +48,6 @@ function verificarLoginERedirecionarAjuda() {
     }
 }
 
-// Função para verificar login e redirecionar para Feedback
 function verificarLoginERedirecionarFeedback() {
     if (isUserLoggedIn()) {
         location.href = '/cptm+/feedback';
@@ -61,7 +56,6 @@ function verificarLoginERedirecionarFeedback() {
     }
 }
 
-// Função para abrir pop-up
 function abrirPopup(popupId) {
     const popup = document.getElementById(popupId);
     if (popup) {
@@ -69,7 +63,6 @@ function abrirPopup(popupId) {
     }
 }
 
-// Função para fechar pop-up
 function fecharPopup(popupId) {
     const popup = document.getElementById(popupId);
     if (popup) {
@@ -77,22 +70,19 @@ function fecharPopup(popupId) {
     }
 }
 
-// Verificar se existe mensagem ao carregar a página
 document.addEventListener('DOMContentLoaded', function () {
     const popup = document.getElementById('popup-mensagem');
     const urlParams = new URLSearchParams(window.location.search);
     const fromCadastro = urlParams.get('from') === 'cadastro';
 
     if (popup && fromCadastro) {
-        popup.style.display = 'flex'; // torna visível
-        abrirPopup('popup-mensagem'); // ativa com animação
+        popup.style.display = 'flex';
+        abrirPopup('popup-mensagem');
     }
 });
 
 
-
-// Fechar pop-up clicando no fundo escuro
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     const popups = ['popup-mensagem', 'popup-ajuda', 'popup-feedback'];
 
     popups.forEach(popupId => {
@@ -103,8 +93,7 @@ document.addEventListener('click', function(e) {
     });
 });
 
-// Fechar pop-up com tecla ESC
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         const popups = ['popup-mensagem', 'popup-ajuda', 'popup-feedback'];
 

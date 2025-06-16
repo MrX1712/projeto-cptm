@@ -2,9 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("formAjuda");
     const logado = document.body.getAttribute("data-logado") === "true";
 
-    console.log("Status de login:", logado); // Para debug
+    console.log("Status de login:", logado);
 
-    // Verificar se há mensagem de sucesso
     const mensagemElement = document.querySelector('.mensagem span');
     if (mensagemElement && mensagemElement.textContent.trim()) {
         showSuccessPopup();
@@ -41,7 +40,6 @@ function filtrarEstacoes() {
     });
 }
 
-// Funções dos pop-ups
 function showSuccessPopup() {
     document.getElementById('successPopup').classList.add('active');
 }
@@ -58,17 +56,15 @@ function goToLogin() {
     window.location.href = "/cptm+/login";
 }
 
-// Fechar pop-up clicando no overlay
 document.querySelectorAll('.popup-overlay').forEach(overlay => {
-    overlay.addEventListener('click', function(e) {
+    overlay.addEventListener('click', function (e) {
         if (e.target === this) {
             this.classList.remove('active');
         }
     });
 });
 
-// Fechar pop-up com tecla ESC
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         document.querySelectorAll('.popup-overlay.active').forEach(popup => {
             popup.classList.remove('active');

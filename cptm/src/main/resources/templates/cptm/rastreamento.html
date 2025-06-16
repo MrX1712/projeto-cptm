@@ -1,28 +1,26 @@
 <!doctype html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="/rastreamento.css" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="stylesheet" href="/css/rastreamento.css"/>
     <title>CPTM+ | Rastreamento</title>
 </head>
 <body th:attr="data-logado=${logado ? 'true' : 'false'}">
 <div class="main-container">
-    <!-- Header Fixo -->
     <header class="header">
         <a th:href="@{/cptm+/home}">
             <div class="logo">
-                <img src="/images/cptm.png" alt="Logo CPTM+" />
+                <img src="/images/cptm.png" alt="Logo CPTM+"/>
             </div>
         </a>
         <button th:onclick="${logado} ? 'location.href=\'/cptm+/usuario\'' : 'location.href=\'/cptm+/login\''"
                 class="user-button" aria-label="Usuário">
-            <img src="/images/user.png" alt="user" />
+            <img src="/images/user.png" alt="user"/>
         </button>
     </header>
 
-    <!-- Content -->
     <div class="content">
         <div class="rastreamento-container">
             <div class="rastreamento-header">Rastreamento de Trens</div>
@@ -50,9 +48,11 @@
                         <div class="linha-info">
                             <div class="linha-name" th:switch="${linha.nome}">
                                 <span th:case="'Rubi'" th:text="'Linha 7 - ' + ${linha.nome}">Linha 7 - Rubi</span>
-                                <span th:case="'Turquesa'" th:text="'Linha 10 - ' + ${linha.nome}">Linha 10 - Turquesa</span>
+                                <span th:case="'Turquesa'"
+                                      th:text="'Linha 10 - ' + ${linha.nome}">Linha 10 - Turquesa</span>
                                 <span th:case="'Coral'" th:text="'Linha 11 - ' + ${linha.nome}">Linha 11 - Coral</span>
-                                <span th:case="'Safira'" th:text="'Linha 12 - ' + ${linha.nome}">Linha 12 - Safira</span>
+                                <span th:case="'Safira'"
+                                      th:text="'Linha 12 - ' + ${linha.nome}">Linha 12 - Safira</span>
                                 <span th:case="'Jade'" th:text="'Linha 13 - ' + ${linha.nome}">Linha 13 - Jade</span>
                                 <span th:case="*" th:text="'Linha - ' + ${linha.nome}">Linha - ?</span>
                             </div>
@@ -102,7 +102,6 @@
                 </div>
             </div>
 
-            <!-- Train Info Card -->
             <div class="train-info-card" id="trainBox">
                 <div class="train-card-header">
                     <div class="train-icon">🚊</div>
@@ -122,22 +121,21 @@
         </div>
     </div>
 
-    <!-- Footer fixo -->
     <div class="bottom-nav">
         <button onclick="location.href='/cptm+/home'" class="icon-button">
-            <img src="/images/homeIcon.png" alt="Home" class="icon" />
+            <img src="/images/homeIcon.png" alt="Home" class="icon"/>
         </button>
         <button onclick="location.href='/cptm+/estacoes'" class="icon-button">
-            <img src="/images/location-pin.png" alt="Localização" class="icon" />
+            <img src="/images/location-pin.png" alt="Localização" class="icon"/>
         </button>
         <button onclick="location.href='/cptm+/rastreamento'" class="icon-button">
-            <img src="/images/trem.png" alt="Trem" class="icon" />
+            <img src="/images/trem.png" alt="Trem" class="icon"/>
         </button>
         <button onclick="location.href='/cptm+/ajuda'" class="icon-button">
-            <img src="/images/siren.png" alt="Notificações" class="icon" />
+            <img src="/images/siren.png" alt="Notificações" class="icon"/>
         </button>
     </div>
 </div>
-<script src="/rastreamento.js"></script>
+<script src="/js/rastreamento.js"></script>
 </body>
 </html>
